@@ -4,9 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Persistence.Layer;
+using Microsoft.IdentityModel.Logging;
 using Repositories.Layer;
 using Services.Layer;
+using Services.Layer.Auth;
 
 namespace Emprendimiento.API
 {
@@ -34,8 +35,14 @@ namespace Emprendimiento.API
                     });
             });
 
+            IdentityModelEventSource.ShowPII = true;
+
+            services.AddScoped<IRepositoryAuth, RepositoryAuth>();
+            services.AddScoped<IAuthService, AuthService>();
+
             services.AddScoped<IRepositoryMenu, RepositoryMenu>();
             services.AddScoped<IMenuService, MenuService>();
+            
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

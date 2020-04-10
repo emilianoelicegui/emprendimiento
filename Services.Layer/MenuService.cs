@@ -1,5 +1,5 @@
-﻿using Repositories.Layer;
-using Services.Layer.Dto;
+﻿using Domain.Dto.Layer;
+using Repositories.Layer;
 using System;
 
 namespace Services.Layer

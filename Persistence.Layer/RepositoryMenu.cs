@@ -1,8 +1,8 @@
-﻿using Domain.Layer;
-using Persistence.Layer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Domain.Dto.Layer;
+using Domain.Layer;
 
 namespace Repositories.Layer
 {
@@ -23,7 +23,7 @@ namespace Repositories.Layer
 
         public IEnumerable<Menu> GetMenues()
         {
-            return _context.Menues
+            return _context.Menus
                     .Include(x => x.Rol)
                     .AsQueryable();
         }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Persistence.Layer.Migrations
+namespace Repositories.Layer.Migrations
 {
     public partial class Initialize202004102 : Migration
     {
