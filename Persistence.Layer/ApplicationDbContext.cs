@@ -15,7 +15,6 @@ namespace Persistence.Layer
 
         public DbSet<Menu> Menues { get; set; }
         public DbSet<Rol> Roles { get; set; }
-        public DbSet<MenuRol> MenuRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,7 +26,6 @@ namespace Persistence.Layer
         {
             new MenuConfig(modelBuilder.Entity<Menu>());
             new RolConfig(modelBuilder.Entity<Rol>());
-            new MenuRolConfig(modelBuilder.Entity<MenuRol>());
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Layer;
 
 namespace Persistence.Layer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200410041209_Initialize20200410")]
+    partial class Initialize20200410
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,21 +28,39 @@ namespace Persistence.Layer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("MenuRolId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(150)")
                         .HasMaxLength(150);
-
-                    b.Property<int?>("RolId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MenuId");
 
-                    b.HasIndex("RolId");
+                    b.HasIndex("MenuRolId");
 
                     b.ToTable("Menues");
+                });
+
+            modelBuilder.Entity("Domain.Layer.MenuRol", b =>
+                {
+                    b.Property<int>("MenuRolId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MenuRolId");
+
+                    b.ToTable("MenuRoles");
                 });
 
             modelBuilder.Entity("Domain.Layer.Rol", b =>
@@ -50,6 +70,9 @@ namespace Persistence.Layer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("MenuRolId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -57,14 +80,23 @@ namespace Persistence.Layer.Migrations
 
                     b.HasKey("RolId");
 
+                    b.HasIndex("MenuRolId");
+
                     b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Domain.Layer.Menu", b =>
                 {
-                    b.HasOne("Domain.Layer.Rol", "Rol")
+                    b.HasOne("Domain.Layer.MenuRol", "MenuRol")
                         .WithMany("Menues")
-                        .HasForeignKey("RolId");
+                        .HasForeignKey("MenuRolId");
+                });
+
+            modelBuilder.Entity("Domain.Layer.Rol", b =>
+                {
+                    b.HasOne("Domain.Layer.MenuRol", "MenuRol")
+                        .WithMany("Roles")
+                        .HasForeignKey("MenuRolId");
                 });
 #pragma warning restore 612, 618
         }

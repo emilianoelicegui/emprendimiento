@@ -8,6 +8,6 @@ namespace Domain.Layer
     {
         public int RolId { get; set; }
         public string Nombre { get; set; }
-        public MenuRol MenuRol { get; set; }
+        public List<Menu> Menues { get; set; }
     }
 }

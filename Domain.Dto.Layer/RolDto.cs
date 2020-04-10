@@ -8,6 +8,5 @@ namespace Domain.Dto.Layer
     {
         public int RolId { get; set; }
         public string Nombre { get; set; }
-        public MenuRolDto MenuRol { get; set; }
     }
 }
