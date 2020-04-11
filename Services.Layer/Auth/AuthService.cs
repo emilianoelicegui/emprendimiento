@@ -1,4 +1,5 @@
-﻿using Domain.Dto.Layer;
+﻿using AutoMapper;
+using Domain.Dto.Layer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Layer;
@@ -19,11 +20,13 @@ namespace Services.Layer.Auth
     {
         private readonly IRepositoryAuth _repositoryAuth;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
-        public AuthService(IRepositoryAuth repositoryAuth, IConfiguration configuration)
+        public AuthService(IRepositoryAuth repositoryAuth, IConfiguration configuration, IMapper mapper)
         {
             _repositoryAuth = repositoryAuth;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
         public async Task<ServiceResponse> Authenticate(LoginRequestDto rq)
@@ -47,8 +50,9 @@ namespace Services.Layer.Auth
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[] {
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Email, user.Email)
+                        new Claim("id", user.Id.ToString()),
+                        new Claim("email", user.Email),
+                        new Claim("idRol", user.Rol.Id.ToString())
                     }),
                     Expires = DateTime.Now.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -63,6 +67,7 @@ namespace Services.Layer.Auth
                     Id = user.Id,
                     Email = user.Email,
                     IdRol = user.IdRol,
+                    Rol = _mapper.Map<RolDto>(user.Rol),
                     Token = token
                 };
 
