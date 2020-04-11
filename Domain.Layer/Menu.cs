@@ -4,11 +4,12 @@ using System.Text;
 
 namespace Domain.Layer
 {
-    public class Menu
+    public class Menu : Base
     {
-        public int MenuId { get; set; } 
-        public string Nombre { get; set; }
+        public string Name { get; set; }
         public string Url { get; set; }
-        public MenuRol MenuRol { get; set; }
+        public string Icon { get; set; }
+        public int IdRol { get; set; }
+        public Rol Rol { get; set; }
     }
 }

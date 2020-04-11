@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace Domain.Dto.Layer
 {
-    class MenuDto
+    public class MenuDto : BaseDto
     {
-        public int MenuId { get; set; } 
-        public string Nombre { get; set; }
+        public string Name { get; set; }
         public string Url { get; set; }
-        public MenuRolDto MenuRol { get; set; }
+        public string Icon { get; set; }
     }
 }

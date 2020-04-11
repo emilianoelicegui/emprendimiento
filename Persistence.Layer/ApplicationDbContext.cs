@@ -1,8 +1,8 @@
 ﻿using Domain.Layer;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Layer.Config;
+using Repositories.Layer.Config;
 
-namespace Persistence.Layer
+namespace Repositories.Layer
 {
     public class ApplicationDbContext : DbContext
     {
@@ -13,9 +13,9 @@ namespace Persistence.Layer
 
         }
 
-        public DbSet<Menu> Menues { get; set; }
+        public DbSet<Menu> Menus { get; set; }
         public DbSet<Rol> Roles { get; set; }
-        public DbSet<MenuRol> MenuRoles { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,7 +27,7 @@ namespace Persistence.Layer
         {
             new MenuConfig(modelBuilder.Entity<Menu>());
             new RolConfig(modelBuilder.Entity<Rol>());
-            new MenuRolConfig(modelBuilder.Entity<MenuRol>());
+            new UserConfig(modelBuilder.Entity<User>());
         }
     }
 }

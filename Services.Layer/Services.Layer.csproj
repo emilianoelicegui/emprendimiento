@@ -1,11 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Persistence.Layer\Persistence.Layer.csproj" />
+    <ProjectReference Include="..\Domain.Dto.Layer\Domain.Dto.Layer.csproj" />
+    <ProjectReference Include="..\Domain.Layer\Domain.Layer.csproj" />
+    <ProjectReference Include="..\Persistence.Layer\Repositories.Layer.csproj" />
   </ItemGroup>
 
 </Project>

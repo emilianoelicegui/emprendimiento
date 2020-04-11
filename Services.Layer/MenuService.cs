@@ -1,37 +1,36 @@
-﻿using Persistence.Layer;
-using Services.Layer.Dto;
+﻿using Domain.Dto.Layer;
+using Repositories.Layer;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Layer
 {
     public interface IMenuService
     {
-
+        ServiceResponse GetMenues();
     }
     public class MenuService : IMenuService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepositoryMenu _repositoryMenu;
 
-        public MenuService(ApplicationDbContext context)
+        public MenuService(IRepositoryMenu repositoryMenu)
         {
-            _context = context;
+            _repositoryMenu = repositoryMenu;
         }
 
-        public async Task<ServiceResponse> GetMenues()
+        public ServiceResponse GetMenues()
         {
-            var result = new ServiceResponse();
+            var sr = new ServiceResponse();
 
             try
             {
-
+                sr.Data = _repositoryMenu.GetMenues();
             }
-            catch
+            catch (Exception ex)
             {
-
+                sr.AddError(ex);
             }
+
+            return sr;
         }
     }
 }

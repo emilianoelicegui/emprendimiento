@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Services.Layer.Dto
+namespace Domain.Dto.Layer
 {
     public interface IServiceResponse
     {

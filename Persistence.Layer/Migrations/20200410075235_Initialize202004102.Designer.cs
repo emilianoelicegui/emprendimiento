@@ -10,8 +10,8 @@ using Repositories.Layer;
 namespace Repositories.Layer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200402011719_Initialize")]
-    partial class Initialize
+    [Migration("20200410075235_Initialize202004102")]
+    partial class Initialize202004102
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,39 +28,21 @@ namespace Repositories.Layer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MenuRolId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(150)")
                         .HasMaxLength(150);
+
+                    b.Property<int?>("RolId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MenuId");
 
-                    b.HasIndex("MenuRolId");
+                    b.HasIndex("RolId");
 
                     b.ToTable("Menues");
-                });
-
-            modelBuilder.Entity("Domain.Layer.MenuRol", b =>
-                {
-                    b.Property<int>("MenuRolId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("MenuId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RolId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MenuRolId");
-
-                    b.ToTable("MenuRoles");
                 });
 
             modelBuilder.Entity("Domain.Layer.Rol", b =>
@@ -69,9 +51,6 @@ namespace Repositories.Layer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("MenuRolId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -80,23 +59,14 @@ namespace Repositories.Layer.Migrations
 
                     b.HasKey("RolId");
 
-                    b.HasIndex("MenuRolId");
-
                     b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Domain.Layer.Menu", b =>
                 {
-                    b.HasOne("Domain.Layer.MenuRol", "MenuRol")
+                    b.HasOne("Domain.Layer.Rol", "Rol")
                         .WithMany("Menues")
-                        .HasForeignKey("MenuRolId");
-                });
-
-            modelBuilder.Entity("Domain.Layer.Rol", b =>
-                {
-                    b.HasOne("Domain.Layer.MenuRol", "MenuRol")
-                        .WithMany("Roles")
-                        .HasForeignKey("MenuRolId");
+                        .HasForeignKey("RolId");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Persistence.Layer;
+using Microsoft.IdentityModel.Logging;
+using Repositories.Layer;
+using Services.Layer;
+using Services.Layer.Auth;
 
 namespace Emprendimiento.API
 {
@@ -24,9 +22,37 @@ namespace Emprendimiento.API
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllersWithViews();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAny",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
+            IdentityModelEventSource.ShowPII = true;
+
+            services.AddScoped<IRepositoryAuth, RepositoryAuth>();
+            services.AddScoped<IAuthService, AuthService>();
+
+            services.AddScoped<IRepositoryMenu, RepositoryMenu>();
+            services.AddScoped<IMenuService, MenuService>();
+            
+
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+                    options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Unspecified;
+                });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,9 +63,13 @@ namespace Emprendimiento.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAuthorization();
-
             app.UseRouting();
+            
+            app.UseCors("AllowAny");
+            
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -10,8 +10,8 @@ using Repositories.Layer;
 namespace Repositories.Layer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200402011719_Initialize")]
-    partial class Initialize
+    [Migration("20200410041209_Initialize20200410")]
+    partial class Initialize20200410
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

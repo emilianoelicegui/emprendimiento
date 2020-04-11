@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Services.Layer.Dto
+namespace Domain.Dto.Layer
 {
     public class ServiceError
     {
