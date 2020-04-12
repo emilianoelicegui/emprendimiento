@@ -77,6 +77,12 @@ namespace Emprendimiento.API
 
             services.AddScoped<IRepositoryGeneric, RepositoryGeneric>();
             services.AddScoped<IGenericService, GenericService>();
+
+            services.AddScoped<IRepositoryCompany, RepositoryCompany>();
+            services.AddScoped<ICompanyService, CompanyService>();
+            
+            services.AddScoped<IRepositoryProduct, RepositoryProduct>();
+            services.AddScoped<IProductService, ProductService>();
             
 
             services.AddControllersWithViews()

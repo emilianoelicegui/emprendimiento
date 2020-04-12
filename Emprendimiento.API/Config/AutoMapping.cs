@@ -11,6 +11,12 @@ namespace Emprendimiento.API
         {
             CreateMap<Menu, MenuDto>();
             CreateMap<Rol, RolDto>();
+
+            CreateMap<Company, CompanyDto>();
+            CreateMap<Company, CompanyLoginDto>();
+
+            CreateMap<Product, ProductDto>();
+            CreateMap<SaveProductRequest, Product>();
         }
     }
 }
