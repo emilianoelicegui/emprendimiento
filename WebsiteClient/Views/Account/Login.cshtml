@@ -5,7 +5,7 @@
 }
 
 <style>
-    .erroresEmi {
+    .errorsDefault {
         width: 100%;
         margin-top: .25rem;
         font-size: 80%;
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <span class="erroresEmi" data-bind="visible: viewErrors, validationMessage: email"></span>
+                <span class="errorsDefault" data-bind="visible: viewErrors, validationMessage: email"></span>
 
                 <div class="input-group mt-3">
                     <input type="password" class="form-control" data-bind='value: password' placeholder="Contraseña">
@@ -43,7 +43,15 @@
                         </div>
                     </div>
                 </div>
-                <span class="erroresEmi" data-bind="validationMessage: password"></span>
+                <span class="errorsDefault" data-bind="validationMessage: password"></span>
+
+                <div class="alert alert-danger alert-dismissible mt-3">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                    Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my
+                    entire
+                    soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                </div>
 
                 <div class="row mt-3">
                     <div class="col-8">
@@ -56,7 +64,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="button" class="btn btn-primary btn-block" data-bind="click: clickLogin">Ingresar</button>
+                        <button type="button" class="btn btn-primary btn-block" data-bind="click: validate">Ingresar</button>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -82,6 +90,7 @@
         </div>
         <!-- /.login-card-body -->
     </div>
+
 </div>
 
 @section Scripts{
@@ -94,7 +103,7 @@
             insertMessages: false,
             decorateInputElement: true,
             errorElementClass: "is-Invalid",
-            errorMessageClass: "erroresEmi"
+            errorMessageClass: "errorsDefault"
         };
 
         ko.validation.init(validationSettings);

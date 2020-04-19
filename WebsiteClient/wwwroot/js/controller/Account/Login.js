@@ -11,15 +11,42 @@ var Login = function (options) {
 
     self.errors = ko.validation.group(self);
 
-    self.clickLogin = function () {
+    self.validate = function () {
        
-        if (self.errors().length == 0) {
-            alert('Thank you.');
-        } else {
-            alert('Please check your submission.');
-            console.log(self.viewErrors);
+        if (self.errors().length > 0) {
+            //console.log(self.errors());
             self.errors.showAllMessages();
         }
-
+        else {
+            self.authenticate();
+        }
     }
+
+    self.authenticate = function () {
+        //NProgress.start();
+        $.postJSON(urlApi + 'api/auth/login',
+            { email: self.email(), password: self.password() }
+        )
+            .done(function (data) {
+                //NProgress.done();
+
+                console.log(JSON.stringify(data));
+                if (data === true) {
+
+                    location.href = '/';
+                }
+                else {
+                    alert("Error");
+                    //$("#email").focus();
+                }
+
+
+            })
+            .fail(function (err) {
+                //NProgress.done();
+
+                self.message("Usuario o contraseña incorrecta");
+            });
+    }
+
 };
