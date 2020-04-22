@@ -6,6 +6,10 @@ var Login = function (options) {
     var self = this;
 
     self.viewErrors = ko.observable(true);
+
+    self.errorUser = ko.observable(false);
+    self.loginFailed = ko.observable("");
+
     self.email = ko.observable("").extend({ required: { message: 'Ingrese email válido' }, email: true });
     self.password = ko.observable("").extend({ required: { message: 'Ingrese una contraseña' } });
 
@@ -23,30 +27,60 @@ var Login = function (options) {
     }
 
     self.authenticate = function () {
-        //NProgress.start();
-        $.postJSON(urlApi + 'api/auth/login',
-            { email: self.email(), password: self.password() }
-        )
+
+        $.ajax({
+            method: "POST",
+            url: urlApi + "api/auth/login",
+            data: JSON.stringify({ email: self.email(), password: self.password() }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
             .done(function (data) {
-                //NProgress.done();
 
-                console.log(JSON.stringify(data));
-                if (data === true) {
+                //console.log(JSON.stringify(data.errors[0].errorMessage));
 
-                    location.href = '/';
+                if (data.status == true) {
+                    //hago lo que tengo que hacer con la info del endpoint
+                    //location.href = '/';
+                    //alert(data.errors.errorMessage);
+                    self.errorUser(false);
                 }
                 else {
-                    alert("Error");
-                    //$("#email").focus();
+                    //alert(JSON.stringify(data.errors[0].errorMessage));
+                    self.errorUser(true);
+                    self.loginFailed(JSON.stringify(data.errors[0].errorMessage));
                 }
-
-
+                
             })
             .fail(function (err) {
-                //NProgress.done();
-
-                self.message("Usuario o contraseña incorrecta");
+                //self.message("Usuario o contraseña incorrecta");
             });
+
+
+        ////NProgress.start();
+        //$.post(urlApi + 'api/auth/login',
+        //    { email: self.email(), password: self.password() }
+        //)
+        //    .done(function (data) {
+        //        //NProgress.done();
+
+        //        console.log(JSON.stringify(data));
+        //        if (data === true) {
+
+        //            location.href = '/';
+        //        }
+        //        else {
+        //            alert("Error");
+        //            //$("#email").focus();
+        //        }
+
+
+        //    })
+        //    .fail(function (err) {
+        //        //NProgress.done();
+
+        //        self.message("Usuario o contraseña incorrecta");
+        //    });
     }
 
 };
