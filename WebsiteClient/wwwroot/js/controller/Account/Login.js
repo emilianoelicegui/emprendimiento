@@ -30,7 +30,7 @@ var Login = function (options) {
 
         $.ajax({
             method: "POST",
-            url: urlApi + "api/auth/login",
+            url: "/api/account/login",
             data: JSON.stringify({ email: self.email(), password: self.password() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json"
@@ -38,22 +38,17 @@ var Login = function (options) {
             .done(function (data) {
 
                 //console.log(JSON.stringify(data.errors[0].errorMessage));
-
-                if (data.status == true) {
-                    //hago lo que tengo que hacer con la info del endpoint
+                //hago lo que tengo que hacer con la info del endpoint
                     //location.href = '/';
                     //alert(data.errors.errorMessage);
-                    self.errorUser(false);
-                }
-                else {
-                    //alert(JSON.stringify(data.errors[0].errorMessage));
-                    self.errorUser(true);
-                    self.loginFailed(JSON.stringify(data.errors[0].errorMessage));
-                }
+
+                self.errorUser(false);
                 
             })
             .fail(function (err) {
                 //self.message("Usuario o contraseña incorrecta");
+                self.errorUser(true);
+                self.loginFailed(JSON.stringify(data.errors[0].errorMessage));
             });
 
 
