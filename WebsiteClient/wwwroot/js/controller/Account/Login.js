@@ -16,7 +16,7 @@ var Login = function (options) {
     self.errors = ko.validation.group(self);
 
     self.validate = function () {
-       
+        debugger;
         if (self.errors().length > 0) {
             //console.log(self.errors());
             self.errors.showAllMessages();
@@ -26,8 +26,36 @@ var Login = function (options) {
         }
     }
 
-    self.authenticate = function () {
+    self.login = function () {
+        debugger;
+                //NProgress.start();
+        $.post('/api/account/login',
+            { email: self.email(), password: self.password() }
+        )
+            .done(function (data) {
+                //NProgress.done();
 
+                console.log(JSON.stringify(data));
+                if (data.status === true) {
+
+                    location.href = '/product';
+                }
+                else {
+                    alert("Error");
+                    //$("#email").focus();
+                }
+
+
+            })
+            .fail(function (err) {
+                //NProgress.done();
+
+                self.message("Usuario o contraseña incorrecta");
+            });
+    }
+
+    self.authenticate = function () {
+        debugger;
         $.ajax({
             method: "POST",
             url: "/api/account/login",
@@ -36,19 +64,23 @@ var Login = function (options) {
             dataType: "json"
         })
             .done(function (data) {
-
-                //console.log(JSON.stringify(data.errors[0].errorMessage));
+                debugger;
+                console.log(JSON.stringify(data));
                 //hago lo que tengo que hacer con la info del endpoint
                     //location.href = '/';
                     //alert(data.errors.errorMessage);
 
                 self.errorUser(false);
+                location.href = '/product';
                 
             })
             .fail(function (err) {
+                debugger;
+                console.log(err);
                 //self.message("Usuario o contraseña incorrecta");
                 self.errorUser(true);
-                self.loginFailed(JSON.stringify(data.errors[0].errorMessage));
+                self.loginFailed(err.responseText);
+
             });
 
 

@@ -31,7 +31,7 @@ namespace WebsiteClient.Controllers.Api
         {
             var response = await _accountService.Authenticate(rq);
 
-            if (response != null)
+            if (response.Id > 0)
             {
                 var model = new UserDto
                 {
@@ -46,7 +46,7 @@ namespace WebsiteClient.Controllers.Api
             }
             else
             {
-                return BadRequest();
+                return BadRequest("El usuario no existe o se encuentra bloqueado");
             }
         }
 

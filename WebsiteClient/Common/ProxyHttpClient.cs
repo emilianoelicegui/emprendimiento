@@ -37,7 +37,7 @@ namespace WebsiteClient.Common
             if (_httpContextAccessor.HttpContext.User != null && _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
                 var claims = _httpContextAccessor.HttpContext.User.Claims;
-                var access_token = claims.Single(x => x.Type.Equals("token")).Value;
+                var access_token = claims.Single(x => x.Type.Equals("Token")).Value;
 
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {access_token}");
             }
@@ -69,6 +69,17 @@ namespace WebsiteClient.Common
             var response = await _httpClient.PostAsync(_httpClient.BaseAddress, CreateHttpContent<T>(content));
             response.EnsureSuccessStatusCode();
 
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ServiceResponse>(data);
+        }
+
+        public async Task<ServiceResponse> GetAsync(string requestUrl)
+        {
+            var _httpClient = Get(requestUrl);
+
+            var response = await _httpClient.GetAsync(_httpClient.BaseAddress);
+            response.EnsureSuccessStatusCode();
+            
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ServiceResponse>(data);
         }

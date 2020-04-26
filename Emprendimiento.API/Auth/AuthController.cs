@@ -29,8 +29,6 @@ namespace Emprendimiento.API.Auth
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginRequestDto model)
         {
-            var sr = new ServiceResponse();
-
             model.Password = model.Password.ToMd5();
 
             return Ok(await _authService.Authenticate(model));

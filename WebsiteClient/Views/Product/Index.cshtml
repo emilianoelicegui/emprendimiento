@@ -1,7 +1,21 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Products";
 }
 
-<h1>Index</h1>
+<div id="product">
 
+    <h1>Products</h1>
+
+</div>
+
+@section Scripts{
+    <script src="~/js/controller/Product/Index.js"></script>
+    <script>
+
+        var self = new Product({ message: 'Complete los datos para iniciar' });
+
+        ko.applyBindings(self, document.getElementById('product'));
+
+    </script>
+}

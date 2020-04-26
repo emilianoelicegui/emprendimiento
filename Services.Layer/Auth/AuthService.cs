@@ -13,7 +13,7 @@ namespace Services.Layer.Auth
 {
     public interface IAuthService
     {
-        Task<ServiceResponse> Authenticate(LoginRequestDto rq);
+        Task<LoginResponseDto> Authenticate(LoginRequestDto rq);
     }
 
     public class AuthService : IAuthService
@@ -29,9 +29,10 @@ namespace Services.Layer.Auth
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse> Authenticate(LoginRequestDto rq)
+        public async Task<LoginResponseDto> Authenticate(LoginRequestDto rq)
         {
             var sr = new ServiceResponse();
+            var response = new LoginResponseDto();
 
             var secretKey = _configuration.GetValue<string>("SecretKey");
             var key = Encoding.ASCII.GetBytes(secretKey);
@@ -44,7 +45,7 @@ namespace Services.Layer.Auth
                 {
                     sr.AddError("El usuario no existe o se encuentra bloqueado");
 
-                    return sr;
+                    return response;
                 }
 
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -62,7 +63,7 @@ namespace Services.Layer.Auth
                 var tokenCreated = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(tokenCreated);
 
-                var response = new LoginResponseDto
+                var result = new LoginResponseDto
                 {
                     Id = user.Id,
                     Email = user.Email,
@@ -71,7 +72,8 @@ namespace Services.Layer.Auth
                     Token = token
                 };
 
-                sr.Data = response;
+                //sr.Data = response;
+                response = result;
 
             }
             catch (Exception ex)
@@ -79,7 +81,7 @@ namespace Services.Layer.Auth
                 sr.AddError(ex);
             }
 
-            return sr;
+            return response;
         }
     }
 
