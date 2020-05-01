@@ -1,22 +1,25 @@
 ﻿/// <reference path="../../knockout-3.5.1.js" />
 /// <reference path="../../knockout.validation.js" />
 
-var Product = function (options) {
+var Layout = function (options) {
 
     var self = this;
 
-    self.getAll = function () {
+    self.menus = ko.observableArray([]);
+
+    //armar el menu segun el rol 
+    self.getMenus = function () {
         debugger;
         //NProgress.start();
-        $.getJSON('/api/product/getAll')
+        $.getJSON('/api/generic/getMenus')
             .done(function (data) {
                 //NProgress.done();
 
                 console.log(JSON.stringify(data));
                 if (data.status == true) {
 
-                    //alert('encontro todo');
-                    //location.href = '/';
+                    self.menus(data.data);
+
                 }
                 else {
                     alert("Error");
@@ -32,6 +35,6 @@ var Product = function (options) {
             });
     }
 
-    self.getAll();
+    self.getMenus();
 
 };

@@ -36,6 +36,7 @@ namespace WebsiteClient
             services.AddTransient<ProxyHttpClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IGenericService, GenericService>();
             services.AddScoped<IProductService, ProductService>();
         }
 

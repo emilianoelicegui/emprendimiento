@@ -10,7 +10,7 @@ namespace Services.Layer
     public interface IGenericService
     {
         Task<ServiceResponse> GetMenu();
-        Task<ServiceResponse> GetMenus(int IdUser);
+        Task<ServiceResponse> GetMenus(int idRol);
         Task<ServiceResponse> GetRol(int idRol);
         ServiceResponse GetRoles();
     }
@@ -41,13 +41,13 @@ namespace Services.Layer
             return sr;
         }
 
-        public async Task<ServiceResponse> GetMenus(int iduser)
+        public async Task<ServiceResponse> GetMenus(int idrol)
         {
             var sr = new ServiceResponse();
 
             try
             {
-                sr.Data = _mapper.Map<IEnumerable<MenuDto>>(await _repositoryGeneric.GetMenus(iduser));
+                sr.Data = _mapper.Map<IEnumerable<MenuDto>>(await _repositoryGeneric.GetMenus(idrol));
             }
             catch (Exception ex)
             {
