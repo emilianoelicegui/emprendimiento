@@ -15,7 +15,6 @@ namespace Repositories.Layer
     {
         private readonly ApplicationDbContext _context;
 
-
         public RepositoryAuth(ApplicationDbContext context)
         {
             _context = context;
