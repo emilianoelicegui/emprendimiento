@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Domain.Dto.Layer;
 using Microsoft.AspNetCore.Authorization;
@@ -27,19 +25,19 @@ namespace Emprendimiento.API.Controllers
 
         #region GET
 
-        [HttpGet("{id}", Name = "GetProduct")]
+        [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _productService.Get(id));
         }
 
-        [HttpGet("ListByCompany/{idCompany}", Name = "GetProductsByCompany")]
+        [HttpGet("ListByCompany/{idCompany}", Name = "GetAllProductsByCompany")]
         public async Task<IActionResult> GetAllByCompany(int idCompany)
         {
             return Ok(await _productService.GetAllByCompany(idCompany));
         }
 
-        [HttpGet("ListByUser", Name = "GetProductsByUser")]
+        [HttpGet("ListByUser", Name = "GetAllProductsByUser")]
         public async Task<IActionResult> GetAllByUser()
         {
             var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
@@ -51,18 +49,25 @@ namespace Emprendimiento.API.Controllers
 
         #region POST 
 
-        [HttpPost("CreateProduct")]
-        public async Task<IActionResult> CreateProduct([FromBody] SaveProductRequest rq)
+        //sirve para crear o actualizar productos
+        [HttpPost("Save")]
+        public async Task<IActionResult> Save([FromBody] SaveProductRequest rq)
         {
             try
             {
-                return Ok(await _productService.SaveProduct(rq));
+                var response = await _productService.Save(rq);
+
+                if (response.Status != true)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al realizar la solicitud");
+                }
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
         }
 
         #endregion
@@ -74,7 +79,14 @@ namespace Emprendimiento.API.Controllers
         {
             try
             {
-                return Ok(await _productService.Delete(id));
+                var response = await _productService.Delete(id);
+
+                if (response.Status != true)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al realizar la solicitud");
+                }
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

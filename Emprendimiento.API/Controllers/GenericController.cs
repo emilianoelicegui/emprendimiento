@@ -29,7 +29,9 @@ namespace Emprendimiento.API.Controllers
         [HttpGet("GetMenus")]
         public async Task<IActionResult> GetMenus()
         {
-            return Ok(await _genericService.GetMenus(1));
+            var idRol = HttpContext.User.FindFirst("idRol").Value.ToInt();
+
+            return Ok(await _genericService.GetMenus(idRol));
         }
 
         [HttpGet("GetRol")]

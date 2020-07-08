@@ -32,11 +32,12 @@ namespace Repositories.Layer
 
         public async Task<IEnumerable<Menu>> GetMenus(int idRol)
         {
+            var menuRol = await _context.MenuRol
+                        .Where(x => x.IdRol == idRol)
+                        .Include(x => x.Menu)
+                        .ToListAsync();
 
-            var list = await _context.Menus
-                         .Where(x => !x.IsDelete && x.IdRol == idRol)
-                         .Include(x => x.Rol)
-                         .ToListAsync();
+            var list = menuRol.Select(x => x.Menu).ToList(); 
 
             return list;
         }
@@ -45,7 +46,6 @@ namespace Repositories.Layer
         {
             return await _context.Roles
                         .Where(x => x.Id == idRol)
-                        .Include(x => x.Menus)
                         .FirstOrDefaultAsync();
         }
 
@@ -55,10 +55,6 @@ namespace Repositories.Layer
                 .OrderByDescending(c => c.Id);
 
             return result;
-            //return await _context.Roles
-            //             //.Where(x => !x.IsDelete)
-            //             //.Include(x => x.Menus)
-            //             .ToListAsync();
         }
 
     }

@@ -10,6 +10,8 @@ namespace Emprendimiento.API
         public AutoMapping()
         {
             CreateMap<Menu, MenuDto>();
+            CreateMap<List<Menu>, List<MenuDto>>();
+
             CreateMap<Rol, RolDto>();
 
             CreateMap<Company, CompanyDto>();
@@ -17,6 +19,9 @@ namespace Emprendimiento.API
 
             CreateMap<Product, ProductDto>();
             CreateMap<SaveProductRequest, Product>();
+
+            CreateMap<Provider, ProviderDto>();
+            CreateMap<SaveProviderRequest, Provider>();
         }
     }
 }

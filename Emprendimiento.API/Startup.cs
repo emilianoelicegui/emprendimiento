@@ -83,7 +83,10 @@ namespace Emprendimiento.API
             
             services.AddScoped<IRepositoryProduct, RepositoryProduct>();
             services.AddScoped<IProductService, ProductService>();
-            
+
+            services.AddScoped<IRepositoryProvider, RepositoryProvider>();
+            services.AddScoped<IProviderService, ProviderService>();
+
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

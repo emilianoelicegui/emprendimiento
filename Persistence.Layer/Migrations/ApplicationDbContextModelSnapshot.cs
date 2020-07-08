@@ -77,9 +77,6 @@ namespace Repositories.Layer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdRol")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
@@ -94,9 +91,32 @@ namespace Repositories.Layer.Migrations
 
                     b.HasKey("Id");
 
+                    b.ToTable("Menus");
+                });
+
+            modelBuilder.Entity("Domain.Layer.MenuRol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdMenu")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdMenu");
+
                     b.HasIndex("IdRol");
 
-                    b.ToTable("Menus");
+                    b.ToTable("MenuRol");
                 });
 
             modelBuilder.Entity("Domain.Layer.Product", b =>
@@ -258,10 +278,16 @@ namespace Repositories.Layer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Layer.Menu", b =>
+            modelBuilder.Entity("Domain.Layer.MenuRol", b =>
                 {
+                    b.HasOne("Domain.Layer.Menu", "Menu")
+                        .WithMany("MenuRoles")
+                        .HasForeignKey("IdMenu")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Layer.Rol", "Rol")
-                        .WithMany("Menus")
+                        .WithMany("MenuRoles")
                         .HasForeignKey("IdRol")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

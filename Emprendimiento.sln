@@ -31,7 +31,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DBEmprendimiento", "DBEmpre
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06. Wesite", "06. Wesite", "{EE1DCE10-88B9-495E-AC6E-23DD2F6668DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsiteClient", "WebsiteClient\WebsiteClient.csproj", "{44BB76AC-CA17-4862-BA9A-D97606A70C54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebsiteClient", "WebsiteClient\WebsiteClient.csproj", "{44BB76AC-CA17-4862-BA9A-D97606A70C54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

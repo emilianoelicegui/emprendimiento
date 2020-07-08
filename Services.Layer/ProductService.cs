@@ -13,7 +13,7 @@ namespace Services.Layer
         Task<ServiceResponse> Get(int idProduct);
         Task<ServiceResponse> GetAllByCompany(int idCompany);
         Task<ServiceResponse> GetAllByUser(int idUser);
-        Task<ServiceResponse> SaveProduct(SaveProductRequest rq);
+        Task<ServiceResponse> Save(SaveProductRequest rq);
         Task<ServiceResponse> Delete(int idProduct);
     }
     public class ProductService : IProductService
@@ -81,17 +81,14 @@ namespace Services.Layer
 
         #region POST
 
-        public async Task<ServiceResponse> SaveProduct(SaveProductRequest rq)
+        //sirve para crear o actualizar productos
+        public async Task<ServiceResponse> Save(SaveProductRequest rq)
         {
             var sr = new ServiceResponse();
 
             try
             {
-                //var product = new Product();
-
-                //product = _mapper.Map<Product>(rq);
-
-                sr.Data = await _repositoryProduct.SaveProduct(_mapper.Map<Product>(rq));
+                sr.Data = await _repositoryProduct.Save(_mapper.Map<Product>(rq));
             }
             catch (Exception ex)
             {
