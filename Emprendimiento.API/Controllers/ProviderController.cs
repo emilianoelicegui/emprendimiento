@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Domain.Dto.Layer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,48 +15,42 @@ namespace Emprendimiento.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowAny")]
-    public class ProductController : ControllerBase
+    public class ProviderController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IProviderService _providerService;
 
-        public ProductController(IProductService productService)
+        public ProviderController(IProviderService providerService)
         {
-            _productService = productService;
+            _providerService = providerService;
         }
 
         #region GET
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetProvider")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _productService.Get(id));
+            return Ok(await _providerService.Get(id));
         }
 
-        [HttpGet("ListByCompany/{idCompany}", Name = "GetAllProductsByCompany")]
-        public async Task<IActionResult> GetAllByCompany(int idCompany)
-        {
-            return Ok(await _productService.GetAllByCompany(idCompany));
-        }
-
-        [HttpGet("ListByUser", Name = "GetAllProductsByUser")]
+        [HttpGet("ListByUser", Name = "GetAllProvidersByUser")]
         public async Task<IActionResult> GetAllByUser()
         {
             var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 
-            return Ok(await _productService.GetAllByUser(idUser));
+            return Ok(await _providerService.GetAllByUser(idUser));
         }
 
         #endregion
 
         #region POST 
 
-        //sirve para crear o actualizar productos
+        //sirve para crear o actualizar proveedores
         [HttpPost("Save")]
-        public async Task<IActionResult> Save([FromBody] SaveProductRequest rq)
+        public async Task<IActionResult> Save([FromBody] SaveProviderRequest rq)
         {
             try
             {
-                var response = await _productService.Save(rq);
+                var response = await _providerService.Save(rq);
 
                 if (response.Status != true)
                 {
@@ -79,7 +74,7 @@ namespace Emprendimiento.API.Controllers
         {
             try
             {
-                var response = await _productService.Delete(id);
+                var response = await _providerService.Delete(id);
 
                 if (response.Status != true)
                 {

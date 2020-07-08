@@ -28,7 +28,6 @@ namespace Emprendimiento.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<DbMySql>(_ => new DbMySql(Configuration.GetConnectionString("ConnectionMySql")));
 
             services.AddCors(options =>
             {
@@ -84,7 +83,10 @@ namespace Emprendimiento.API
             
             services.AddScoped<IRepositoryProduct, RepositoryProduct>();
             services.AddScoped<IProductService, ProductService>();
-            
+
+            services.AddScoped<IRepositoryProvider, RepositoryProvider>();
+            services.AddScoped<IProviderService, ProviderService>();
+
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

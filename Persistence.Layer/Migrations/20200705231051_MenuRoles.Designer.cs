@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.Layer;
 
 namespace Repositories.Layer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200705231051_MenuRoles")]
+    partial class MenuRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,6 +79,9 @@ namespace Repositories.Layer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
@@ -91,30 +96,18 @@ namespace Repositories.Layer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdRol");
+
                     b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("Domain.Layer.MenuRol", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("IdMenu")
+                    b.Property<int>("MenuId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdRol")
+                    b.Property<int>("RolId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdMenu");
-
-                    b.HasIndex("IdRol");
 
                     b.ToTable("MenuRol");
                 });
@@ -278,16 +271,10 @@ namespace Repositories.Layer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Layer.MenuRol", b =>
+            modelBuilder.Entity("Domain.Layer.Menu", b =>
                 {
-                    b.HasOne("Domain.Layer.Menu", "Menu")
-                        .WithMany("MenuRoles")
-                        .HasForeignKey("IdMenu")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Layer.Rol", "Rol")
-                        .WithMany("MenuRoles")
+                        .WithMany("Menus")
                         .HasForeignKey("IdRol")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

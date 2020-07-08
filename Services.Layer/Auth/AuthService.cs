@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Layer;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -19,12 +20,14 @@ namespace Services.Layer.Auth
     public class AuthService : IAuthService
     {
         private readonly IRepositoryAuth _repositoryAuth;
+        private readonly IRepositoryGeneric _repositoryGeneric;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
-        public AuthService(IRepositoryAuth repositoryAuth, IConfiguration configuration, IMapper mapper)
+        public AuthService(IRepositoryAuth repositoryAuth, IRepositoryGeneric repositoryGeneric, IConfiguration configuration, IMapper mapper)
         {
             _repositoryAuth = repositoryAuth;
+            _repositoryGeneric = repositoryGeneric;
             _configuration = configuration;
             _mapper = mapper;
         }
@@ -67,7 +70,6 @@ namespace Services.Layer.Auth
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    IdRol = user.IdRol,
                     Rol = _mapper.Map<RolDto>(user.Rol),
                     Token = token
                 };

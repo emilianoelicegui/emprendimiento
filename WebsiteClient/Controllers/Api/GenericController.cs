@@ -22,7 +22,7 @@ namespace WebsiteClient.Controllers.Api
         {
             var response = await _genericService.GetMenus();
 
-            if (response != null)
+            if (response.Status == true)
             {
                 return Ok(response);
             }

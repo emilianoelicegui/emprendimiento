@@ -12,7 +12,7 @@ namespace Repositories.Layer
         Task<Product> Get(int idProduct);
         Task<IEnumerable<Product>> GetAllByCompany(int idCompany);
         Task<IEnumerable<Product>> GetAllByUser(int idUser);
-        Task<int> SaveProduct(Product rq);
+        Task<int> Save(Product rq);
         Task<bool> Delete(int idProduct);
     }
 
@@ -53,10 +53,18 @@ namespace Repositories.Layer
 
         #region POST 
 
-        public async Task<int> SaveProduct(Product rq)
+        public async Task<int> Save(Product rq)
         {
-            await _context.Products.AddAsync(rq);
-            await _context.SaveChangesAsync();
+            if (rq.Id > 0)
+            {
+                _context.Update(rq);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                await _context.Products.AddAsync(rq);
+                await _context.SaveChangesAsync();
+            }
 
             return rq.Id;
         }

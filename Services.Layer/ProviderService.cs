@@ -8,50 +8,33 @@ using System.Threading.Tasks;
 
 namespace Services.Layer
 {
-    public interface IProductService
+    public interface IProviderService
     {
-        Task<ServiceResponse> Get(int idProduct);
-        Task<ServiceResponse> GetAllByCompany(int idCompany);
+        Task<ServiceResponse> Get(int idProvider);
         Task<ServiceResponse> GetAllByUser(int idUser);
-        Task<ServiceResponse> Save(SaveProductRequest rq);
-        Task<ServiceResponse> Delete(int idProduct);
+        Task<ServiceResponse> Save(SaveProviderRequest rq);
+        Task<ServiceResponse> Delete(int idProvider);
     }
-    public class ProductService : IProductService
+    public class ProviderService : IProviderService
     {
         private readonly IMapper _mapper;
-        private readonly IRepositoryProduct _repositoryProduct;
+        private readonly IRepositoryProvider _repositoryProvider;
 
-        public ProductService(IRepositoryProduct repositoryProduct, IMapper mapper)
+        public ProviderService(IRepositoryProvider repositoryProvider, IMapper mapper)
         {
-            _repositoryProduct = repositoryProduct;
+            _repositoryProvider = repositoryProvider;
             _mapper = mapper;
         }
 
         #region GET
 
-        public async Task<ServiceResponse> Get(int idProduct)
+        public async Task<ServiceResponse> Get(int idProvider)
         {
             var sr = new ServiceResponse();
 
             try
             {
-                sr.Data = _mapper.Map<ProductDto>(await _repositoryProduct.Get(idProduct));
-            }
-            catch (Exception ex)
-            {
-                sr.AddError(ex);
-            }
-
-            return sr;
-        }
-
-        public async Task<ServiceResponse> GetAllByCompany(int idCompany)
-        {
-            var sr = new ServiceResponse();
-
-            try
-            {
-                sr.Data = _mapper.Map<IEnumerable<ProductDto>>(await _repositoryProduct.GetAllByCompany(idCompany));
+                sr.Data = _mapper.Map<ProductDto>(await _repositoryProvider.Get(idProvider));
             }
             catch (Exception ex)
             {
@@ -67,7 +50,7 @@ namespace Services.Layer
 
             try
             {
-                sr.Data = _mapper.Map<IEnumerable<ProductDto>>(await _repositoryProduct.GetAllByUser(idUser));
+                sr.Data = _mapper.Map<IEnumerable<ProviderDto>>(await _repositoryProvider.GetAllByUser(idUser));
             }
             catch (Exception ex)
             {
@@ -82,13 +65,13 @@ namespace Services.Layer
         #region POST
 
         //sirve para crear o actualizar productos
-        public async Task<ServiceResponse> Save(SaveProductRequest rq)
+        public async Task<ServiceResponse> Save(SaveProviderRequest rq)
         {
             var sr = new ServiceResponse();
 
             try
             {
-                sr.Data = await _repositoryProduct.Save(_mapper.Map<Product>(rq));
+                sr.Data = await _repositoryProvider.Save(_mapper.Map<Provider>(rq));
             }
             catch (Exception ex)
             {
@@ -102,13 +85,13 @@ namespace Services.Layer
 
         #region PUT
 
-        public async Task<ServiceResponse> Delete(int idProduct)
+        public async Task<ServiceResponse> Delete(int idProvider)
         {
             var sr = new ServiceResponse();
 
             try
             {
-                sr.Data = await _repositoryProduct.Delete(idProduct);
+                sr.Data = await _repositoryProvider.Delete(idProvider);
             }
             catch (Exception ex)
             {
