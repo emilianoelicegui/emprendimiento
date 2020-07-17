@@ -163,6 +163,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain.Dto.Layer\Domain.Dto.Layer.csproj" />
+    <ProjectReference Include="..\Shared.Layer\Shared.Layer.csproj" />
   </ItemGroup>
 
 </Project>

@@ -37,7 +37,6 @@ var Login = function (options) {
 
                 console.log(JSON.stringify(data));
                 if (data.status === true) {
-
                     location.href = '/product';
                 }
                 else {

@@ -69,6 +69,8 @@ namespace Services.Layer.Auth
                 var result = new LoginResponseDto
                 {
                     Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
                     Email = user.Email,
                     Rol = _mapper.Map<RolDto>(user.Rol),
                     Token = token

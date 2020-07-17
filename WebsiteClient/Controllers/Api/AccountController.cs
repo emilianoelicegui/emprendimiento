@@ -35,6 +35,8 @@ namespace WebsiteClient.Controllers.Api
             {
                 var model = new UserDto
                 {
+                    Name = response.Name,
+                    Surname = response.Surname,
                     Email = response.Email,
                     Token = response.Token,
                     Rol = response.Rol
@@ -54,6 +56,8 @@ namespace WebsiteClient.Controllers.Api
         {
             var claims = new List<Claim>
                 {
+                    new Claim("Name", model.Name),
+                    new Claim("Surname", model.Surname),
                     new Claim("Email", model.Email),
                     new Claim("Token", model.Token),
                     new Claim("Rol", model.Rol.Name),
@@ -70,6 +74,7 @@ namespace WebsiteClient.Controllers.Api
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity), authProperties);
+
         }
     }
 }
