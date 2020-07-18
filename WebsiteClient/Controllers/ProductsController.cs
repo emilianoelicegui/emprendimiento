@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebsiteClient.Controllers
 {
     [Authorize]
-    public class ProductController : Controller
+    public class ProductsController : Controller
     {
         public IActionResult Index()
         {
