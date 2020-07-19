@@ -31,18 +31,35 @@ namespace Emprendimiento.API.Controllers
             return Ok(await _productService.Get(id));
         }
 
-        [HttpGet("ListByCompany/{idCompany}", Name = "GetAllProductsByCompany")]
-        public async Task<IActionResult> GetAllByCompany(int idCompany)
-        {
-            return Ok(await _productService.GetAllByCompany(idCompany));
-        }
-
         [HttpGet("ListByUser", Name = "GetAllProductsByUser")]
         public async Task<IActionResult> GetAllByUser()
         {
             var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 
             return Ok(await _productService.GetAllByUser(idUser));
+        }
+
+        //busqueda de productos con filtros 
+        [HttpGet("GetAllByCompany")]
+        public async Task<IActionResult> GetAllByCompany(string name, int? idCompany, int draw, int start, int length)
+        {
+            try
+            {
+                var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
+
+                var response = await _productService.GetAllByCompany(name, idCompany, idUser, draw, start, length);
+
+                if (response.Status != true)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al realizar la solicitud");
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         #endregion

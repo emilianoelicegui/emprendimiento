@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Domain.Dto.Layer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebsiteClient.Services;
@@ -25,6 +27,21 @@ namespace WebsiteClient.Controllers.Api
             if (response != null)
             {
                 return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("GetAllByCompany")]
+        public async Task<IActionResult> GetAllByCompany(string name, int? idCompany, int draw, int start, int length)
+        {
+            var response = await _productService.GetAllByCompany(name, idCompany, draw, start, length);
+
+            if (response != null)
+            {
+                return Ok(response.Data);
             }
             else
             {

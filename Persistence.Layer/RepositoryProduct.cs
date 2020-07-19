@@ -1,6 +1,7 @@
 ﻿using Domain.Dto.Layer;
 using Domain.Layer;
 using Microsoft.EntityFrameworkCore;
+using Shared.Layer;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +11,9 @@ namespace Repositories.Layer
     public interface IRepositoryProduct
     {
         Task<Product> Get(int idProduct);
-        Task<IEnumerable<Product>> GetAllByCompany(int idCompany);
         Task<IEnumerable<Product>> GetAllByUser(int idUser);
         Task<int> Save(Product rq);
+        Task<IEnumerable<Product>> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length);
         Task<bool> Delete(int idProduct);
     }
 
@@ -35,13 +36,6 @@ namespace Repositories.Layer
                        .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetAllByCompany(int idCompany)
-        {
-            return await _context.Products
-                       .Where(x => x.Company.Id == idCompany)
-                       .ToListAsync();
-        }
-
         public async Task<IEnumerable<Product>> GetAllByUser(int idUser)
         {
             return await _context.Products
@@ -53,6 +47,25 @@ namespace Repositories.Layer
 
         #region POST 
 
+        public async Task<IEnumerable<Product>> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length)
+        {
+            var query = _context.Products.Where(x => x.Company.User.Id == idUser).AsQueryable();
+
+            if (!nombre.IsNullOrEmpty())
+            {
+                query = query.Where(x => x.Name.Contains(nombre));
+            }
+
+            if (idCompany.HasValue)
+            {
+                query = query.Where(x => x.Company.Id == idCompany);
+            }
+
+            return await query
+                    .OrderBy(x => x.Name)
+                    .Skip(start)
+                    .Take(length).ToListAsync();
+        }
         public async Task<int> Save(Product rq)
         {
             if (rq.Id > 0)

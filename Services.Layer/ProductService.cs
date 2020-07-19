@@ -4,16 +4,18 @@ using Domain.Layer;
 using Repositories.Layer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 
 namespace Services.Layer
 {
     public interface IProductService
     {
         Task<ServiceResponse> Get(int idProduct);
-        Task<ServiceResponse> GetAllByCompany(int idCompany);
         Task<ServiceResponse> GetAllByUser(int idUser);
         Task<ServiceResponse> Save(SaveProductRequest rq);
+        Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int idUser, int draw, int start, int length);
         Task<ServiceResponse> Delete(int idProduct);
     }
     public class ProductService : IProductService
@@ -45,22 +47,6 @@ namespace Services.Layer
             return sr;
         }
 
-        public async Task<ServiceResponse> GetAllByCompany(int idCompany)
-        {
-            var sr = new ServiceResponse();
-
-            try
-            {
-                sr.Data = _mapper.Map<IEnumerable<ProductDto>>(await _repositoryProduct.GetAllByCompany(idCompany));
-            }
-            catch (Exception ex)
-            {
-                sr.AddError(ex);
-            }
-
-            return sr;
-        }
-
         public async Task<ServiceResponse> GetAllByUser(int idUser)
         {
             var sr = new ServiceResponse();
@@ -80,6 +66,31 @@ namespace Services.Layer
         #endregion GET
 
         #region POST
+
+        public async Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int idUser, int draw, int start, int length)
+        {
+            var sr = new ServiceResponse();
+
+            try
+            {
+                var results = _mapper.Map<IEnumerable<ProductDto>>(await _repositoryProduct.GetAllByCompany(name, idUser, idCompany, start, length));
+
+                sr.Data = new
+                {
+                    draw,
+                    recordsTotal = results.Count(),
+                    recordsFiltered = results.Count(),
+                    data = results
+                };
+
+            }
+            catch (Exception ex)
+            {
+                sr.AddError(ex);
+            }
+
+            return sr;
+        }
 
         //sirve para crear o actualizar productos
         public async Task<ServiceResponse> Save(SaveProductRequest rq)

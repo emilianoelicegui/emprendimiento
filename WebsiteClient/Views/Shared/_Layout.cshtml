@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebsiteClient</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 
@@ -16,8 +16,9 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Content/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
-
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/lib/pace-progress/themes/blue/pace-theme-flat-top.css">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -185,9 +186,20 @@
         <script src="~/js/knockout-3.5.1.js"></script>
         <script src="~/js/knockout.validation.js"></script>
 
+        <script src="~/lib/pace-progress/pace.min.js"></script>
+
         <script src="~/js/controller/_Layout/Layout.js"></script>
 
         <script>
+
+            paceOptions = {
+                ajax: true, // disabled
+                document: false, // disabled
+                eventLag: false, // disabled
+                elements: {
+                    selectors: ['.my-page']
+                }
+            };
 
             var self = new Layout({ error: 'Ocurrio un error al iniciar' });
 

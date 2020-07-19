@@ -9,7 +9,6 @@ var Layout = function (options) {
 
     //armar el menu segun el rol 
     self.getMenus = function () {
-        debugger;
         //NProgress.start();
         $.getJSON('/api/generic/getMenus')
             .done(function (data) {
