@@ -14,5 +14,10 @@ namespace WebsiteClient.Controllers
         {
             return View();
         }
+
+        public IActionResult Crud()
+        {
+            return PartialView();
+        }
     }
 }

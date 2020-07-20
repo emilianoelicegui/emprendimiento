@@ -73,6 +73,17 @@ namespace WebsiteClient.Common
             return JsonConvert.DeserializeObject<ServiceResponse>(data);
         }
 
+        public async Task<ServiceResponse> PutAsync<T>(string requestUrl, T content)
+        {
+            var _httpClient = Get(requestUrl);
+
+            var response = await _httpClient.PutAsync(_httpClient.BaseAddress, CreateHttpContent<T>(content));
+            response.EnsureSuccessStatusCode();
+
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ServiceResponse>(data);
+        }
+
         public async Task<ServiceResponse> GetAsync(string requestUrl)
         {
             var _httpClient = Get(requestUrl);

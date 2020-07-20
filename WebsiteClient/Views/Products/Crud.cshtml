@@ -1,0 +1,46 @@
+﻿
+    <form role="form">
+        <div class="row">
+            <input type="hidden" data-bind="value: id">
+            <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                    <label>Nombre (*):</label>
+                    <input type="text" class="form-control" placeholder="TV Led 50''" data-bind="value: name">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <!-- select -->
+                <div class="form-group">
+                    <label>Sucursal (*)</label>
+                    <select class="form-control">
+                        <option value="1">Ejemplo 1</option>
+                        <option value="1">Ejemplo 2</option>
+                        <option value="1">Ejemplo 3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <!-- textarea -->
+                <div class="form-group">
+                    <label>Descripción (*):</label>
+                    <textarea class="form-control" rows="3" placeholder="Televisor LED FULL HD, ideal para consolas" type="text" data-bind="value: description"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                    <label>Precio (*):</label>
+                    <input type="text" class="form-control" placeholder="18.890" data-bind="value: price">
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch3" data-bind="checked: isDolar">
+                        <label class="custom-control-label" for="customSwitch3">Cotizar en dólares</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>

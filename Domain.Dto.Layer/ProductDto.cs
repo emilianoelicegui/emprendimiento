@@ -8,6 +8,6 @@ namespace Domain.Dto.Layer
         public decimal Price { get; set; }
         public bool IsDolar { get; set; }
         public int IdCompany { get; set; }
-        //public CompanyDto Company { get; set; }
+        public CompanyDto Company { get; set; }
     }
 }

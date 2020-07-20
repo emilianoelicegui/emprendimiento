@@ -16,7 +16,6 @@ var Login = function (options) {
     self.errors = ko.validation.group(self);
 
     self.validate = function () {
-        debugger;
         if (self.errors().length > 0) {
             //console.log(self.errors());
             self.errors.showAllMessages();
@@ -27,7 +26,6 @@ var Login = function (options) {
     }
 
     self.login = function () {
-        debugger;
                 //NProgress.start();
         $.post('/api/account/login',
             { email: self.email(), password: self.password() }
@@ -37,7 +35,7 @@ var Login = function (options) {
 
                 console.log(JSON.stringify(data));
                 if (data.status === true) {
-                    location.href = '/product';
+                    location.href = '/products';
                 }
                 else {
                     alert("Error");
@@ -54,7 +52,6 @@ var Login = function (options) {
     }
 
     self.authenticate = function () {
-        debugger;
         $.ajax({
             method: "POST",
             url: "/api/account/login",

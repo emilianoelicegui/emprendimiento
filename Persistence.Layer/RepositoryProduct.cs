@@ -49,7 +49,10 @@ namespace Repositories.Layer
 
         public async Task<IEnumerable<Product>> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length)
         {
-            var query = _context.Products.Where(x => x.Company.User.Id == idUser).AsQueryable();
+            var query = _context.Products
+                                .Where(x => x.Company.User.Id == idUser && x.IsDelete == false)
+                                .Include(x => x.Company)
+                                .AsQueryable();
 
             if (!nombre.IsNullOrEmpty())
             {

@@ -3,12 +3,12 @@
 
 var Layout = function (options) {
 
-    var self = this;
+    var selfLayout = this;
 
-    self.menus = ko.observableArray([]);
+    selfLayout.menus = ko.observableArray([]);
 
     //armar el menu segun el rol 
-    self.getMenus = function () {
+    selfLayout.getMenus = function () {
         //NProgress.start();
         $.getJSON('/api/generic/getMenus')
             .done(function (data) {
@@ -17,7 +17,7 @@ var Layout = function (options) {
                 console.log(JSON.stringify(data));
                 if (data.status == true) {
 
-                    self.menus(data.data);
+                    selfLayout.menus(data.data);
 
                 }
                 else {
@@ -30,10 +30,10 @@ var Layout = function (options) {
             .fail(function (err) {
                 //NProgress.done();
 
-                //self.message("Usuario o contraseña incorrecta");
+                //selfLayout.message("Usuario o contraseña incorrecta");
             });
     }
 
-    self.getMenus();
+    selfLayout.getMenus();
 
 };

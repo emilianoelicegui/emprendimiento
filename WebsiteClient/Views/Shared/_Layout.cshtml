@@ -22,7 +22,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-    <div class="wrapper" id="layout">
+    <div class="wrapper">
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -148,7 +148,9 @@
         </nav>
         <!-- /.navbar -->
 
-        @await Html.PartialAsync("~/Views/Shared/_LayoutLeftMenu.cshtml")
+        <div id="_LayoutLeftMenu">
+            @await Html.PartialAsync("~/Views/Shared/_LayoutLeftMenu.cshtml")
+        </div>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -185,10 +187,26 @@
         <!-- Knockout js  -->
         <script src="~/js/knockout-3.5.1.js"></script>
         <script src="~/js/knockout.validation.js"></script>
-
+        <!-- Pace-progress js  -->
         <script src="~/lib/pace-progress/pace.min.js"></script>
+        <!-- InputMask -->
+        <script src="~/lib/moment/moment.min.js"></script>
+        <script src="~/lib/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 
         <script src="~/js/controller/_Layout/Layout.js"></script>
+
+        <script>
+            $(function () {
+
+                //Datemask dd/mm/yyyy
+                $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+                //Datemask2 mm/dd/yyyy
+                $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+                //Money Euro
+                $('[data-mask]').inputmask()
+
+            })
+        </script>
 
         <script>
 
@@ -201,9 +219,31 @@
                 }
             };
 
-            var self = new Layout({ error: 'Ocurrio un error al iniciar' });
+            var formatNumber = {
+                separador: ".", // separador para los miles
+                sepDecimal: ',', // separador para los decimales
+                formatear: function (num) {
+                    num += '';
+                    var splitStr = num.split('.');
+                    var splitLeft = splitStr[0];
+                    var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : ',00';
+                    var regx = /(\d+)(\d{3})/;
+                    while (regx.test(splitLeft)) {
+                        splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+                    }
+                    var formatSplitRight = splitRight.length == 2 ? splitRight.concat("0") : splitRight;
+                    var res = this.simbol + splitLeft + formatSplitRight;
+                    return res;
+                },
+                new: function (num, simbol) {
+                    this.simbol = simbol || '';
+                    return this.formatear(num);
+                }
+            };
 
-            ko.applyBindings(self, document.getElementById('layout'));
+            var selfLayout = new Layout({ error: 'Ocurrio un error al iniciar' });
+
+            ko.applyBindings(selfLayout, document.getElementById('_LayoutLeftMenu'));
 
         </script>
 

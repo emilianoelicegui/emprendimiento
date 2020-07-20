@@ -19,6 +19,7 @@ namespace WebsiteClient.Controllers.Api
             _productService = productService;
         }
 
+        #region GET 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -48,5 +49,26 @@ namespace WebsiteClient.Controllers.Api
                 return BadRequest();
             }
         }
+
+        #endregion GET
+
+        #region PUT 
+
+        [HttpPut("{id}/Delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var response = await _productService.Delete(id);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        #endregion PUT 
     }
 }
