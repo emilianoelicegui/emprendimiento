@@ -4,6 +4,7 @@ var Product = function (options) {
     var self = this;
 
     self.id = ko.observable("");
+    self.idCompany = ko.observable("");
     self.name = ko.observable("").extend({ required: { message: 'Ingrese un nombre' } });
     self.description = ko.observable("").extend({ required: { message: 'Ingrese una descripción' } });
     self.price = ko.observable("").extend({ numeric: 2, required: { message: 'Ingrese el precio' } });
@@ -76,27 +77,31 @@ var Product = function (options) {
 
     self.confirmSave = function () {
 
-        $.getJSON('/api/subcategory/GetAllByCategory?idCategory=' + self.id(),
-            function (data) {
+        var data = {
+            id: self.id(),
+            name: self.name(),
+            price: self.price(),
+            idCompany: 1,
+            description: self.description(),
+            isDolar: self.isDolar(),
+            isDelete: false
+        };
 
-                ko.utils.arrayPushAll(self.subCategorys, data);
-                //self.selectedTipoBeneficiario(0);
-            });
+        $.ajax({
+            url: `/api/product/Save`,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data), // access in body
+        }).done(function () {
+            table.ajax.reload(null, false);
+            $('#modal-crud').modal('hide');
+        }).fail(function (msg) {
 
-        $('#modal-delete-product').modal('hide');
+        });
 
     }
 
-    self.confirmDelete = function () {
-
-        //$.ajax({
-        //    url: `/api/product/${self.id()}/Delete`,
-        //    type: 'PUT',
-        //    success: function (result) {
-        //        table.ajax.reload(null, false);
-        //        $('#modal-delete').modal('hide');
-        //    }
-        //});    
+    self.confirmDelete = function () {  
 
         $.ajax({
             url: `/api/product/${self.id()}/Delete`,
@@ -112,10 +117,37 @@ var Product = function (options) {
 
     }
 
+    self.reset = function () {
+        self.id(0);
+        self.name("");
+        self.description("");
+        self.price("");
+        self.isDolar(false);
+    }
+
     openEdit = function (idEdit) {
 
+        self.reset();
         self.id(idEdit);
-        $('#modal-crud').modal('show');
+        
+        $.ajax({
+            url: `/api/product/${self.id()}`,
+            type: 'GET',
+            contentType: 'application/json',
+            //data: JSON.stringify(data), // access in body
+        }).done(function (response) {
+
+            var data = JSON.parse(JSON.stringify(response.data));
+
+            self.name(response.data.name);
+            self.description(data.description);
+            self.price(data.price);
+            self.isDolar(data.isDolar);
+
+            $('#modal-crud').modal('show');
+        }).fail(function (msg) {
+
+        });
 
     };
 

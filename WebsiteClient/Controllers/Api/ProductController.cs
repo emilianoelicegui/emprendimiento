@@ -20,6 +20,13 @@ namespace WebsiteClient.Controllers.Api
         }
 
         #region GET 
+
+        [HttpGet("{id}", Name = "Get")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Ok(await _productService.Get(id));
+        }
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -70,5 +77,24 @@ namespace WebsiteClient.Controllers.Api
         }
 
         #endregion PUT 
+
+        #region POST
+
+        [HttpPost("Save")]
+        public async Task<IActionResult> Save([FromBody] SaveProductRequest rq)
+        {
+            var response = await _productService.Save(rq);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        #endregion POST
     }
 }

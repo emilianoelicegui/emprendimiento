@@ -12,8 +12,10 @@ namespace WebsiteClient.Services
 {
     public interface IProductService
     {
+        Task<ServiceResponse> Get(int idProduct);
         Task<ServiceResponse> GetProducts();
         Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int draw, int start, int length);
+        Task<ServiceResponse> Save(SaveProductRequest rq);
         Task<ServiceResponse> Delete(int id);
     }
     public class ProductService : IProductService
@@ -23,6 +25,14 @@ namespace WebsiteClient.Services
         public ProductService(ProxyHttpClient proxyHttpClient)
         {
             _proxyHttpClient = proxyHttpClient;
+        }
+
+        public async Task<ServiceResponse> Get(int idProduct)
+        {
+            var response = await _proxyHttpClient.GetAsync($"product/{idProduct}");
+
+            return response;
+
         }
 
         public async Task<ServiceResponse> GetProducts()
@@ -35,6 +45,13 @@ namespace WebsiteClient.Services
         public async Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int draw, int start, int length)
         {
             var response = await _proxyHttpClient.GetAsync($"product/GetAllByCompany?name={name}&idCompany{idCompany}?draw={draw}&start={start}&length={length}");
+
+            return response;
+        }
+
+        public async Task<ServiceResponse> Save(SaveProductRequest rq)
+        {
+            var response = await _proxyHttpClient.PostAsync($"product/save", rq);
 
             return response;
         }
