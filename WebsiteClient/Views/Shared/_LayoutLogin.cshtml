@@ -1,0 +1,57 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 3 | Iniciar Sesión</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/Content/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro --> 
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition login-page">
+
+    @RenderBody()
+
+    <!-- jQuery -->
+    <script src="~/Content/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Content/dist/js/adminlte.min.js"></script>
+    <!-- Knockout js  -->
+    <script src="~/js/knockout-3.5.1.js"></script>
+    <script src="~/js/knockout.validation.js"></script>
+
+    <script>
+        var urlApi = "http://localhost:61204/";
+
+        $.postJSON = function (url, data, callback) {
+            return jQuery.ajax({
+                'type': 'POST',
+                'url': url,
+                'contentType': 'application/json',
+                'data': data,
+                'dataType': 'json',
+                'success': callback
+            });
+        };
+    </script>
+
+
+    @RenderSection("Scripts", false)
+
+</body>
+</html>

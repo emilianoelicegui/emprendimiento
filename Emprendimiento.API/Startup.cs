@@ -1,3 +1,5 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,9 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Repositories.Layer;
 using Services.Layer;
 using Services.Layer.Auth;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Emprendimiento.API
 {
@@ -35,14 +40,53 @@ namespace Emprendimiento.API
                     });
             });
 
+            //para generar el token (rompe sin esto) 
             IdentityModelEventSource.ShowPII = true;
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = false,
+                        SignatureValidator = delegate (string token, TokenValidationParameters parameters)
+                        {
+                            var jwt = new JwtSecurityToken(token);
+
+                            return jwt;
+                        },
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                    };
+                });
+
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IRepositoryAuth, RepositoryAuth>();
             services.AddScoped<IAuthService, AuthService>();
 
-            services.AddScoped<IRepositoryMenu, RepositoryMenu>();
-            services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IRepositoryGeneric, RepositoryGeneric>();
+            services.AddScoped<IGenericService, GenericService>();
+
+            services.AddScoped<IRepositoryCompany, RepositoryCompany>();
+            services.AddScoped<ICompanyService, CompanyService>();
             
+            services.AddScoped<IRepositoryProduct, RepositoryProduct>();
+            services.AddScoped<IProductService, ProductService>();
+
+            services.AddScoped<IRepositoryProvider, RepositoryProvider>();
+            services.AddScoped<IProviderService, ProviderService>();
+
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
@@ -64,9 +108,12 @@ namespace Emprendimiento.API
             }
 
             app.UseRouting();
-            
-            app.UseCors("AllowAny");
-            
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseAuthentication();
 
             app.UseAuthorization();
