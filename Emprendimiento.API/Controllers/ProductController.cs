@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Services.Layer;
 using Shared.Layer;
 
@@ -76,8 +77,10 @@ namespace Emprendimiento.API.Controllers
 
                 if (response.Status != true)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al realizar la solicitud");
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al realizar la solicitud" );
                 }
+
+                response.SuccessMessage = "El producto se registró correctamente."; 
 
                 return Ok(response);
             }

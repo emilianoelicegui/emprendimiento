@@ -25,32 +25,6 @@ var Login = function (options) {
         }
     }
 
-    self.login = function () {
-                //NProgress.start();
-        $.post('/api/account/login',
-            { email: self.email(), password: self.password() }
-        )
-            .done(function (data) {
-                //NProgress.done();
-
-                console.log(JSON.stringify(data));
-                if (data.status === true) {
-                    location.href = '/products';
-                }
-                else {
-                    alert("Error");
-                    //$("#email").focus();
-                }
-
-
-            })
-            .fail(function (err) {
-                //NProgress.done();
-
-                self.message("Usuario o contraseña incorrecta");
-            });
-    }
-
     self.authenticate = function () {
         $.ajax({
             method: "POST",
@@ -61,49 +35,21 @@ var Login = function (options) {
         })
             .done(function (data) {
                 debugger;
-                console.log(JSON.stringify(data));
                 //hago lo que tengo que hacer con la info del endpoint
                     //location.href = '/';
                     //alert(data.errors.errorMessage);
 
                 self.errorUser(false);
-                location.href = '/product';
+                location.href = '/';
                 
             })
             .fail(function (err) {
-                debugger;
-                console.log(err);
                 //self.message("Usuario o contraseña incorrecta");
                 self.errorUser(true);
                 self.loginFailed(err.responseText);
 
             });
 
-
-        ////NProgress.start();
-        //$.post(urlApi + 'api/auth/login',
-        //    { email: self.email(), password: self.password() }
-        //)
-        //    .done(function (data) {
-        //        //NProgress.done();
-
-        //        console.log(JSON.stringify(data));
-        //        if (data === true) {
-
-        //            location.href = '/';
-        //        }
-        //        else {
-        //            alert("Error");
-        //            //$("#email").focus();
-        //        }
-
-
-        //    })
-        //    .fail(function (err) {
-        //        //NProgress.done();
-
-        //        self.message("Usuario o contraseña incorrecta");
-        //    });
     }
 
 };

@@ -76,5 +76,11 @@ namespace WebsiteClient.Controllers.Api
                 new ClaimsPrincipal(claimsIdentity), authProperties);
 
         }
+
+        [HttpGet("SignOut")]
+        public async void SignOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
     }
 }

@@ -34,6 +34,11 @@ var Layout = function (options) {
             });
     }
 
+    selfLayout.out = function () {
+        $.getJSON("/api/account/SignOut");
+        location.href = '/Account/Login';
+    }
+
     selfLayout.getMenus();
 
 };
