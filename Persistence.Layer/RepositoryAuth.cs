@@ -15,7 +15,6 @@ namespace Repositories.Layer
     {
         private readonly ApplicationDbContext _context;
 
-
         public RepositoryAuth(ApplicationDbContext context)
         {
             _context = context;
@@ -26,7 +25,6 @@ namespace Repositories.Layer
             return await _context.Users
                        .Where(x => x.Email == rq.Email && x.Password == rq.Password)
                        .Include(u => u.Rol)
-                       .Include(r => r.Rol.Menus)
                        .FirstOrDefaultAsync();
         }
 

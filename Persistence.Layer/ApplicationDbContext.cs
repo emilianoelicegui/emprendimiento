@@ -14,8 +14,12 @@ namespace Repositories.Layer
         }
 
         public DbSet<Menu> Menus { get; set; }
+        public DbSet<MenuRol> MenuRol { get; set; }
         public DbSet<Rol> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Provider> Providers { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,8 +30,12 @@ namespace Repositories.Layer
         private void ModelConfig(ModelBuilder modelBuilder)
         {
             new MenuConfig(modelBuilder.Entity<Menu>());
+            new MenuRolConfig(modelBuilder.Entity<MenuRol>());
             new RolConfig(modelBuilder.Entity<Rol>());
             new UserConfig(modelBuilder.Entity<User>());
+            new ProductConfig(modelBuilder.Entity<Product>());
+            new ProviderConfig(modelBuilder.Entity<Provider>());
+            new CompanyConfig(modelBuilder.Entity<Company>());
         }
     }
 }

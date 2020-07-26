@@ -1,0 +1,155 @@
+﻿
+@{
+    ViewData["Title"] = "Products";
+    ViewData["Name"] = "Productos";
+
+    ViewData["EditModal"] = "Gestionar Producto";
+    ViewData["DeleteModal"] = "Eliminar Producto";
+}
+
+<!-- Datatables -->
+<link href="~/lib/datatable/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
+<link href="~/lib/datatable/datatables-responsive/css/responsive.bootstrap4.css" rel="stylesheet" />
+
+<div id="products-index">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">@ViewData["Name"]</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/Home">Home</a></li>
+                        <li class="breadcrumb-item active">@ViewData["Name"]</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        @*<div class="card-header">
+                                <h3 class="card-title">DataTable with minimal features & hover style</h3>
+                                <button type="button" class="btn btn-block btn-primary"><i class="fas fa-edit"></i> Nuevo</button>
+                            </div>*@
+                        <div class="card-header d-flex p-0">
+                            <h3 class="card-title p-3">
+                                <i class="fas fa-edit"></i> Listado
+                            </h3>
+                            <div class="ml-auto p-2">
+                                <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-crud" data-bind="click: reset">
+                                    <i class="fas fa-edit"></i> Nuevo
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="table-Products" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Sucursal</th>
+                                        <th>Precio</th>
+                                        <th>Moneda</th>
+                                        <th width="100"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Sucursal</th>
+                                        <th>Precio</th>
+                                        <th>Moneda</th>
+                                        <th width="100"></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+
+    <div class="modal fade" id="modal-crud" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@ViewData["EditModal"]</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Products/Crud.cshtml")
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: confirmSave">Guardar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="modal-delete" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@ViewData["DeleteModal"]</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar este registro?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" data-bind="click: confirmDelete">Eliminar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</div>
+
+@section Scripts{
+    <!-- Datatables -->
+    <script src="~/lib/datatable/datatables/jquery.dataTables.js"></script>
+    <script src="~/lib/datatable/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/lib/datatable/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="~/lib/datatable/datatables-responsive/js/responsive.bootstrap4.js"></script>
+
+    <script src="~/js/controller/Products/Index.js"></script>
+    <script>
+
+        var self = new Product({ message: 'Complete los datos para iniciar', tableId: 'table-Products' });
+
+        ko.applyBindings(self, document.getElementById('products-index'));
+
+    </script>
+
+}

@@ -1,8 +1,10 @@
-﻿using Domain.Dto.Layer;
+﻿using AutoMapper;
+using Domain.Dto.Layer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Layer;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,23 +14,28 @@ namespace Services.Layer.Auth
 {
     public interface IAuthService
     {
-        Task<ServiceResponse> Authenticate(LoginRequestDto rq);
+        Task<LoginResponseDto> Authenticate(LoginRequestDto rq);
     }
 
     public class AuthService : IAuthService
     {
         private readonly IRepositoryAuth _repositoryAuth;
+        private readonly IRepositoryGeneric _repositoryGeneric;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
-        public AuthService(IRepositoryAuth repositoryAuth, IConfiguration configuration)
+        public AuthService(IRepositoryAuth repositoryAuth, IRepositoryGeneric repositoryGeneric, IConfiguration configuration, IMapper mapper)
         {
             _repositoryAuth = repositoryAuth;
+            _repositoryGeneric = repositoryGeneric;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
-        public async Task<ServiceResponse> Authenticate(LoginRequestDto rq)
+        public async Task<LoginResponseDto> Authenticate(LoginRequestDto rq)
         {
             var sr = new ServiceResponse();
+            var response = new LoginResponseDto();
 
             var secretKey = _configuration.GetValue<string>("SecretKey");
             var key = Encoding.ASCII.GetBytes(secretKey);
@@ -41,14 +48,15 @@ namespace Services.Layer.Auth
                 {
                     sr.AddError("El usuario no existe o se encuentra bloqueado");
 
-                    return sr;
+                    return response;
                 }
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[] {
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Email, user.Email)
+                        new Claim("id", user.Id.ToString()),
+                        new Claim("email", user.Email),
+                        new Claim("idRol", user.Rol.Id.ToString())
                     }),
                     Expires = DateTime.Now.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -58,15 +66,18 @@ namespace Services.Layer.Auth
                 var tokenCreated = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(tokenCreated);
 
-                var response = new LoginResponseDto
+                var result = new LoginResponseDto
                 {
                     Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
                     Email = user.Email,
-                    IdRol = user.IdRol,
+                    Rol = _mapper.Map<RolDto>(user.Rol),
                     Token = token
                 };
 
-                sr.Data = response;
+                //sr.Data = response;
+                response = result;
 
             }
             catch (Exception ex)
@@ -74,7 +85,7 @@ namespace Services.Layer.Auth
                 sr.AddError(ex);
             }
 
-            return sr;
+            return response;
         }
     }
 

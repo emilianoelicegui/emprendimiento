@@ -5,7 +5,7 @@ namespace Domain.Dto.Layer
 {
     public class RolDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public List<MenuDto> Menus { get; set; }
     }
 }

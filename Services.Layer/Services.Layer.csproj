@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain.Dto.Layer\Domain.Dto.Layer.csproj" />
     <ProjectReference Include="..\Domain.Layer\Domain.Layer.csproj" />
     <ProjectReference Include="..\Persistence.Layer\Repositories.Layer.csproj" />
