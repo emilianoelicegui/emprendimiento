@@ -21,19 +21,23 @@ namespace Emprendimiento.API.Controllers
             _companyService = companyService;
         }
 
+        #region GET
+
         [HttpGet("{id}", Name = "GetCompany")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _companyService.Get(id));
         }
 
-        [HttpGet("List", Name = "GetCompanies")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("ListByUser", Name = "GetAllCompanysByUser")]
+        public async Task<IActionResult> GetAllByUser()
         {
 
             var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 
-            return Ok(await _companyService.GetAll(idUser));
+            return Ok(await _companyService.GetAllByUser(idUser));
         }
+
+        #endregion GET
     }
 }

@@ -15,6 +15,7 @@ namespace Domain.Layer
         public int Number { get; set; }
         public string Street { get; set; }
         public int IdUser { get; set; }
+        public bool IsPrincipal { get; set; }
         public User User { get; set; }
         public List<Product> Products { get; set; }
     }

@@ -10,7 +10,7 @@ namespace Repositories.Layer
     public interface IRepositoryCompany
     {
         Task<Company> Get(int idCompany);
-        Task<IEnumerable<Company>> GetAll(int idUser);
+        Task<IEnumerable<Company>> GetAllByUser(int idUser);
     }
 
     public class RepositoryCompany : IRepositoryCompany
@@ -23,6 +23,8 @@ namespace Repositories.Layer
             _context = context;
         }
 
+        #region GET
+
         public async Task<Company> Get(int idCompany)
         {
             return await _context.Companies
@@ -30,12 +32,15 @@ namespace Repositories.Layer
                        .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Company>> GetAll(int idUser)
+        public async Task<IEnumerable<Company>> GetAllByUser(int idUser)
         {
             return await _context.Companies
                        .Where(x => x.IdUser == idUser)
+                       .OrderBy(x => x.NameFantasy)
                        .ToListAsync();
         }
+
+        #endregion GET
 
     }
 }

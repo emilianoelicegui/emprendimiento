@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Domain.Dto.Layer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Layer;
 using WebsiteClient.Services;
 
 namespace WebsiteClient.Controllers.Api
@@ -45,7 +45,10 @@ namespace WebsiteClient.Controllers.Api
         [HttpGet("GetAllByCompany")]
         public async Task<IActionResult> GetAllByCompany(string name, int? idCompany, int draw, int start, int length)
         {
-            var response = await _productService.GetAllByCompany(name, idCompany, draw, start, length);
+            //si quiero traer todos los productos de la company mando un 0, sino null
+            var selectCompany = idCompany == 0 ? int.Parse(null) : HttpContext.User.FindFirst("IdCompany").Value.ToInt();
+
+            var response = await _productService.GetAllByCompany(name, selectCompany, draw, start, length);
 
             if (response != null)
             {
@@ -83,6 +86,8 @@ namespace WebsiteClient.Controllers.Api
         [HttpPost("Save")]
         public async Task<IActionResult> Save([FromBody] SaveProductRequest rq)
         {
+            rq.IdCompany = HttpContext.User.FindFirst("IdCompany").Value.ToInt();
+
             var response = await _productService.Save(rq);
 
             if (response != null)

@@ -83,7 +83,6 @@ var Product = function (options) {
             id: self.id(),
             name: self.name(),
             price: self.price(),
-            idCompany: 1,
             description: self.description(),
             isDolar: self.isDolar(),
             isDelete: false
@@ -103,7 +102,7 @@ var Product = function (options) {
 
                 var data = JSON.parse(JSON.stringify(response));
 
-                table.ajax.reload(null, false);
+                table.ajax.reload(true, false);
                 ShowAlert(data.successMessage, 1);
 
                 $('#modal-crud').modal('hide');
@@ -124,7 +123,7 @@ var Product = function (options) {
             contentType: 'application/json',
             //data: JSON.stringify(data), // access in body
         }).done(function () {
-            table.ajax.reload(null, false);
+            table.ajax.reload(true, false);
             $('#modal-delete').modal('hide');
         }).fail(function (msg) {
 

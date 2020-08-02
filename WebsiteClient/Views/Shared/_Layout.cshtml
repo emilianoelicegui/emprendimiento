@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,6 +25,12 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <link rel="stylesheet" href="~/lib/pace-progress/themes/blue/pace-theme-flat-top.css">
+
+    <style>
+        table.dataTable.dataTable_width_auto {
+            width: auto;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -35,19 +45,22 @@
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
+
+                    <!-- Select company -->
+                    <li class="nav-item dropdown">
+                        <a id="selectCompany" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+                            @HttpContextAccessor.HttpContext.User.FindFirst("NameCompany").Value
+                        </a>
+                        <ul aria-labelledby="selectCompany" class="dropdown-menu border-0 shadow" data-bind="foreach: companys" style="left: 0px; right: inherit;">
+                            <li>
+                                <a data-bind="attr: { href: '#'}, text: nameFantasy, click: $parent.setCompany.bind($data, id, nameFantasy)" class="dropdown-item"></a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
-                    <!-- Select company -->
-                    <li class="nav-item dropdown">
-                        <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
-                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-                            <li><a href="#" class="dropdown-item">Some action </a></li>
-                            <li><a href="#" class="dropdown-item">Some other action</a></li>
-                        </ul>
-                    </li>
-
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">

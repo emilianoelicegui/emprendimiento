@@ -33,11 +33,11 @@ var Login = function (options) {
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         })
-            .done(function (data) {
+            .done(function (response) {
+
                 debugger;
-                //hago lo que tengo que hacer con la info del endpoint
-                    //location.href = '/';
-                    //alert(data.errors.errorMessage);
+
+                var data = JSON.stringify(response.data);
 
                 self.errorUser(false);
                 location.href = '/';

@@ -45,6 +45,7 @@ namespace WebsiteClient
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IGenericService, GenericService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICompanyService, CompanyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

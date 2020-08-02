@@ -44,7 +44,7 @@ namespace WebsiteClient.Services
 
         public async Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int draw, int start, int length)
         {
-            var response = await _proxyHttpClient.GetAsync($"product/GetAllByCompany?name={name}&idCompany{idCompany}?draw={draw}&start={start}&length={length}");
+            var response = await _proxyHttpClient.GetAsync($"product/GetAllByCompany?name={name}&idCompany={idCompany}&draw={draw}&start={start}&length={length}");
 
             return response;
         }

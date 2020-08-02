@@ -7,7 +7,7 @@ namespace WebsiteClient.Services
 {
     public interface IAccountService
     {
-        Task<LoginResponseDto> Authenticate(LoginRequestDto rq);
+        Task<ServiceResponse> Authenticate(LoginRequestDto rq);
     }
     public class AccountService : IAccountService
     {
@@ -18,7 +18,7 @@ namespace WebsiteClient.Services
             _proxyHttpClient = proxyHttpClient;
         }
 
-        public async Task<LoginResponseDto> Authenticate(LoginRequestDto model)
+        public async Task<ServiceResponse> Authenticate(LoginRequestDto model)
         {
             var response = await _proxyHttpClient.PostLoginAsync("auth/login", model);
 

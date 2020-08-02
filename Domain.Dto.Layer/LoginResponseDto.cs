@@ -10,5 +10,6 @@ namespace Domain.Dto.Layer
         public string Token { get; set; }
 
         public RolDto Rol { get; set; }
+        public CompanyLoginDto Company { get; set; }
     }
 }

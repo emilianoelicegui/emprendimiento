@@ -25,6 +25,7 @@ namespace Repositories.Layer
             return await _context.Users
                        .Where(x => x.Email == rq.Email && x.Password == rq.Password)
                        .Include(u => u.Rol)
+                       .Include(c => c.Companys)
                        .FirstOrDefaultAsync();
         }
 

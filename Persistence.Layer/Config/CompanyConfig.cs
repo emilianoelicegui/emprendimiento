@@ -1,5 +1,6 @@
 ﻿
 using Domain.Layer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Repositories.Layer.Config
@@ -15,6 +16,7 @@ namespace Repositories.Layer.Config
             entityBuilder.Property(x => x.CodePostal).IsRequired();
             entityBuilder.Property(x => x.Street).IsRequired().HasMaxLength(150);
             entityBuilder.Property(x => x.Number).IsRequired();
+            entityBuilder.Property(x => x.IsPrincipal).IsRequired().HasDefaultValue(false);
         }
     }
 }

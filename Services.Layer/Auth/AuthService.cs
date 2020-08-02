@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Domain.Dto.Layer;
+using Domain.Layer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Layer;
+using Shared.Layer;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +17,7 @@ namespace Services.Layer.Auth
 {
     public interface IAuthService
     {
-        Task<LoginResponseDto> Authenticate(LoginRequestDto rq);
+        Task<ServiceResponse> Authenticate(LoginRequestDto rq);
     }
 
     public class AuthService : IAuthService
@@ -32,33 +35,47 @@ namespace Services.Layer.Auth
             _mapper = mapper;
         }
 
-        public async Task<LoginResponseDto> Authenticate(LoginRequestDto rq)
+        public async Task<ServiceResponse> Authenticate(LoginRequestDto rq)
         {
             var sr = new ServiceResponse();
-            var response = new LoginResponseDto();
 
             var secretKey = _configuration.GetValue<string>("SecretKey");
             var key = Encoding.ASCII.GetBytes(secretKey);
 
             try
             {
+                var CompanyDto = new Company();
                 var user = await _repositoryAuth.Authenticate(rq);
 
                 if (user == null || user.IsDelete || user.IsLocked)
                 {
                     sr.AddError("El usuario no existe o se encuentra bloqueado");
 
-                    return response;
+                    return sr;
+                }
+
+                if (user.Companys.IsNullOrEmpty())
+                {
+                    sr.AddError("El usuario no tiene sucursales activas");
+
+                    return sr;
+                }
+                else
+                {
+                    CompanyDto = user.Companys.Where(x => x.IsPrincipal == true).FirstOrDefault() != null ?
+                                 user.Companys.Where(x => x.IsPrincipal == true).First() :
+                                 user.Companys.First();
                 }
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[] {
                         new Claim("id", user.Id.ToString()),
-                        new Claim("email", user.Email),
-                        new Claim("idRol", user.Rol.Id.ToString())
+                        new Claim("email", user.Email.Trim()),
+                        new Claim("idRol", user.Rol.Id.ToString()),
+                        new Claim("idCompany", CompanyDto.Id.ToString())
                     }),
-                    Expires = DateTime.Now.AddDays(1),
+                    Expires = DateTime.Now.AddHours(6),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
 
@@ -66,26 +83,25 @@ namespace Services.Layer.Auth
                 var tokenCreated = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(tokenCreated);
 
-                var result = new LoginResponseDto
+                var response = new LoginResponseDto
                 {
                     Id = user.Id,
                     Name = user.Name,
                     Surname = user.Surname,
                     Email = user.Email,
                     Rol = _mapper.Map<RolDto>(user.Rol),
+                    Company = _mapper.Map<CompanyLoginDto>(CompanyDto),
                     Token = token
                 };
 
-                //sr.Data = response;
-                response = result;
-
+                sr.Data = response;
             }
             catch (Exception ex)
             {
                 sr.AddError(ex);
             }
 
-            return response;
+            return sr;
         }
     }
 

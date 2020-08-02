@@ -51,7 +51,7 @@ namespace WebsiteClient.Common
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
 
-        public async Task<LoginResponseDto> PostLoginAsync<T>(string requestUrl, T content)
+        public async Task<ServiceResponse> PostLoginAsync<T>(string requestUrl, T content)
         {
             var _httpClient = Get(requestUrl);
 
@@ -59,7 +59,7 @@ namespace WebsiteClient.Common
             response.EnsureSuccessStatusCode();
 
             var data = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<LoginResponseDto>(data);
+            return JsonConvert.DeserializeObject<ServiceResponse>(data);
         }
 
         public async Task<ServiceResponse> PostAsync<T>(string requestUrl, T content)

@@ -10,7 +10,7 @@ namespace Services.Layer
     public interface ICompanyService
     {
         Task<ServiceResponse> Get(int idCompany);
-        Task<ServiceResponse> GetAll(int idUser);
+        Task<ServiceResponse> GetAllByUser(int idUser);
     }
     public class CompanyService : ICompanyService
     {
@@ -22,6 +22,8 @@ namespace Services.Layer
             _repositoryCompany = repositoryCompany;
             _mapper = mapper;
         }
+
+        #region GET
 
         public async Task<ServiceResponse> Get(int idCompany)
         {
@@ -40,13 +42,13 @@ namespace Services.Layer
         }
 
 
-        public async Task<ServiceResponse> GetAll(int idUser)
+        public async Task<ServiceResponse> GetAllByUser(int idUser)
         {
             var sr = new ServiceResponse();
 
             try
             {
-                sr.Data = _mapper.Map<IEnumerable<CompanyLoginDto>>(await _repositoryCompany.GetAll(idUser));
+                sr.Data = _mapper.Map<IEnumerable<CompanyLoginDto>>(await _repositoryCompany.GetAllByUser(idUser));
             }
             catch (Exception ex)
             {
@@ -55,5 +57,7 @@ namespace Services.Layer
 
             return sr;
         }
+
+        #endregion GET
     }
 }
