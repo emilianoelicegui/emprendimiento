@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.Dto.Layer;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Services.Layer.Auth;
+using Emprendimiento.API.Services.Auth;
+using Domain.Dto.Layer;
 using Shared.Layer;
 
 namespace Emprendimiento.API.Auth

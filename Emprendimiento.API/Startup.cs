@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -8,10 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Repositories.Layer;
-using Services.Layer;
-using Services.Layer.Auth;
-using System;
+using Emprendimiento.API.Repositories;
+using Emprendimiento.API.Services;
+using Emprendimiento.API.Services.Auth;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Emprendimiento.API

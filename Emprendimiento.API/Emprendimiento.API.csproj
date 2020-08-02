@@ -18,8 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Persistence.Layer\Repositories.Layer.csproj" />
-    <ProjectReference Include="..\Services.Layer\Services.Layer.csproj" />
+    <ProjectReference Include="..\Domain.Dto.Layer\Domain.Dto.Layer.csproj" />
+    <ProjectReference Include="..\Domain.Layer\Domain.Layer.csproj" />
+    <ProjectReference Include="..\Shared.Layer\Shared.Layer.csproj" />
   </ItemGroup>
 
 </Project>

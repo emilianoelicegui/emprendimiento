@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.Layer
 {
@@ -11,6 +12,7 @@ namespace Domain.Layer
         public string Image { get; set; }
         public bool IsLocked { get; set; }
         public int IdRol { get; set; }
+        public DateTime LastStart { get; set; }
         public Rol Rol { get; set; }
         public List<Company> Companys { get; set; }
         public List<Provider> Providers { get; set; }
