@@ -25,6 +25,7 @@ namespace WebsiteClient.Common
 
         public static async Task<UserDto> GetUserContext(this HttpContext _httpContext)
         {
+            
             return new UserDto()
             {
                 Id =        _httpContext.User.FindFirst("Id").Value.ToInt(),
