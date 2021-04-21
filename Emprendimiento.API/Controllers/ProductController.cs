@@ -42,13 +42,13 @@ namespace Emprendimiento.API.Controllers
 
         //busqueda de productos con filtros 
         [HttpGet("GetAllByCompany")]
-        public async Task<IActionResult> GetAllByCompany(string name, int? idCompany, int draw, int start, int length)
+        public async Task<IActionResult> GetAllByCompany(string name, int? idCompany, int start, int length)
         {
             try
             {
                 var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 
-                var response = await _productService.GetAllByCompany(name, idCompany, idUser, draw, start, length);
+                var response = await _productService.GetAllByCompany(name, idCompany, idUser, start, length);
 
                 if (response.Status != true)
                 {
@@ -77,7 +77,7 @@ namespace Emprendimiento.API.Controllers
 
                 if (response.Status != true)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al realizar la solicitud" );
+                    return StatusCode(StatusCodes.Status500InternalServerError, response);
                 }
 
                 response.SuccessMessage = "El producto se registró correctamente."; 

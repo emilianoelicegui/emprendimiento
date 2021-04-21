@@ -15,7 +15,7 @@ namespace Emprendimiento.API.Services
         Task<ServiceResponse> Get(int idProduct);
         Task<ServiceResponse> GetAllByUser(int idUser);
         Task<ServiceResponse> Save(SaveProductRequest rq);
-        Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int idUser, int draw, int start, int length);
+        Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int idUser, int start, int length);
         Task<ServiceResponse> Delete(int idProduct);
     }
     public class ProductService : IProductService
@@ -67,7 +67,7 @@ namespace Emprendimiento.API.Services
 
         #region POST
 
-        public async Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int idUser, int draw, int start, int length)
+        public async Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int idUser, int start, int length)
         {
             var sr = new ServiceResponse();
 
@@ -77,7 +77,6 @@ namespace Emprendimiento.API.Services
 
                 sr.Data = new
                 {
-                    draw,
                     recordsTotal = results.Count(),
                     recordsFiltered = results.Count(),
                     data = results

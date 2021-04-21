@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Emprendimiento.API.Services.Auth;
 using Domain.Dto.Layer;
 using Shared.Layer;
+using System;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace Emprendimiento.API.Auth
 {
@@ -25,9 +28,23 @@ namespace Emprendimiento.API.Auth
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginRequestDto model)
         {
-            model.Password = model.Password.ToMd5();
+            try
+            {
+                model.Password = model.Password.ToMd5();
 
-            return Ok(await _authService.Authenticate(model));
+                var response = await _authService.Authenticate(model);
+
+                if (!response.Status)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, response.Errors.First().ErrorMessage);
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
