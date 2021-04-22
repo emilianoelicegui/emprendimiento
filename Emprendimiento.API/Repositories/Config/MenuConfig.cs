@@ -10,8 +10,8 @@ namespace Emprendimiento.API.Repositories.Config
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.Name).IsRequired().HasMaxLength(50);
-            entityBuilder.Property(x => x.Url).IsRequired();
-            entityBuilder.Property(x => x.Icon).IsRequired();
+            entityBuilder.Property(x => x.Url).IsRequired().HasMaxLength(255);
+            entityBuilder.Property(x => x.Icon).IsRequired().HasMaxLength(100);
         }
     }
 }

@@ -1,17 +1,35 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Emprendimiento.API.Repositories.Migrations
+namespace Emprendimiento.API.Migrations
 {
-    public partial class Init : Migration
+    public partial class mysql : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Menus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IsDelete = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Url = table.Column<string>(maxLength: 255, nullable: false),
+                    Icon = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menus", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 150, nullable: false)
                 },
@@ -21,22 +39,26 @@ namespace Emprendimiento.API.Repositories.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Menus",
+                name: "MenuRol",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDelete = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Url = table.Column<string>(nullable: false),
-                    Icon = table.Column<string>(nullable: false),
+                    IdMenu = table.Column<int>(nullable: false),
                     IdRol = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Menus", x => x.Id);
+                    table.PrimaryKey("PK_MenuRol", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Menus_Roles_IdRol",
+                        name: "FK_MenuRol_Menus_IdMenu",
+                        column: x => x.IdMenu,
+                        principalTable: "Menus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MenuRol_Roles_IdRol",
                         column: x => x.IdRol,
                         principalTable: "Roles",
                         principalColumn: "Id",
@@ -48,7 +70,7 @@ namespace Emprendimiento.API.Repositories.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Surname = table.Column<string>(maxLength: 50, nullable: false),
@@ -56,7 +78,8 @@ namespace Emprendimiento.API.Repositories.Migrations
                     Password = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true),
                     IsLocked = table.Column<bool>(nullable: false),
-                    IdRol = table.Column<int>(nullable: false)
+                    IdRol = table.Column<int>(nullable: false),
+                    LastStart = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,7 +97,7 @@ namespace Emprendimiento.API.Repositories.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDelete = table.Column<bool>(nullable: false),
                     NameFantasy = table.Column<string>(maxLength: 150, nullable: false),
                     Cuit = table.Column<long>(nullable: false),
@@ -84,7 +107,8 @@ namespace Emprendimiento.API.Repositories.Migrations
                     Department = table.Column<string>(nullable: true),
                     Number = table.Column<int>(nullable: false),
                     Street = table.Column<string>(maxLength: 150, nullable: false),
-                    IdUser = table.Column<int>(nullable: false)
+                    IdUser = table.Column<int>(nullable: false),
+                    IsPrincipal = table.Column<bool>(nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -102,7 +126,7 @@ namespace Emprendimiento.API.Repositories.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 150, nullable: false),
                     Cuit = table.Column<long>(nullable: false),
@@ -131,7 +155,7 @@ namespace Emprendimiento.API.Repositories.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(nullable: true),
@@ -156,8 +180,13 @@ namespace Emprendimiento.API.Repositories.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Menus_IdRol",
-                table: "Menus",
+                name: "IX_MenuRol_IdMenu",
+                table: "MenuRol",
+                column: "IdMenu");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MenuRol_IdRol",
+                table: "MenuRol",
                 column: "IdRol");
 
             migrationBuilder.CreateIndex(
@@ -179,13 +208,16 @@ namespace Emprendimiento.API.Repositories.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Menus");
+                name: "MenuRol");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Providers");
+
+            migrationBuilder.DropTable(
+                name: "Menus");
 
             migrationBuilder.DropTable(
                 name: "Companies");
