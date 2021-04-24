@@ -13,6 +13,7 @@ using Emprendimiento.API.Repositories;
 using Emprendimiento.API.Services;
 using Emprendimiento.API.Services.Auth;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.OpenApi.Models;
 
 namespace Emprendimiento.API
 {
@@ -70,6 +71,53 @@ namespace Emprendimiento.API
                     };
                 });
 
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Chat API",
+                    Description = "Chat API Swagger Surface",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "João Victor Ignacio",
+                        Email = "ignaciojvig@gmail.com",
+                        Url = new Uri("https://www.linkedin.com/in/ignaciojv/")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT",
+                        Url = new Uri("https://github.com/ignaciojvig/ChatAPI/blob/master/LICENSE")
+                    }
+
+                });
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }   
+                });
+
+            });
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -88,7 +136,6 @@ namespace Emprendimiento.API
             services.AddScoped<IRepositoryProvider, RepositoryProvider>();
             services.AddScoped<IProviderService, ProviderService>();
 
-
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 {
@@ -96,8 +143,6 @@ namespace Emprendimiento.API
                     options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
                     options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Unspecified;
                 });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,6 +152,19 @@ namespace Emprendimiento.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = true;
+            });
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseRouting();
 
