@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Shared.Layer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Domain.Dto.Layer
 {
@@ -65,6 +67,24 @@ namespace Domain.Dto.Layer
             get { return (!Errors.Any(x => x.ErrorLevel == ServiceErrorLevel.VALIDATION_ERROR || x.ErrorLevel == ServiceErrorLevel.EXCEPTION)); }
         }
 
+        int _statusCode = 0;
+
+        [JsonIgnore]
+        public int StatusCode
+        {
+            get
+            {
+                if (Errors.Count > 0 && Errors.Any(x => x.ErrorLevel == ServiceErrorLevel.VALIDATION_ERROR))
+                    _statusCode = Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest;
+
+                if (Errors.Count > 0 && Errors.Any(x => x.ErrorLevel == ServiceErrorLevel.EXCEPTION))
+                    _statusCode = Microsoft.AspNetCore.Http.StatusCodes.Status500InternalServerError;
+
+                return _statusCode;
+            }
+            set { _statusCode = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -72,6 +92,11 @@ namespace Domain.Dto.Layer
         public void AddWarning(string warningMessage)
         {
             WarningMessage = warningMessage;
+        }
+
+        public void AddSuccess(OKResponse succesCode)
+        {
+            SuccessMessage = Enums.OKResponseMessage.First(m => m.Key == OKResponse.GetProduct).Value;
         }
 
         public void AddError(Exception ex)
@@ -84,20 +109,20 @@ namespace Domain.Dto.Layer
             Errors.Add(new ServiceError(errorMessage));
         }
 
-        public void AddError(string errorCode, string errorMessage)
-        {
-            Errors.Add(new ServiceError(errorCode, errorMessage));
-        }
+        //public void AddError(string errorCode, string errorMessage)
+        //{
+        //    Errors.Add(new ServiceError(errorCode, errorMessage));
+        //}
 
-        public void AddError(string errorCode, string errorMessage, ServiceErrorLevel errorLevel)
-        {
-            Errors.Add(new ServiceError(errorCode, errorMessage, errorLevel));
-        }
+        //public void AddError(string errorCode, string errorMessage, ServiceErrorLevel errorLevel)
+        //{
+        //    Errors.Add(new ServiceError(errorCode, errorMessage, errorLevel));
+        //}
 
-        public void AddError(ServiceError serviceError)
-        {
-            Errors.Add(serviceError);
-        }
+        //public void AddError(ServiceError serviceError)
+        //{
+        //    Errors.Add(serviceError);
+        //}
 
         public void AddErrors(List<ServiceError> serviceErrorList)
         {
@@ -109,6 +134,18 @@ namespace Domain.Dto.Layer
         {
             foreach (var e in serviceErrorList)
                 AddError(e);
+        }
+
+        public void AddErrorException(ErrorCodes errCode, Exception ex)
+        {
+            WarningMessage = Enums.ErrorsCodeMessage.First(m => m.Key == errCode).Value;
+            Errors.Add(new ServiceError(errCode.ToString(), $"{ex.Message} {ex.StackTrace}", ServiceErrorLevel.EXCEPTION));
+        }
+
+        public void AddErrorValidation(ErrorValidations errCode)
+        {
+            WarningMessage = Enums.ErrorsValidationMessage.First(m => m.Key == errCode).Value;
+            Errors.Add(new ServiceError(string.Empty, WarningMessage, ServiceErrorLevel.VALIDATION_ERROR));
         }
 
         public override string ToString()

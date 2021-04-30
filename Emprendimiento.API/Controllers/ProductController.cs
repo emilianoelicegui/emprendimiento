@@ -15,7 +15,7 @@ namespace Emprendimiento.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowAny")]
-    public class ProductController : ControllerBase
+    public class ProductController : BaseController
     {
         private readonly IProductService _productService;
 
@@ -26,92 +26,51 @@ namespace Emprendimiento.API.Controllers
 
         #region GET
 
+        //buscar producto por id
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _productService.Get(id));
+            return ResponseResult(await _productService.Get(id));
         }
 
-        [HttpGet("ListByUser", Name = "GetAllProductsByUser")]
+        //busqueda de productos por usuario
+        [HttpGet("GetAllByUser")]
         public async Task<IActionResult> GetAllByUser()
         {
             var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 
-            return Ok(await _productService.GetAllByUser(idUser));
+            return ResponseResult(await _productService.GetAllByUser(idUser));
         }
 
         //busqueda de productos con filtros 
         [HttpGet("GetAllByCompany")]
         public async Task<IActionResult> GetAllByCompany(string name, int? idCompany, int start, int length)
         {
-            try
-            {
-                var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
+            var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 
-                var response = await _productService.GetAllByCompany(name, idCompany, idUser, start, length);
-
-                if (response.Status != true)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al realizar la solicitud");
-                }
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return ResponseResult(await _productService.GetAllByCompany(name, idCompany, idUser, start, length));
         }
 
         #endregion
 
         #region POST 
 
-        //sirve para crear o actualizar productos
+        //crear productos
         [HttpPost("Save")]
         public async Task<IActionResult> Save([FromBody] SaveProductRequest rq)
         {
-            try
-            {
-                var response = await _productService.Save(rq);
-
-                if (response.Status != true)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, response);
-                }
-
-                response.SuccessMessage = "El producto se registró correctamente."; 
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return ResponseResult(await _productService.Save(rq));
         }
 
         #endregion
 
         #region PUT
 
+        //eliminar un producto
         [HttpPut("{id}/Delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                var response = await _productService.Delete(id);
-
-                if (response.Status != true)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrio un error al realizar la solicitud");
-                }
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return ResponseResult(await _productService.Delete(id));
         }
 
         #endregion PUT

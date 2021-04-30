@@ -8,7 +8,6 @@ using Shared.Layer;
 namespace Emprendimiento.API.Controllers
 {
     [Authorize]
-    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowAny")]

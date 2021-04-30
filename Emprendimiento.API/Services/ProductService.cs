@@ -2,11 +2,11 @@
 using Domain.Dto.Layer;
 using Domain.Layer;
 using Emprendimiento.API.Repositories;
+using Shared.Layer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.XPath;
 
 namespace Emprendimiento.API.Services
 {
@@ -38,10 +38,14 @@ namespace Emprendimiento.API.Services
             try
             {
                 sr.Data = _mapper.Map<ProductDto>(await _repositoryProduct.Get(idProduct));
+
+                sr.AddSuccess(OKResponse.GetProduct);
             }
             catch (Exception ex)
             {
-                sr.AddError(ex);
+                var errCode = ErrorCodes.GetProduct;
+
+                sr.AddErrorException(errCode, ex);
             }
 
             return sr;
@@ -54,10 +58,14 @@ namespace Emprendimiento.API.Services
             try
             {
                 sr.Data = _mapper.Map<IEnumerable<ProductDto>>(await _repositoryProduct.GetAllByUser(idUser));
+
+                sr.AddSuccess(OKResponse.GetAllProductByUser);
             }
             catch (Exception ex)
             {
-                sr.AddError(ex);
+                var errCode = ErrorCodes.GetAllProductByUser;
+
+                sr.AddErrorException(errCode, ex);
             }
 
             return sr;
@@ -82,10 +90,13 @@ namespace Emprendimiento.API.Services
                     data = results
                 };
 
+                sr.AddSuccess(OKResponse.GetAllProductByCompany);
             }
             catch (Exception ex)
             {
-                sr.AddError(ex);
+                var errCode = ErrorCodes.GetAllProductByCompany;
+
+                sr.AddErrorException(errCode, ex);
             }
 
             return sr;
@@ -99,10 +110,14 @@ namespace Emprendimiento.API.Services
             try
             {
                 sr.Data = await _repositoryProduct.Save(_mapper.Map<Product>(rq));
+
+                sr.AddSuccess(OKResponse.SaveProduct);
             }
             catch (Exception ex)
             {
-                sr.AddError(ex);
+                var errCode = ErrorCodes.SaveProduct;
+
+                sr.AddErrorException(errCode, ex);
             }
 
             return sr;
@@ -119,10 +134,14 @@ namespace Emprendimiento.API.Services
             try
             {
                 sr.Data = await _repositoryProduct.Delete(idProduct);
+
+                sr.AddSuccess(OKResponse.DeleteProduct);
             }
             catch (Exception ex)
             {
-                sr.AddError(ex);
+                var errCode = ErrorCodes.DeleteProduct;
+
+                sr.AddErrorException(errCode, ex);
             }
 
             return sr;

@@ -1,5 +1,4 @@
-﻿using Domain.Dto.Layer;
-using Domain.Layer;
+﻿using Domain.Layer;
 using Microsoft.EntityFrameworkCore;
 using Shared.Layer;
 using System.Collections.Generic;
@@ -33,7 +32,7 @@ namespace Emprendimiento.API.Repositories
         {
             return await _context.Products
                        .Where(x => x.Id == idProduct)
-                       .FirstOrDefaultAsync();
+                       .FirstAsync();
         }
 
         public async Task<IEnumerable<Product>> GetAllByUser(int idUser)

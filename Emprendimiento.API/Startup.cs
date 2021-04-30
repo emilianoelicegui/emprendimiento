@@ -77,20 +77,14 @@ namespace Emprendimiento.API
                 s.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Chat API",
-                    Description = "Chat API Swagger Surface",
+                    Title = "Control Center",
+                    Description = "API control de productos",
                     Contact = new OpenApiContact
                     {
-                        Name = "João Victor Ignacio",
-                        Email = "ignaciojvig@gmail.com",
-                        Url = new Uri("https://www.linkedin.com/in/ignaciojv/")
+                        Name = "Emiliano Elicegui",
+                        Email = "emielicegui@gmail.com",
+                        Url = new Uri("https://www.linkedin.com/in/eliceguiemiliano/")
                     },
-                    License = new OpenApiLicense
-                    {
-                        Name = "MIT",
-                        Url = new Uri("https://github.com/ignaciojvig/ChatAPI/blob/master/LICENSE")
-                    }
-
                 });
 
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -160,7 +154,6 @@ namespace Emprendimiento.API
             });
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");

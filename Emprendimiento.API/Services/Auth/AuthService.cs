@@ -49,14 +49,16 @@ namespace Emprendimiento.API.Services.Auth
 
                 if (user == null || user.IsDelete || user.IsLocked)
                 {
-                    sr.AddError("El usuario no existe o se encuentra bloqueado");
+                    var errCode = ErrorValidations.UserInvalid;
+                    sr.AddErrorValidation(errCode);
 
                     return sr;
                 }
 
                 if (user.Companys.IsNullOrEmpty())
                 {
-                    sr.AddError("El usuario no tiene sucursales activas");
+                    var errCode = ErrorValidations.UserInvalid;
+                    sr.AddErrorValidation(errCode);
 
                     return sr;
                 }
@@ -98,7 +100,8 @@ namespace Emprendimiento.API.Services.Auth
             }
             catch (Exception ex)
             {
-                sr.AddError(ex);
+                var errCode = ErrorCodes.LoginFail;
+                sr.AddErrorException(errCode, ex);
             }
 
             return sr;
