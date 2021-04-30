@@ -12,7 +12,7 @@ namespace Emprendimiento.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowAny")]
-    public class CompanyController : ControllerBase
+    public class CompanyController : BaseController
     {
         private readonly ICompanyService _companyService;
 
@@ -23,19 +23,21 @@ namespace Emprendimiento.API.Controllers
 
         #region GET
 
+        //obtener una company
         [HttpGet("{id}", Name = "GetCompany")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _companyService.Get(id));
+            return ResponseResult(await _companyService.Get(id));
         }
 
-        [HttpGet("ListByUser", Name = "GetAllCompanysByUser")]
+        //obtener companys de un usuario
+        [HttpGet("GetAllCompanysByUser")]
         public async Task<IActionResult> GetAllByUser()
         {
 
             var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 
-            return Ok(await _companyService.GetAllByUser(idUser));
+            return ResponseResult(await _companyService.GetAllByUser(idUser));
         }
 
         #endregion GET

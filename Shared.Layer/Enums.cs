@@ -11,7 +11,12 @@ namespace Shared.Layer
         GetAllProductByUser,
         GetAllProductByCompany,
         SaveProduct,
-        DeleteProduct
+        DeleteProduct,
+        GetMenu,
+        GetRol,
+        GetRoles, 
+        GetCompany,
+        GetAllCompanysByUser
     }
 
     public enum ErrorValidations
@@ -43,7 +48,12 @@ namespace Shared.Layer
             { ErrorCodes.GetAllProductByUser, "Error al obtener productos por usuario" },
             { ErrorCodes.GetAllProductByCompany, "Error al obtener productos por empresa" },
             { ErrorCodes.SaveProduct, "Error al registrar producto" },
-            { ErrorCodes.DeleteProduct, "Error al eliminar producto" }
+            { ErrorCodes.DeleteProduct, "Error al eliminar producto" },
+            { ErrorCodes.GetMenu, "Error al obtener el menú" },
+            { ErrorCodes.GetRol, "Error al obtener el rol del usuario" },
+            { ErrorCodes.GetRoles, "Error al obtener listado de roles" },
+            { ErrorCodes.GetCompany, "Error al obtener empresa" },
+            { ErrorCodes.GetAllCompanysByUser, "Error al obtener listado de empresas" }
         };
 
         public static Dictionary<ErrorValidations, string> ErrorsValidationMessage => new Dictionary<ErrorValidations, string>

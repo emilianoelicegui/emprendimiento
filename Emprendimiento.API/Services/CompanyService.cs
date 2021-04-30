@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Dto.Layer;
 using Emprendimiento.API.Repositories;
+using Shared.Layer;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -35,7 +36,8 @@ namespace Emprendimiento.API.Services
             }
             catch (Exception ex)
             {
-                sr.AddError(ex);
+                var errCode = ErrorCodes.GetCompany;
+                sr.AddErrorException(errCode, ex);
             }
 
             return sr;
@@ -52,7 +54,8 @@ namespace Emprendimiento.API.Services
             }
             catch (Exception ex)
             {
-                sr.AddError(ex);
+                var errCode = ErrorCodes.GetAllCompanysByUser;
+                sr.AddErrorException(errCode, ex);
             }
 
             return sr;

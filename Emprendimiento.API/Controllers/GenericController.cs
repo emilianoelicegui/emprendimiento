@@ -11,7 +11,7 @@ namespace Emprendimiento.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowAny")]
-    public class GenericController : ControllerBase
+    public class GenericController : BaseController
     {
         private readonly IGenericService _genericService;
 
@@ -20,32 +20,30 @@ namespace Emprendimiento.API.Controllers
             _genericService = genericService;
         }
 
-        [HttpGet("GetMenu")]
-        public async Task<IActionResult> GetMenu()
-        {
-            return Ok(await _genericService.GetMenu());
-        }
-
+        //obtener el menu para cada usuario, por su rol
         [HttpGet("GetMenus")]
         public async Task<IActionResult> GetMenus()
         {
             var idRol = HttpContext.User.FindFirst("idRol").Value.ToInt();
 
-            return Ok(await _genericService.GetMenus(idRol));
+            return ResponseResult(await _genericService.GetMenus(idRol));
         }
 
+        //obtener un rol especifico
         [HttpGet("GetRol")]
         public async Task<IActionResult> GetRol()
         {
             var idRol = HttpContext.User.FindFirst("idRol").Value.ToInt();
 
-            return Ok(await _genericService.GetRol(idRol));
+            return ResponseResult(await _genericService.GetRol(idRol));
 
         }
+
+        //obtener listado de roles
         [HttpGet("GetRoles")]
         public IActionResult GetRoles()
         {
-            return Ok(_genericService.GetRoles());
+            return ResponseResult(_genericService.GetRoles());
         }
     }
 }
