@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. API", "01. API", "{0B8F4132-A180-4F06-8448-FEBD8F7B1C84}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Domain", "02. Domain", "{8C8401FD-EF50-47C1-94D1-578D8D665B60}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Domain", "03. Domain", "{8C8401FD-EF50-47C1-94D1-578D8D665B60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Shared", "05. Shared", "{5020347F-428D-45CE-BBEC-1DFFCFC1E6C4}"
 EndProject
@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06. Database", "06. Databas
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DBEmprendimiento", "DBEmprendimiento\DBEmprendimiento.sqlproj", "{0FB555CF-2A0D-4391-B57A-501382983D9A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.HangFire", "04.HangFire", "{8693F511-B851-46ED-8B1D-6960C2F29FE6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.HangFire", "02.HangFire", "{8693F511-B851-46ED-8B1D-6960C2F29FE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
