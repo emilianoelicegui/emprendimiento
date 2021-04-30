@@ -47,10 +47,10 @@ namespace Emprendimiento.API
             IdentityModelEventSource.ShowPII = true;
 
             //validar request desde controller
-            //services.Configure<ApiBehaviorOptions>(options =>
-            //{
-            //    options.SuppressModelStateInvalidFilter = true;
-            //});
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddAuthentication(x =>
             {
@@ -139,6 +139,9 @@ namespace Emprendimiento.API
 
             services.AddScoped<IRepositorySpending, RepositorySpending>();
             services.AddScoped<ISpendingService, SpendingService>();
+
+            services.AddScoped<IRepositoryClient, RepositoryClient>();
+            services.AddScoped<IClientService, ClientService>();
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

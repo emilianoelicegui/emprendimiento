@@ -19,7 +19,12 @@ namespace Shared.Layer
         GetAllCompanysByUser,
         GetAllSpendingsByUser,
         GetAllSpendingsByCompany,
-        SaveSpending
+        SaveSpending,
+        GetClient, 
+        GetAllClientsByUser,
+        GetAllClientsByCompany,
+        DeleteClient,
+        SaveClient
     }
 
     public enum ErrorValidations
@@ -40,7 +45,9 @@ namespace Shared.Layer
         GetAllProductByCompany,
         SaveProduct,
         DeleteProduct,
-        SaveSpending
+        SaveSpending,
+        DeleteClient, 
+        SaveClient
     }
 
     public class Enums
@@ -60,7 +67,12 @@ namespace Shared.Layer
             { ErrorCodes.GetAllCompanysByUser, "Error al obtener listado de empresas" },
             { ErrorCodes.GetAllSpendingsByUser, "Error al obtener gastos por usuario" },
             { ErrorCodes.GetAllSpendingsByCompany, "Error al obtener gastos por empresa" },
-            { ErrorCodes.SaveSpending, "Error al registrar gasto" }
+            { ErrorCodes.SaveSpending, "Error al registrar gasto" },
+            { ErrorCodes.GetClient, "Error al obtener datos del cliente" },
+            { ErrorCodes.GetAllClientsByUser, "Error al obtener clientes por usuario" },
+            { ErrorCodes.GetAllClientsByCompany, "Error al obtener clientes por empresa" },
+            { ErrorCodes.DeleteClient, "Error al eliminar cliente" },
+            { ErrorCodes.SaveClient, "Error al registrar cliente" }
         };
 
         public static Dictionary<ErrorValidations, string> ErrorsValidationMessage => new Dictionary<ErrorValidations, string>
@@ -81,7 +93,10 @@ namespace Shared.Layer
             { OKResponse.GetAllProductByCompany, "Productos encontrados con éxito" },
             { OKResponse.SaveProduct, "Producto registrado correctamente" },
             { OKResponse.DeleteProduct, "Producto eliminado correctamente" },
-            { OKResponse.SaveSpending, "Gasto registrado correctamente" }
+            { OKResponse.SaveSpending, "Gasto registrado correctamente" },
+            { OKResponse.DeleteClient, "Cliente eliminado correctamente" },
+            { OKResponse.SaveClient, "Cliente registrado correctamente" }
+
         };
     }
 }

@@ -14,6 +14,7 @@ namespace Emprendimiento.API.Repositories.Config
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.Type).IsRequired();
             entityBuilder.Property(x => x.Amount).IsRequired();
+            entityBuilder.HasOne(x => x.Company).WithMany(r => r.Spendings).HasForeignKey(x => x.IdCompany);
         }
     }
 }

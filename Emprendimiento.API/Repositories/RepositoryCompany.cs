@@ -17,7 +17,6 @@ namespace Emprendimiento.API.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-
         public RepositoryCompany(ApplicationDbContext context)
         {
             _context = context;

@@ -24,6 +24,9 @@ namespace Emprendimiento.API
             CreateMap<SaveProviderRequest, Provider>();
 
             CreateMap<SaveSpendingRequest, Spending>();
+
+            CreateMap<Client, ClientDto>();
+            CreateMap<SaveClientRequest, Client>();
         }
     }
 }
