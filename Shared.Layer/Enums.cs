@@ -16,7 +16,10 @@ namespace Shared.Layer
         GetRol,
         GetRoles, 
         GetCompany,
-        GetAllCompanysByUser
+        GetAllCompanysByUser,
+        GetAllSpendingsByUser,
+        GetAllSpendingsByCompany,
+        SaveSpending
     }
 
     public enum ErrorValidations
@@ -36,7 +39,8 @@ namespace Shared.Layer
         GetAllProductByUser,
         GetAllProductByCompany,
         SaveProduct,
-        DeleteProduct
+        DeleteProduct,
+        SaveSpending
     }
 
     public class Enums
@@ -53,7 +57,10 @@ namespace Shared.Layer
             { ErrorCodes.GetRol, "Error al obtener el rol del usuario" },
             { ErrorCodes.GetRoles, "Error al obtener listado de roles" },
             { ErrorCodes.GetCompany, "Error al obtener empresa" },
-            { ErrorCodes.GetAllCompanysByUser, "Error al obtener listado de empresas" }
+            { ErrorCodes.GetAllCompanysByUser, "Error al obtener listado de empresas" },
+            { ErrorCodes.GetAllSpendingsByUser, "Error al obtener gastos por usuario" },
+            { ErrorCodes.GetAllSpendingsByCompany, "Error al obtener gastos por empresa" },
+            { ErrorCodes.SaveSpending, "Error al registrar gasto" }
         };
 
         public static Dictionary<ErrorValidations, string> ErrorsValidationMessage => new Dictionary<ErrorValidations, string>
@@ -73,7 +80,8 @@ namespace Shared.Layer
             { OKResponse.GetAllProductByUser, "Productos encontrados con éxito" },
             { OKResponse.GetAllProductByCompany, "Productos encontrados con éxito" },
             { OKResponse.SaveProduct, "Producto registrado correctamente" },
-            { OKResponse.DeleteProduct, "Producto eliminado correctamente" }
+            { OKResponse.DeleteProduct, "Producto eliminado correctamente" },
+            { OKResponse.SaveSpending, "Gasto registrado correctamente" }
         };
     }
 }

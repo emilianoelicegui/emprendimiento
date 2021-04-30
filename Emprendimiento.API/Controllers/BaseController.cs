@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.Dto.Layer;
+﻿using Domain.Dto.Layer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Linq;
 
 namespace Emprendimiento.API.Controllers
 {
@@ -12,7 +10,22 @@ namespace Emprendimiento.API.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        public IActionResult ResponseResult(ServiceResponse sr)
+        protected ServiceResponse ValidateModel (ModelStateDictionary keyValuePairs)
+        {
+            var sr = new ServiceResponse();
+
+            if (!keyValuePairs.IsValid)
+            {
+                foreach (var k in keyValuePairs.Values)
+                {
+                    sr.AddErrorValidation(k.Errors.Select(x => x.ErrorMessage).First());
+                }
+            }
+
+            return sr;
+        }
+
+        protected IActionResult ResponseResult(ServiceResponse sr)
         {
             if (sr.StatusCode == StatusCodes.Status403Forbidden)
                 return Forbid();
@@ -24,11 +37,6 @@ namespace Emprendimiento.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, sr);
             else
                 return Ok(sr);
-        }
-
-        public bool RequestValid(ServiceResponse sr)
-        {
-            return !sr.Errors.Any();
         }
     }
 }

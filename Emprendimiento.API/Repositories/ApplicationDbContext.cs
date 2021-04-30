@@ -20,6 +20,7 @@ namespace Emprendimiento.API.Repositories
         public DbSet<Product> Products { get; set; }
         public DbSet<Provider> Providers { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Spending> Spendings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -36,6 +37,7 @@ namespace Emprendimiento.API.Repositories
             new ProductConfig(modelBuilder.Entity<Product>());
             new ProviderConfig(modelBuilder.Entity<Provider>());
             new CompanyConfig(modelBuilder.Entity<Company>());
+            new SpendingConfig(modelBuilder.Entity<Spending>());
         }
     }
 }

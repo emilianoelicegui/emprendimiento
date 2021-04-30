@@ -18,5 +18,6 @@ namespace Domain.Layer
         public bool IsPrincipal { get; set; }
         public User User { get; set; }
         public List<Product> Products { get; set; }
+        public List<Spending> Spendings { get; set; }
     }
 }

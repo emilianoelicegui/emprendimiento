@@ -1,4 +1,5 @@
-﻿using Shared.Layer;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Shared.Layer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +97,7 @@ namespace Domain.Dto.Layer
 
         public void AddSuccess(OKResponse succesCode)
         {
-            SuccessMessage = Enums.OKResponseMessage.First(m => m.Key == OKResponse.GetProduct).Value;
+            SuccessMessage = Enums.OKResponseMessage.First(m => m.Key == succesCode).Value;
         }
 
         public void AddError(Exception ex)
@@ -140,6 +141,12 @@ namespace Domain.Dto.Layer
         {
             WarningMessage = Enums.ErrorsCodeMessage.First(m => m.Key == errCode).Value;
             Errors.Add(new ServiceError(errCode.ToString(), $"{ex.Message} {ex.StackTrace}", ServiceErrorLevel.EXCEPTION));
+        }
+
+        public void AddErrorValidation(string message)
+        {
+            WarningMessage = message;
+            Errors.Add(new ServiceError(string.Empty, message, ServiceErrorLevel.VALIDATION_ERROR));
         }
 
         public void AddErrorValidation(ErrorValidations errCode)

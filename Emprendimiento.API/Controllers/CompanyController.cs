@@ -31,7 +31,7 @@ namespace Emprendimiento.API.Controllers
         }
 
         //obtener companys de un usuario
-        [HttpGet("GetAllCompanysByUser")]
+        [HttpGet("GetAllByUser")]
         public async Task<IActionResult> GetAllByUser()
         {
 

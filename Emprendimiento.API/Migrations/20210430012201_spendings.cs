@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Emprendimiento.API.Migrations
 {
-    public partial class mysql : Migration
+    public partial class spendings : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +12,7 @@ namespace Emprendimiento.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Url = table.Column<string>(maxLength: 255, nullable: false),
@@ -29,7 +28,7 @@ namespace Emprendimiento.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 150, nullable: false)
                 },
@@ -43,7 +42,7 @@ namespace Emprendimiento.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IsDelete = table.Column<bool>(nullable: false),
                     IdMenu = table.Column<int>(nullable: false),
                     IdRol = table.Column<int>(nullable: false)
@@ -70,7 +69,7 @@ namespace Emprendimiento.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Surname = table.Column<string>(maxLength: 50, nullable: false),
@@ -97,7 +96,7 @@ namespace Emprendimiento.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IsDelete = table.Column<bool>(nullable: false),
                     NameFantasy = table.Column<string>(maxLength: 150, nullable: false),
                     Cuit = table.Column<long>(nullable: false),
@@ -126,7 +125,7 @@ namespace Emprendimiento.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 150, nullable: false),
                     Cuit = table.Column<long>(nullable: false),
@@ -155,7 +154,7 @@ namespace Emprendimiento.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(nullable: true),
@@ -172,6 +171,29 @@ namespace Emprendimiento.API.Migrations
                         principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Spendings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<short>(nullable: false),
+                    Amount = table.Column<decimal>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    IdCompany = table.Column<int>(nullable: false),
+                    CompanyId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Spendings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Spendings_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -200,6 +222,11 @@ namespace Emprendimiento.API.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Spendings_CompanyId",
+                table: "Spendings",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_IdRol",
                 table: "Users",
                 column: "IdRol");
@@ -215,6 +242,9 @@ namespace Emprendimiento.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Providers");
+
+            migrationBuilder.DropTable(
+                name: "Spendings");
 
             migrationBuilder.DropTable(
                 name: "Menus");

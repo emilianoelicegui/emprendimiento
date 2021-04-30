@@ -14,6 +14,7 @@ using Emprendimiento.API.Services;
 using Emprendimiento.API.Services.Auth;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Emprendimiento.API
 {
@@ -28,8 +29,8 @@ namespace Emprendimiento.API
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddCors(options =>
             {
@@ -44,6 +45,12 @@ namespace Emprendimiento.API
 
             //para generar el token (rompe sin esto) 
             IdentityModelEventSource.ShowPII = true;
+
+            //validar request desde controller
+            //services.Configure<ApiBehaviorOptions>(options =>
+            //{
+            //    options.SuppressModelStateInvalidFilter = true;
+            //});
 
             services.AddAuthentication(x =>
             {
@@ -129,6 +136,9 @@ namespace Emprendimiento.API
 
             services.AddScoped<IRepositoryProvider, RepositoryProvider>();
             services.AddScoped<IProviderService, ProviderService>();
+
+            services.AddScoped<IRepositorySpending, RepositorySpending>();
+            services.AddScoped<ISpendingService, SpendingService>();
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
