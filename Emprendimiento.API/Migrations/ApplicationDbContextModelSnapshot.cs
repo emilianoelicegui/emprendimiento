@@ -117,6 +117,29 @@ namespace Emprendimiento.API.Migrations
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("Domain.Layer.DolarBlueValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DolarBlueValues");
+                });
+
             modelBuilder.Entity("Domain.Layer.Menu", b =>
                 {
                     b.Property<int>("Id")

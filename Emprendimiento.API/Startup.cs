@@ -15,6 +15,7 @@ using Emprendimiento.API.Services.Auth;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Emprendimiento.API.Services.Recurring;
 
 namespace Emprendimiento.API
 {
@@ -142,6 +143,9 @@ namespace Emprendimiento.API
 
             services.AddScoped<IRepositoryClient, RepositoryClient>();
             services.AddScoped<IClientService, ClientService>();
+
+            services.AddScoped<IRecurringService, RecurringService>();
+            services.AddScoped<IRepositoryRecurring, RepositoryRecurring>();
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

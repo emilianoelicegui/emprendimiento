@@ -24,7 +24,8 @@ namespace Shared.Layer
         GetAllClientsByUser,
         GetAllClientsByCompany,
         DeleteClient,
-        SaveClient
+        SaveClient,
+        GetServiceDolarBlue
     }
 
     public enum ErrorValidations
@@ -72,7 +73,8 @@ namespace Shared.Layer
             { ErrorCodes.GetAllClientsByUser, "Error al obtener clientes por usuario" },
             { ErrorCodes.GetAllClientsByCompany, "Error al obtener clientes por empresa" },
             { ErrorCodes.DeleteClient, "Error al eliminar cliente" },
-            { ErrorCodes.SaveClient, "Error al registrar cliente" }
+            { ErrorCodes.SaveClient, "Error al registrar cliente" },
+            { ErrorCodes.GetServiceDolarBlue, "Error al obtener información servicio Dolar" }
         };
 
         public static Dictionary<ErrorValidations, string> ErrorsValidationMessage => new Dictionary<ErrorValidations, string>

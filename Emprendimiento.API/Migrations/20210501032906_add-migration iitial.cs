@@ -3,10 +3,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Emprendimiento.API.Migrations
 {
-    public partial class spendings : Migration
+    public partial class addmigrationiitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "DolarBlueValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LastUpdate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getdate()"),
+                    Date = table.Column<DateTime>(type: "date", nullable: false),
+                    Value = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DolarBlueValues", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Menus",
                 columns: table => new
@@ -150,6 +165,33 @@ namespace Emprendimiento.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsDelete = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false),
+                    Dni = table.Column<long>(nullable: false),
+                    Cuit = table.Column<long>(nullable: false),
+                    CodArea = table.Column<string>(nullable: false),
+                    Phone = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    IdCompany = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clients_Companies_IdCompany",
+                        column: x => x.IdCompany,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -182,19 +224,23 @@ namespace Emprendimiento.API.Migrations
                     Type = table.Column<short>(nullable: false),
                     Amount = table.Column<decimal>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
-                    IdCompany = table.Column<int>(nullable: false),
-                    CompanyId = table.Column<int>(nullable: true)
+                    IdCompany = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Spendings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Spendings_Companies_CompanyId",
-                        column: x => x.CompanyId,
+                        name: "FK_Spendings_Companies_IdCompany",
+                        column: x => x.IdCompany,
                         principalTable: "Companies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clients_IdCompany",
+                table: "Clients",
+                column: "IdCompany");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_IdUser",
@@ -222,9 +268,9 @@ namespace Emprendimiento.API.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Spendings_CompanyId",
+                name: "IX_Spendings_IdCompany",
                 table: "Spendings",
-                column: "CompanyId");
+                column: "IdCompany");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_IdRol",
@@ -234,6 +280,12 @@ namespace Emprendimiento.API.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "DolarBlueValues");
+
             migrationBuilder.DropTable(
                 name: "MenuRol");
 

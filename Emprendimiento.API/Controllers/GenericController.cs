@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Emprendimiento.API.Services;
 using System.Threading.Tasks;
 using Shared.Layer;
+using Emprendimiento.API.Services.Recurring;
 
 namespace Emprendimiento.API.Controllers
 {
@@ -14,10 +15,12 @@ namespace Emprendimiento.API.Controllers
     public class GenericController : BaseController
     {
         private readonly IGenericService _genericService;
+        private readonly IRecurringService _recurringService;
 
-        public GenericController(IGenericService genericService)
+        public GenericController(IGenericService genericService, IRecurringService recurringService)
         {
             _genericService = genericService;
+            _recurringService = recurringService;
         }
 
         //obtener el menu para cada usuario, por su rol
@@ -41,9 +44,16 @@ namespace Emprendimiento.API.Controllers
 
         //obtener listado de roles
         [HttpGet("GetRoles")]
-        public IActionResult GetRoles()
+        public async Task<IActionResult> GetRoles()
         {
-            return ResponseResult(_genericService.GetRoles());
+            return ResponseResult(await _genericService.GetRoles());
+        }
+
+        //get valor dolar blue
+        [HttpGet("GetDolarBlue")]
+        public async Task<IActionResult> GetDolarBlue()
+        {
+            return ResponseResult(await _recurringService.GetDolarBlue());
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Emprendimiento.API.Repositories
         Task<Menu> GetMenu();
         Task<IEnumerable<Menu>> GetMenus(int idRol);
         Task<Rol> GetRol(int idRol);
-        IEnumerable<Rol> GetRoles();
+        Task<IEnumerable<Rol>> GetRoles();
     }
 
     public class RepositoryGeneric : IRepositoryGeneric
@@ -49,12 +49,10 @@ namespace Emprendimiento.API.Repositories
                         .FirstOrDefaultAsync();
         }
 
-        public IEnumerable<Rol> GetRoles()
+        public async Task<IEnumerable<Rol>> GetRoles()
         {
-            var result = _context.Roles
-                .OrderByDescending(c => c.Id);
-
-            return result;
+            return await _context.Roles
+                .OrderByDescending(c => c.Id).ToListAsync();
         }
 
     }

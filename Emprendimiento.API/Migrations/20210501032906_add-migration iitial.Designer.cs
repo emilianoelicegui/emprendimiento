@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Emprendimiento.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210430012201_spendings")]
-    partial class spendings
+    [Migration("20210501032906_add-migration iitial")]
+    partial class addmigrationiitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,51 @@ namespace Emprendimiento.API.Migrations
                 .HasAnnotation("ProductVersion", "3.1.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Domain.Layer.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CodArea")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Cuit")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Dni")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdCompany")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCompany");
+
+                    b.ToTable("Clients");
+                });
 
             modelBuilder.Entity("Domain.Layer.Company", b =>
                 {
@@ -72,6 +117,29 @@ namespace Emprendimiento.API.Migrations
                     b.HasIndex("IdUser");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("Domain.Layer.DolarBlueValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DolarBlueValues");
                 });
 
             modelBuilder.Entity("Domain.Layer.Menu", b =>
@@ -245,9 +313,6 @@ namespace Emprendimiento.API.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -259,7 +324,7 @@ namespace Emprendimiento.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("IdCompany");
 
                     b.ToTable("Spendings");
                 });
@@ -311,6 +376,15 @@ namespace Emprendimiento.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Domain.Layer.Client", b =>
+                {
+                    b.HasOne("Domain.Layer.Company", "Company")
+                        .WithMany("Clients")
+                        .HasForeignKey("IdCompany")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Layer.Company", b =>
                 {
                     b.HasOne("Domain.Layer.User", "User")
@@ -357,7 +431,9 @@ namespace Emprendimiento.API.Migrations
                 {
                     b.HasOne("Domain.Layer.Company", "Company")
                         .WithMany("Spendings")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("IdCompany")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Layer.User", b =>

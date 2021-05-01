@@ -12,7 +12,7 @@ namespace Emprendimiento.API.Services
     {
         Task<ServiceResponse> GetMenus(int idRol);
         Task<ServiceResponse> GetRol(int idRol);
-        ServiceResponse GetRoles();
+        Task<ServiceResponse> GetRoles();
     }
     public class GenericService : IGenericService
     {
@@ -60,13 +60,13 @@ namespace Emprendimiento.API.Services
 
         }
 
-        public ServiceResponse GetRoles()
+        public async Task<ServiceResponse> GetRoles()
         {
             var sr = new ServiceResponse();
 
             try
             {
-                sr.Data = _mapper.Map<IEnumerable<RolDto>>(_repositoryGeneric.GetRoles());
+                sr.Data = _mapper.Map<IEnumerable<RolDto>>(await _repositoryGeneric.GetRoles());
             }
             catch (Exception ex)
             {

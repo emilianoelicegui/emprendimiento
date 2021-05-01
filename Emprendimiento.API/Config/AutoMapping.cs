@@ -27,6 +27,12 @@ namespace Emprendimiento.API
 
             CreateMap<Client, ClientDto>();
             CreateMap<SaveClientRequest, Client>();
+
+            CreateMap<DolarResponse, DolarBlueValue>()
+                .ForMember(src => src.Id, opt => opt.Ignore())
+                .ForMember(src => src.LastUpdate, opt => opt.Ignore())
+                .ForPath(dest => dest.Date, opt => opt.MapFrom(src => src.d.Date))
+                .ForPath(dest => dest.Value, opt => opt.MapFrom(src => src.v));
         }
     }
 }

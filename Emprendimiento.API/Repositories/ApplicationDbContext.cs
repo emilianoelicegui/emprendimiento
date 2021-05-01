@@ -22,6 +22,7 @@ namespace Emprendimiento.API.Repositories
         public DbSet<Company> Companies { get; set; }
         public DbSet<Spending> Spendings { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<DolarBlueValue> DolarBlueValues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -40,6 +41,7 @@ namespace Emprendimiento.API.Repositories
             new CompanyConfig(modelBuilder.Entity<Company>());
             new SpendingConfig(modelBuilder.Entity<Spending>());
             new ClientConfig(modelBuilder.Entity<Client>());
+            new DolarBlueValueConfig(modelBuilder.Entity<DolarBlueValue>());
         }
     }
 }
