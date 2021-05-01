@@ -140,6 +140,23 @@ namespace Emprendimiento.API.Migrations
                     b.ToTable("DolarBlueValues");
                 });
 
+            modelBuilder.Entity("Domain.Layer.ItemSale", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdSale")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdSale");
+
+                    b.ToTable("ItemSales");
+                });
+
             modelBuilder.Entity("Domain.Layer.Menu", b =>
                 {
                     b.Property<int>("Id")
@@ -301,6 +318,39 @@ namespace Emprendimiento.API.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("Domain.Layer.Sale", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int>("IdClient")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdCompany")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MethodPayment")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdClient");
+
+                    b.HasIndex("IdCompany");
+
+                    b.ToTable("Sales");
+                });
+
             modelBuilder.Entity("Domain.Layer.Spending", b =>
                 {
                     b.Property<int>("Id")
@@ -379,7 +429,7 @@ namespace Emprendimiento.API.Migrations
                     b.HasOne("Domain.Layer.Company", "Company")
                         .WithMany("Clients")
                         .HasForeignKey("IdCompany")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -388,7 +438,16 @@ namespace Emprendimiento.API.Migrations
                     b.HasOne("Domain.Layer.User", "User")
                         .WithMany("Companys")
                         .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Layer.ItemSale", b =>
+                {
+                    b.HasOne("Domain.Layer.Sale", "Sale")
+                        .WithMany("ItemSales")
+                        .HasForeignKey("IdSale")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -397,13 +456,13 @@ namespace Emprendimiento.API.Migrations
                     b.HasOne("Domain.Layer.Menu", "Menu")
                         .WithMany("MenuRoles")
                         .HasForeignKey("IdMenu")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Layer.Rol", "Rol")
                         .WithMany("MenuRoles")
                         .HasForeignKey("IdRol")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -412,7 +471,7 @@ namespace Emprendimiento.API.Migrations
                     b.HasOne("Domain.Layer.Company", "Company")
                         .WithMany("Products")
                         .HasForeignKey("IdCompany")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -421,7 +480,22 @@ namespace Emprendimiento.API.Migrations
                     b.HasOne("Domain.Layer.User", "User")
                         .WithMany("Providers")
                         .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Layer.Sale", b =>
+                {
+                    b.HasOne("Domain.Layer.Client", "Client")
+                        .WithMany("Sales")
+                        .HasForeignKey("IdClient")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Layer.Company", "Company")
+                        .WithMany("Sales")
+                        .HasForeignKey("IdCompany")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -430,7 +504,7 @@ namespace Emprendimiento.API.Migrations
                     b.HasOne("Domain.Layer.Company", "Company")
                         .WithMany("Spendings")
                         .HasForeignKey("IdCompany")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -439,7 +513,7 @@ namespace Emprendimiento.API.Migrations
                     b.HasOne("Domain.Layer.Rol", "Rol")
                         .WithMany("Users")
                         .HasForeignKey("IdRol")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

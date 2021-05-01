@@ -15,5 +15,6 @@ namespace Domain.Layer
         public string Email { get; set; }
         public int IdCompany { get; set; }
         public Company Company { get; set; }
+        public List<Sale> Sales { get; set; }
     }
 }

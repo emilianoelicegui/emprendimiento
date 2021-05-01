@@ -23,6 +23,8 @@ namespace Emprendimiento.API.Repositories
         public DbSet<Spending> Spendings { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<DolarBlueValue> DolarBlueValues { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<ItemSale> ItemSales { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,6 +44,8 @@ namespace Emprendimiento.API.Repositories
             new SpendingConfig(modelBuilder.Entity<Spending>());
             new ClientConfig(modelBuilder.Entity<Client>());
             new DolarBlueValueConfig(modelBuilder.Entity<DolarBlueValue>());
+            new SaleConfig(modelBuilder.Entity<Sale>());
+            new ItemSaleConfig(modelBuilder.Entity<ItemSale>());
         }
     }
 }

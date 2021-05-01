@@ -10,7 +10,7 @@ namespace Emprendimiento.API.Repositories.Config
         public ProductConfig(EntityTypeBuilder<Product> entityBuilder)
         {   
             entityBuilder.HasKey(x => x.Id);
-            entityBuilder.HasOne(x => x.Company).WithMany(r => r.Products).HasForeignKey(x => x.IdCompany);
+            entityBuilder.HasOne(x => x.Company).WithMany(r => r.Products).HasForeignKey(x => x.IdCompany).OnDelete(DeleteBehavior.Restrict);
             entityBuilder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             entityBuilder.Property(x => x.Price).IsRequired().HasColumnType("Decimal(10,5)");
             entityBuilder.Property(x => x.IsDolar).IsRequired();

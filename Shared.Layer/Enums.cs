@@ -51,6 +51,13 @@ namespace Shared.Layer
         SaveClient
     }
 
+    public enum MethodPayment
+    {
+        Cash,
+        CurrentAccount,
+        CreditCard
+    }
+
     public class Enums
     {
         public static Dictionary<ErrorCodes, string> ErrorsCodeMessage => new Dictionary<ErrorCodes, string>

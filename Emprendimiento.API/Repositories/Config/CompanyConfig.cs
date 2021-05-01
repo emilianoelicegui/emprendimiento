@@ -10,7 +10,7 @@ namespace Emprendimiento.API.Repositories.Config
         public CompanyConfig(EntityTypeBuilder<Company> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
-            entityBuilder.HasOne(x => x.User).WithMany(r => r.Companys).HasForeignKey(x => x.IdUser);
+            entityBuilder.HasOne(x => x.User).WithMany(r => r.Companys).HasForeignKey(x => x.IdUser).OnDelete(DeleteBehavior.Restrict);
             entityBuilder.Property(x => x.NameFantasy).IsRequired().HasMaxLength(150);
             entityBuilder.Property(x => x.Cuit).IsRequired();
             entityBuilder.Property(x => x.CodePostal).IsRequired();

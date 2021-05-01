@@ -20,5 +20,6 @@ namespace Domain.Layer
         public List<Product> Products { get; set; }
         public List<Spending> Spendings { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Sale> Sales { get; set; }
     }
 }

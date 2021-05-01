@@ -1,4 +1,5 @@
 ﻿using Domain.Layer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Emprendimiento.API.Repositories.Config
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.Type).IsRequired();
             entityBuilder.Property(x => x.Amount).IsRequired();
-            entityBuilder.HasOne(x => x.Company).WithMany(r => r.Spendings).HasForeignKey(x => x.IdCompany);
+            entityBuilder.HasOne(x => x.Company).WithMany(r => r.Spendings).HasForeignKey(x => x.IdCompany).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

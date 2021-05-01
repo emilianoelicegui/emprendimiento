@@ -84,8 +84,6 @@ namespace Emprendimiento.HangFire
             });
 
             app.UseHangfireDashboard();
-
-            new 
             recurringJobManager.AddOrUpdate("Update dolar", () => serviceProvider.GetService<IRecurringService>().UpdateDolarBlueValue(), "0 * * * *");
         }
     }

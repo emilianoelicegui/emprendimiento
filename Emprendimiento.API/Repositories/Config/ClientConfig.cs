@@ -1,4 +1,5 @@
 ﻿using Domain.Layer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Emprendimiento.API.Repositories.Config
@@ -14,7 +15,7 @@ namespace Emprendimiento.API.Repositories.Config
             entityBuilder.Property(x => x.Cuit).IsRequired();
             entityBuilder.Property(x => x.CodArea).IsRequired();
             entityBuilder.Property(x => x.Phone).IsRequired();
-            entityBuilder.HasOne(x => x.Company).WithMany(r => r.Clients).HasForeignKey(x => x.IdCompany);
+            entityBuilder.HasOne(x => x.Company).WithMany(r => r.Clients).HasForeignKey(x => x.IdCompany).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
