@@ -24,6 +24,13 @@ namespace Emprendimiento.API.Controllers
 
         #region GET 
 
+        //obtener tipos de gastos 
+        [HttpGet("GetAllTypes")]
+        public async Task<IActionResult> GetAllTypesSpending()
+        {
+            return ResponseResult(await _spendingService.GetAllTypes());
+        }
+
         //obtener gastos por usuario (todas sus companys)
         [HttpGet("GetAllByUser")]
         public async Task<IActionResult> GetAllByUser()
@@ -34,10 +41,10 @@ namespace Emprendimiento.API.Controllers
         }
 
         //obtener gastos por company
-        [HttpGet("GetAllByCompany/{idCompany}")]
-        public async Task<IActionResult> GetAllByCompany(int idCompany)
+        [HttpGet("GetAllByCompany")]
+        public async Task<IActionResult> GetAllByCompany(int? idCompany, int start, int length)
         {
-            return ResponseResult(await _spendingService.GetAllByCompany(idCompany));
+            return ResponseResult(await _spendingService.GetAllByCompany(idCompany, start, length));
         }
 
         #endregion GET

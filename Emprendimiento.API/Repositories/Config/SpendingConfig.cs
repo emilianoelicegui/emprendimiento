@@ -13,9 +13,13 @@ namespace Emprendimiento.API.Repositories.Config
         public SpendingConfig(EntityTypeBuilder<Spending> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
-            entityBuilder.Property(x => x.Type).IsRequired();
             entityBuilder.Property(x => x.Amount).IsRequired();
+            entityBuilder.Property(x => x.Date)
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("getdate()")
+                .IsRequired();
             entityBuilder.HasOne(x => x.Company).WithMany(r => r.Spendings).HasForeignKey(x => x.IdCompany).OnDelete(DeleteBehavior.Restrict);
+            entityBuilder.HasOne(x => x.SpendingType).WithMany(r => r.Spendings).HasForeignKey(x => x.IdSpendingType).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

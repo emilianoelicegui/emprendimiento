@@ -9,7 +9,7 @@ namespace Domain.Dto.Layer
 
         [Required(ErrorMessage = "'Tipo' es requerido.")]
         [Range(1, 99, ErrorMessage = "Debe ingrear un 'Tipo' válido.")]
-        public short Type { get; set; }
+        public short IdSpendingType { get; set; }
 
         [Required(ErrorMessage = "'Monto' es requerido.")]
         [Range(1, double.MaxValue, ErrorMessage = "Debe ingresar un 'Monto' válido.")]

@@ -25,7 +25,13 @@ namespace Shared.Layer
         GetAllClientsByCompany,
         DeleteClient,
         SaveClient,
-        GetServiceDolarBlue
+        GetServiceDolarBlue,
+        GetSale,
+        GetAllSalesByUser,
+        GetAllSalesByCompany,
+        SaveSale,
+        DeleteSale,
+        GetAllTypesSpending
     }
 
     public enum ErrorValidations
@@ -48,7 +54,10 @@ namespace Shared.Layer
         DeleteProduct,
         SaveSpending,
         DeleteClient, 
-        SaveClient
+        SaveClient,
+        SaveSale,
+        DeleteSale,
+        GetAllSpendingsByCompany
     }
 
     public enum MethodPayment
@@ -81,7 +90,13 @@ namespace Shared.Layer
             { ErrorCodes.GetAllClientsByCompany, "Error al obtener clientes por empresa" },
             { ErrorCodes.DeleteClient, "Error al eliminar cliente" },
             { ErrorCodes.SaveClient, "Error al registrar cliente" },
-            { ErrorCodes.GetServiceDolarBlue, "Error al obtener información servicio Dolar" }
+            { ErrorCodes.GetServiceDolarBlue, "Error al obtener información servicio Dolar" },
+            { ErrorCodes.GetSale, "Error al obtener detalles de la venta" },
+            { ErrorCodes.GetAllSalesByUser, "Error al obtener historial de ventas de usuario" },
+            { ErrorCodes.GetAllSalesByCompany, "Error al obtener historial de ventas de empresa" },
+            { ErrorCodes.SaveSale, "Error al registrar la venta" },
+            { ErrorCodes.DeleteSale, "Error al eliminar la venta" },
+            { ErrorCodes.GetAllTypesSpending, "Error al obtener tipos de gastos" },
         };
 
         public static Dictionary<ErrorValidations, string> ErrorsValidationMessage => new Dictionary<ErrorValidations, string>
@@ -104,8 +119,10 @@ namespace Shared.Layer
             { OKResponse.DeleteProduct, "Producto eliminado correctamente" },
             { OKResponse.SaveSpending, "Gasto registrado correctamente" },
             { OKResponse.DeleteClient, "Cliente eliminado correctamente" },
-            { OKResponse.SaveClient, "Cliente registrado correctamente" }
-
+            { OKResponse.SaveClient, "Cliente registrado correctamente" },
+            { OKResponse.SaveSale, "Venta registrada correctamente" },
+            { OKResponse.DeleteSale, "Venta eliminada correctamente" },
+            { OKResponse.GetAllSpendingsByCompany, "Gastos encontrados con éxito" }
         };
     }
 }

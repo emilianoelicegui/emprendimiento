@@ -4,14 +4,16 @@ using Emprendimiento.API.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Emprendimiento.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210501235046_itemssales")]
+    partial class itemssales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,40 +367,19 @@ namespace Emprendimiento.API.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Date")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IdCompany")
                         .HasColumnType("int");
 
-                    b.Property<short>("IdSpendingType")
+                    b.Property<short>("Type")
                         .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdCompany");
 
-                    b.HasIndex("IdSpendingType");
-
                     b.ToTable("Spendings");
-                });
-
-            modelBuilder.Entity("Domain.Layer.SpendingType", b =>
-                {
-                    b.Property<short>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SpendingTypes");
                 });
 
             modelBuilder.Entity("Domain.Layer.User", b =>
@@ -528,12 +509,6 @@ namespace Emprendimiento.API.Migrations
                     b.HasOne("Domain.Layer.Company", "Company")
                         .WithMany("Spendings")
                         .HasForeignKey("IdCompany")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Layer.SpendingType", "SpendingType")
-                        .WithMany("Spendings")
-                        .HasForeignKey("IdSpendingType")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

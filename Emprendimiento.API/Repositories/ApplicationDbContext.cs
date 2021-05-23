@@ -21,6 +21,7 @@ namespace Emprendimiento.API.Repositories
         public DbSet<Provider> Providers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Spending> Spendings { get; set; }
+        public DbSet<SpendingType> SpendingTypes { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<DolarBlueValue> DolarBlueValues { get; set; }
         public DbSet<Sale> Sales { get; set; }
@@ -42,6 +43,7 @@ namespace Emprendimiento.API.Repositories
             new ProviderConfig(modelBuilder.Entity<Provider>());
             new CompanyConfig(modelBuilder.Entity<Company>());
             new SpendingConfig(modelBuilder.Entity<Spending>());
+            new SpendingTypeConfig(modelBuilder.Entity<SpendingType>());
             new ClientConfig(modelBuilder.Entity<Client>());
             new DolarBlueValueConfig(modelBuilder.Entity<DolarBlueValue>());
             new SaleConfig(modelBuilder.Entity<Sale>());

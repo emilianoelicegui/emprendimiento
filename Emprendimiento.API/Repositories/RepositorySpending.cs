@@ -9,8 +9,9 @@ namespace Emprendimiento.API.Repositories
 {
     public interface IRepositorySpending
     {
+        Task<IEnumerable<SpendingType>> GetAllTypes();
         Task<IEnumerable<Spending>> GetAllByUser(int idUser);
-        Task<IEnumerable<Spending>> GetAllByCompany(int idCompany);
+        Task<IEnumerable<Spending>> GetAllByCompany(int? idCompany, int start, int length);
         Task<int> Save(Spending spending);
     }
 
@@ -25,6 +26,11 @@ namespace Emprendimiento.API.Repositories
 
         #region GET
 
+        public async Task<IEnumerable<SpendingType>> GetAllTypes()
+        {
+            return await _context.SpendingTypes.ToListAsync();
+        }
+
         public async Task<IEnumerable<Spending>> GetAllByUser(int idUser)
         {
             return await _context.Spendings.Include(s => s.Company)
@@ -32,10 +38,21 @@ namespace Emprendimiento.API.Repositories
                     .OrderBy(x => x.Date).ToListAsync();
         }
 
-        public async Task<IEnumerable<Spending>> GetAllByCompany(int idCompany)
+        public async Task<IEnumerable<Spending>> GetAllByCompany(int? idCompany, int start, int length)
         {
-            return await _context.Spendings.Where(x => x.IdCompany == idCompany)
-                .OrderBy(x => x.Date).ToListAsync();
+            var query = _context.Spendings
+                .Include(s => s.SpendingType)
+                .Include(s => s.Company).AsQueryable();
+
+            if (idCompany.HasValue)
+            {
+                query = query.Where(x => x.Company.Id == idCompany);
+            }
+
+            return await query
+                    .OrderBy(x => x.Date)
+                    .Skip(start)
+                    .Take(length).ToListAsync();
         }
 
         #endregion GET

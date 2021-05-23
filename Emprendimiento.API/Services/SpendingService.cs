@@ -12,8 +12,9 @@ namespace Emprendimiento.API.Services
 {
     public interface ISpendingService
     {
+        Task<ServiceResponse> GetAllTypes();
         Task<ServiceResponse> GetAllByUser(int idUser);
-        Task<ServiceResponse> GetAllByCompany(int idCompany);
+        Task<ServiceResponse> GetAllByCompany(int? idCompany, int start, int length);
         Task<ServiceResponse> Save(SaveSpendingRequest rq);
     }
     
@@ -30,6 +31,23 @@ namespace Emprendimiento.API.Services
         }
 
         #region GET
+
+        public async Task<ServiceResponse> GetAllTypes()
+        {
+            var sr = new ServiceResponse();
+
+            try
+            {
+                sr.Data = await _repositorySpending.GetAllTypes();
+            }
+            catch (Exception ex)
+            {
+                var errCode = ErrorCodes.GetAllTypesSpending;
+                sr.AddErrorException(errCode, ex);
+            }
+
+            return sr;
+        }
 
         public async Task<ServiceResponse> GetAllByUser(int idUser)
         {
@@ -48,13 +66,22 @@ namespace Emprendimiento.API.Services
             return sr;
         }
 
-        public async Task<ServiceResponse> GetAllByCompany(int idCompany)
+        public async Task<ServiceResponse> GetAllByCompany(int? idCompany, int start, int length)
         {
             var sr = new ServiceResponse();
 
             try
             {
-                sr.Data = await _repositorySpending.GetAllByCompany(idCompany);
+                var results = _mapper.Map<IEnumerable<SpendingListDto>>(await _repositorySpending.GetAllByCompany(idCompany, start, length));
+
+                sr.Data = new
+                {
+                    recordsTotal = results.Count(),
+                    recordsFiltered = results.Count(),
+                    data = results
+                };
+
+                sr.AddSuccess(OKResponse.GetAllSpendingsByCompany);
             }
             catch (Exception ex)
             {

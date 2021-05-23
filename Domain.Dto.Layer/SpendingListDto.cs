@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Layer
+namespace Domain.Dto.Layer
 {
-    public class Spending
+    public class SpendingListDto
     {
         public int Id { get; set; }
         public short IdSpendingType { get; set; }
+        public string NameSpendingType { get; set; }
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
         public int IdCompany { get; set; }
-        public Company Company { get; set; }
-        public SpendingType SpendingType { get; set; }
+        public string NameCompany { get; set; }
     }
 }

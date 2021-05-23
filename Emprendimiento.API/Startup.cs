@@ -147,6 +147,9 @@ namespace Emprendimiento.API
             services.AddScoped<IRecurringService, RecurringService>();
             services.AddScoped<IRepositoryRecurring, RepositoryRecurring>();
 
+            services.AddScoped<ISaleService, SaleService>();
+            services.AddScoped<IRepositorySale, RepositorySale>();
+
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 {
