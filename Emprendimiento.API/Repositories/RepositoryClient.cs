@@ -11,7 +11,7 @@ namespace Emprendimiento.API.Repositories
     {
         Task<Client> Get(int idClient);
         Task<IEnumerable<Client>> GetAllByUser(int idUser);
-        Task<IEnumerable<Client>> GetAllByCompany(int idCompany);
+        Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany);
         
         Task<int> Save(Client spending);
 
@@ -42,10 +42,20 @@ namespace Emprendimiento.API.Repositories
                     .OrderBy(x => x.Name).ToListAsync();
         }
 
-        public async Task<IEnumerable<Client>> GetAllByCompany(int idCompany)
+        public async Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany)
         {
-            return await _context.Clients.Where(x => x.IdCompany == idCompany)
-                .OrderBy(x => x.Name).ToListAsync();
+            var query = _context.Clients.Include(c => c.Company).AsQueryable();
+
+            if (filter != null)
+            {
+                query = query.Where(x => x.IdCompany == idCompany &&
+                       x.Name.Contains(filter) ||
+                       x.Surname.Contains(filter) ||
+                       x.Dni.ToString().Contains(filter) ||
+                       x.Cuit.ToString().Contains(filter));
+            }
+
+            return await query.OrderBy(x => x.Name).ToListAsync();
         }
 
         #endregion GET
@@ -54,7 +64,15 @@ namespace Emprendimiento.API.Repositories
 
         public async Task<int> Save(Client client)
         {
-            _context.Add(client);
+            if (client.Id == null)
+            {
+                _context.Add(client);
+            }
+            else
+            {
+                _context.Update(client);
+            }
+
             await _context.SaveChangesAsync();
 
             return client.Id;

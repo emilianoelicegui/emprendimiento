@@ -14,7 +14,7 @@ namespace Emprendimiento.API.Services
     {
         Task<ServiceResponse> Get(int idClient);
         Task<ServiceResponse> GetAllByUser(int idUser);
-        Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int idUser, int start, int length);
+        Task<ServiceResponse> GetAllByCompany(string filter, int? idCompany, int idUser, int start, int length);
 
         Task<ServiceResponse> Save(SaveClientRequest rq);
 
@@ -69,13 +69,13 @@ namespace Emprendimiento.API.Services
             return sr;
         }
 
-        public async Task<ServiceResponse> GetAllByCompany(string name, int? idCompany, int idUser, int start, int length)
+        public async Task<ServiceResponse> GetAllByCompany(string filter, int? idCompany, int idUser, int start, int length)
         {
             var sr = new ServiceResponse();
 
             try
             {
-                sr.Data = _mapper.Map<IEnumerable<ClientDto>>(await _repositoryClient.GetAllByCompany(idCompany.Value));
+                sr.Data = _mapper.Map<IEnumerable<ClientListDto>>(await _repositoryClient.GetAllByCompany(filter, idCompany.Value));
             }
             catch (Exception ex)
             {

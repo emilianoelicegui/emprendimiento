@@ -41,11 +41,11 @@ namespace Emprendimiento.API.Controllers
 
         //busqueda de clientes con filtros 
         [HttpGet("GetAllByCompany")]
-        public async Task<IActionResult> GetAllByCompany(string name, int? idCompany, int start, int length)
+        public async Task<IActionResult> GetAllByCompany(string filter, int? idCompany, int start, int length)
         {
             var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 
-            return ResponseResult(await _clientService.GetAllByCompany(name, idCompany, idUser, start, length));
+            return ResponseResult(await _clientService.GetAllByCompany(filter, idCompany, idUser, start, length));
         }
 
         #endregion

@@ -26,6 +26,9 @@ namespace Emprendimiento.API
             CreateMap<SaveSpendingRequest, Spending>();
 
             CreateMap<Client, ClientDto>();
+            CreateMap<Client, ClientListDto>()
+                .ForPath(dest => dest.NameCompany, opt => opt.MapFrom(src => src.Company.NameFantasy))
+                .ForPath(dest => dest.PhoneComplete, opt => opt.MapFrom(src => $"{src.CodArea} {src.Phone}"));
             CreateMap<SaveClientRequest, Client>();
 
             CreateMap<Spending, SpendingDto>();
