@@ -150,6 +150,9 @@ namespace Emprendimiento.API
             services.AddScoped<ISaleService, SaleService>();
             services.AddScoped<IRepositorySale, RepositorySale>();
 
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IRepositoryPayment, RepositoryPayment>();
+
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 {

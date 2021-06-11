@@ -13,7 +13,9 @@ namespace Emprendimiento.API.Repositories.Config
         public SpendingConfig(EntityTypeBuilder<Spending> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
-            entityBuilder.Property(x => x.Amount).IsRequired();
+            entityBuilder.Property(x => x.Amount)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
             entityBuilder.Property(x => x.Date)
                 .HasColumnType("datetime")
                 .HasDefaultValueSql("getdate()")

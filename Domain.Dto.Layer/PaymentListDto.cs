@@ -11,7 +11,7 @@ namespace Domain.Dto.Layer
         public string NameClient { get; set; }
         public int IdCompany { get; set; }
         public string NameCompany { get; set; }
-        public decimal Mount { get; set; }
+        public decimal Amount { get; set; }
         public DateTime Datetime { get; set; }
     }
 }

@@ -16,7 +16,9 @@ namespace Emprendimiento.API.Repositories.Config
             entityBuilder.Property(x => x.Date)
                 .HasColumnType("date")
                 .IsRequired();
-            entityBuilder.Property(x => x.Value).IsRequired();
+            entityBuilder.Property(x => x.Value)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
         }
     }
 }

@@ -15,7 +15,9 @@ namespace Emprendimiento.API.Repositories.Config
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.IdClient).IsRequired();
             entityBuilder.Property(x => x.IdCompany).IsRequired();
-            entityBuilder.Property(x => x.Amount).IsRequired();
+            entityBuilder.Property(x => x.Amount)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
             entityBuilder.Property(x => x.MethodPayment).IsRequired();
             entityBuilder.Property(x => x.SaleState).IsRequired();
             entityBuilder.Property(x => x.Date)

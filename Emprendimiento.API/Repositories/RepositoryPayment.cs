@@ -1,4 +1,4 @@
-﻿}using Domain.Layer;
+﻿using Domain.Layer;
 using Microsoft.EntityFrameworkCore;
 using Shared.Layer;
 using System;
@@ -38,7 +38,7 @@ namespace Emprendimiento.API.Repositories
 
             if (idCompany.HasValue)
             {
-                query = query.Where(x => x.Client.Company.Id == idCompany);
+                query = query.Where(x => x.Client.IdCompany == idCompany);
             }
 
             return await query

@@ -8,7 +8,7 @@ namespace Domain.Layer
     {
         public int Id { get; set; }
         public int IdClient { get; set; }
-        public decimal Mount { get; set; }
+        public decimal Amount { get; set; }
         public DateTime Datetime { get; set; }
         public Client Client { get; set; }
     }

@@ -1,4 +1,4 @@
-﻿}using AutoMapper;
+﻿using AutoMapper;
 using Domain.Dto.Layer;
 using Emprendimiento.API.Repositories;
 using Shared.Layer;
@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Emprendimiento.API.Services
 {
-    public interface IPAymentService
+    public interface IPaymentService
     {
-        Task<ServiceResponse> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length);
+        Task<ServiceResponse> GetAllByCompany(string name, int idUser, int? idCompany, int start, int length);
     }
-    public class PaymentService
+    public class PaymentService : IPaymentService
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryPayment _repositoryPayment;
@@ -30,7 +30,14 @@ namespace Emprendimiento.API.Services
 
             try
             {
-                sr.Data = _mapper.Map<PaymentListDto>(await _repositoryPayment.GetAllByCompany(name, idUser, idCompany, start, length));
+                var results = _mapper.Map<IEnumerable<PaymentListDto>>(await _repositoryPayment.GetAllByCompany(name, idUser, idCompany, start, length));
+
+                sr.Data = new
+                {
+                    recordsTotal = results.Count(),
+                    recordsFiltered = results.Count(),
+                    data = results
+                };
             }
             catch (Exception ex)
             {
