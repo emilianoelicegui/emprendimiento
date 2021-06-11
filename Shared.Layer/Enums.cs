@@ -32,7 +32,8 @@ namespace Shared.Layer
         GetAllSalesByCompany,
         SaveSale,
         DeleteSale,
-        GetAllTypesSpending
+        GetAllTypesSpending,
+        GetAllPaymentsByCompany
     }
 
     public enum ErrorValidations
@@ -104,6 +105,7 @@ namespace Shared.Layer
             { ErrorCodes.SaveSale, "Error al registrar la venta" },
             { ErrorCodes.DeleteSale, "Error al eliminar la venta" },
             { ErrorCodes.GetAllTypesSpending, "Error al obtener tipos de gastos" },
+            {ErrorCodes.GetAllPaymentsByCompany, "Error al obtener historial de pagos" }
         };
 
         public static Dictionary<ErrorValidations, string> ErrorsValidationMessage => new Dictionary<ErrorValidations, string>

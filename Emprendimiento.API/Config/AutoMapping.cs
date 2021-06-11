@@ -60,6 +60,12 @@ namespace Emprendimiento.API
                 .ForMember(src => src.NameProduct, opt => opt.MapFrom(src => src.Product.Name))
                 .ForMember(src => src.PriceProduct, opt => opt.MapFrom(src => src.Product.Price))
                 .ForMember(src => src.TotalPrice, opt => opt.MapFrom(src => src.Product.Price * src.Units));
+
+            CreateMap<Payment, PaymentListDto>()
+                .ForMember(src => src.IdClient, opt => opt.MapFrom(src => src.Client.Id))
+                .ForMember(src => src.NameClient, opt => opt.MapFrom(src => $"{src.Client.Name}, {src.Client.Surname}"))
+                .ForMember(src => src.IdCompany, opt => opt.MapFrom(src => src.Client.Company.Id))
+                .ForMember(src => src.NameCompany, opt => opt.MapFrom(src => src.Client.Company.NameFantasy));
         }
     }
 }
