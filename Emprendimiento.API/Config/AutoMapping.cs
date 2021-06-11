@@ -61,6 +61,9 @@ namespace Emprendimiento.API
                 .ForMember(src => src.PriceProduct, opt => opt.MapFrom(src => src.Product.Price))
                 .ForMember(src => src.TotalPrice, opt => opt.MapFrom(src => src.Product.Price * src.Units));
 
+            CreateMap<Payment, PaymentDto>();
+            CreateMap<SavePaymentRequest, Payment>()
+                .ForMember(src => src.Client, opt => opt.Ignore());
             CreateMap<Payment, PaymentListDto>()
                 .ForMember(src => src.IdClient, opt => opt.MapFrom(src => src.Client.Id))
                 .ForMember(src => src.NameClient, opt => opt.MapFrom(src => $"{src.Client.Name}, {src.Client.Surname}"))

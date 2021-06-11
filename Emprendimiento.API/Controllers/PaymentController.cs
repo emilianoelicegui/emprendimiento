@@ -21,6 +21,16 @@ namespace Emprendimiento.API.Controllers
             _paymentService = paymentService;
         }
 
+        #region POST 
+
+        [HttpPost("Save")]
+        public async Task<IActionResult> Save([FromBody] SavePaymentRequest rq)
+        {
+            return ResponseResult(await _paymentService.Save(rq));
+        }
+
+        #endregion
+
         //busqueda de clientes con filtros 
         [HttpGet("GetAllByCompany")]
         public async Task<IActionResult> GetAllByCompany(string filter, int? idCompany, int start, int length)

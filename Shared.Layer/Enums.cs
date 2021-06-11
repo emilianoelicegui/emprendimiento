@@ -33,7 +33,8 @@ namespace Shared.Layer
         SaveSale,
         DeleteSale,
         GetAllTypesSpending,
-        GetAllPaymentsByCompany
+        GetAllPaymentsByCompany,
+        SavePayment
     }
 
     public enum ErrorValidations
@@ -59,7 +60,8 @@ namespace Shared.Layer
         SaveClient,
         SaveSale,
         DeleteSale,
-        GetAllSpendingsByCompany
+        GetAllSpendingsByCompany,
+        SavePayment
     }
 
     public enum MethodPayment
@@ -105,7 +107,8 @@ namespace Shared.Layer
             { ErrorCodes.SaveSale, "Error al registrar la venta" },
             { ErrorCodes.DeleteSale, "Error al eliminar la venta" },
             { ErrorCodes.GetAllTypesSpending, "Error al obtener tipos de gastos" },
-            {ErrorCodes.GetAllPaymentsByCompany, "Error al obtener historial de pagos" }
+            { ErrorCodes.GetAllPaymentsByCompany, "Error al obtener historial de pagos" },
+            { ErrorCodes.SavePayment, "Error al registrar el pago" }
         };
 
         public static Dictionary<ErrorValidations, string> ErrorsValidationMessage => new Dictionary<ErrorValidations, string>
@@ -131,7 +134,8 @@ namespace Shared.Layer
             { OKResponse.SaveClient, "Cliente registrado correctamente" },
             { OKResponse.SaveSale, "Venta registrada correctamente" },
             { OKResponse.DeleteSale, "Venta eliminada correctamente" },
-            { OKResponse.GetAllSpendingsByCompany, "Gastos encontrados con éxito" }
+            { OKResponse.GetAllSpendingsByCompany, "Gastos encontrados con éxito" },
+            { OKResponse.SavePayment, "Pago registrado correctamente" }
         };
     }
 }

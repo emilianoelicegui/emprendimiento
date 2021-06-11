@@ -10,6 +10,7 @@ namespace Emprendimiento.API.Repositories
 {
     public interface IRepositoryPayment
     {
+        Task<int> Save(Payment rq);
         Task<IEnumerable<Payment>> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length);
     }
 
@@ -21,6 +22,22 @@ namespace Emprendimiento.API.Repositories
         public RepositoryPayment(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<int> Save(Payment rq)
+        {
+            if (rq.Id > 0)
+            {
+                _context.Update(rq);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                await _context.Payments.AddAsync(rq);
+                await _context.SaveChangesAsync();
+            }
+
+            return rq.Id;
         }
 
         public async Task<IEnumerable<Payment>> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length)
