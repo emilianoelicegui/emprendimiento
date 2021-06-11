@@ -75,7 +75,14 @@ namespace Emprendimiento.API.Services
 
             try
             {
-                sr.Data = _mapper.Map<IEnumerable<ClientListDto>>(await _repositoryClient.GetAllByCompany(filter, idCompany.Value));
+                var results = _mapper.Map<IEnumerable<ClientListDto>>(await _repositoryClient.GetAllByCompany(filter, idCompany.Value));
+
+                sr.Data = new
+                {
+                    recordsTotal = results.Count(),
+                    recordsFiltered = results.Count(),
+                    data = results
+                };
             }
             catch (Exception ex)
             {

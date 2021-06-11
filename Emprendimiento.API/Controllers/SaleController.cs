@@ -34,6 +34,12 @@ namespace Emprendimiento.API.Controllers
             return ResponseResult(await _saleService.Get(id));
         }
 
+        [HttpGet("GetItems/{idSale}")]
+        public async Task<IActionResult> GetItems(int idSale)
+        {
+            return ResponseResult(await _saleService.GetItems(idSale));
+        }
+
         //busqueda de ventas por usuario
         [HttpGet("GetAllByUser")]
         public async Task<IActionResult> GetAllByUser()

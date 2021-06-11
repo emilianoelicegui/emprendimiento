@@ -10,5 +10,6 @@ namespace Domain.Dto.Layer
         public int Id { get; set; }
         public int IdSale { get; set; }
         public int IdProduct { get; set; }
+        public int Units { get; set; }
     }
 }

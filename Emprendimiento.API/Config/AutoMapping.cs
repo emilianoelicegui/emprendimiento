@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Dto.Layer;
 using Domain.Layer;
+using Shared.Layer;
 using System.Collections.Generic;
 
 namespace Emprendimiento.API
@@ -48,9 +49,17 @@ namespace Emprendimiento.API
             CreateMap<SaveSaleRequest, Sale>()
                 .ForMember(src => src.Client, opt => opt.Ignore())
                 .ForMember(src => src.Company, opt => opt.Ignore());
+            CreateMap<Sale, SaleListDto>()
+                .ForPath(dest => dest.NameClient, opt => opt.MapFrom(src => $"{src.Client.Name} {src.Client.Surname}"))
+                .ForPath(dest => dest.NameCompany, opt => opt.MapFrom(src => $"{src.Company.NameFantasy}"))
+                .ForPath(dest => dest.MethodPaymentDesc, opt => opt.MapFrom(src => src.MethodPayment.GetNameEnum()));
 
             CreateMap<ItemSaleDto, ItemSale>()
                 .ForMember(src => src.Sale, opt => opt.Ignore());
+            CreateMap<ItemSale, ItemSaleListDto>()
+                .ForMember(src => src.NameProduct, opt => opt.MapFrom(src => src.Product.Name))
+                .ForMember(src => src.PriceProduct, opt => opt.MapFrom(src => src.Product.Price))
+                .ForMember(src => src.TotalPrice, opt => opt.MapFrom(src => src.Product.Price * src.Units));
         }
     }
 }

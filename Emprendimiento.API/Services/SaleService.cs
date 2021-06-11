@@ -13,6 +13,7 @@ namespace Emprendimiento.API.Services
     public interface ISaleService
     {
         Task<ServiceResponse> Get(int idSale);
+        Task<ServiceResponse> GetItems(int idSale);
         Task<ServiceResponse> GetAllByUser(int idUser);
         Task<ServiceResponse> GetAllByCompany(int? idCompany, int idUser, int start, int length);
 
@@ -39,7 +40,32 @@ namespace Emprendimiento.API.Services
 
             try
             {
-                sr.Data = _mapper.Map<ProductDto>(await _repositorySale.Get(idSale));
+                sr.Data = _mapper.Map<SaleDto>(await _repositorySale.Get(idSale));
+            }
+            catch (Exception ex)
+            {
+                var errCode = ErrorCodes.GetSale;
+
+                sr.AddErrorException(errCode, ex);
+            }
+
+            return sr;
+        }
+
+        public async Task<ServiceResponse> GetItems(int idSale)
+        {
+            var sr = new ServiceResponse();
+
+            try
+            {
+                var results = _mapper.Map<IEnumerable<ItemSaleListDto>>(await _repositorySale.GetItems(idSale));
+
+                sr.Data = new
+                {
+                    recordsTotal = results.Count(),
+                    recordsFiltered = results.Count(),
+                    data = results
+                };
             }
             catch (Exception ex)
             {
@@ -57,7 +83,7 @@ namespace Emprendimiento.API.Services
 
             try
             {
-                sr.Data = _mapper.Map<IEnumerable<ProductDto>>(await _repositorySale.GetAllByUser(idUser));
+                sr.Data = _mapper.Map<IEnumerable<SaleDto>>(await _repositorySale.GetAllByUser(idUser));
             }
             catch (Exception ex)
             {
@@ -79,7 +105,7 @@ namespace Emprendimiento.API.Services
 
             try
             {
-                var results = _mapper.Map<IEnumerable<ProductDto>>(await _repositorySale.GetAllByCompany(idUser, idCompany, start, length));
+                var results = _mapper.Map<IEnumerable<SaleListDto>>(await _repositorySale.GetAllByCompany(idUser, idCompany, start, length));
 
                 sr.Data = new
                 {
@@ -107,7 +133,7 @@ namespace Emprendimiento.API.Services
             {
                 sr.Data = await _repositorySale.Save(_mapper.Map<Sale>(rq));
 
-                sr.AddSuccess(OKResponse.SaveProduct);
+                sr.AddSuccess(OKResponse.SaveSale);
             }
             catch (Exception ex)
             {

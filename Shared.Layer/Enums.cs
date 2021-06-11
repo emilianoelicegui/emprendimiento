@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Shared.Layer
@@ -62,9 +63,9 @@ namespace Shared.Layer
 
     public enum MethodPayment
     {
-        Cash,
-        CurrentAccount,
-        CreditCard
+        [Description("Efectivo")] Cash,
+        [Description("Cuenta Corriente")] CurrentAccount,
+        [Description("Tarjeta de Crédito")] CreditCard
     }
 
     public class Enums

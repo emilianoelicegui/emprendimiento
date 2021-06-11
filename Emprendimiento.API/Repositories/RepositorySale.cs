@@ -11,6 +11,7 @@ namespace Emprendimiento.API.Repositories
     public interface IRepositorySale
     {
         Task<Sale> Get(int idSale);
+        Task<IEnumerable<ItemSale>> GetItems(int idSale);
         Task<IEnumerable<Sale>> GetAllByUser(int idUser);
         Task<IEnumerable<Sale>> GetAllByCompany(int idUser, int? idCompany, int start, int length);
 
@@ -36,6 +37,14 @@ namespace Emprendimiento.API.Repositories
                        .FirstAsync();
         }
 
+        public async Task<IEnumerable<ItemSale>> GetItems(int idSale)
+        {
+            return await _context.ItemSales
+                        .Include(x => x.Product)
+                        .Where(x => x.IdSale == idSale)
+                        .ToListAsync();
+        }
+
         public async Task<IEnumerable<Sale>> GetAllByUser(int idUser)
         {
             return await _context.Sales
@@ -52,6 +61,7 @@ namespace Emprendimiento.API.Repositories
             var query = _context.Sales
                                 .Where(x => x.Company.User.Id == idUser)
                                 .Include(x => x.Company)
+                                .Include(x => x.Client)
                                 .AsQueryable();
 
             if (idCompany.HasValue)
@@ -69,13 +79,13 @@ namespace Emprendimiento.API.Repositories
         {
             if (rq.Id > 0)
             {
-                _context.Update(rq);
+                //_context.Update(rq);
+                _context.Sales.Update(rq);
                 await _context.SaveChangesAsync();
             }
             else
             {
                 await _context.Sales.AddAsync(rq);
-                //await _context.ItemSales.AddRangeAsync(rq.ItemSales);
                 await _context.SaveChangesAsync();
             }
 

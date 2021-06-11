@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Domain.Layer
 {
@@ -12,5 +14,8 @@ namespace Domain.Layer
         public bool IsDolar { get; set; }
         public int IdCompany { get; set; }
         public Company Company { get; set; }
+
+        [JsonIgnore]
+        public List<ItemSale> ItemSales { get; set; }
     }
 }

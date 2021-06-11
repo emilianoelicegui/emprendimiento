@@ -15,6 +15,7 @@ namespace Emprendimiento.API.Repositories.Config
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.IdSale).IsRequired();
             entityBuilder.HasOne(x => x.Sale).WithMany(r => r.ItemSales).HasForeignKey(x => x.IdSale).OnDelete(DeleteBehavior.Restrict);
+            entityBuilder.HasOne(x => x.Product).WithMany(r => r.ItemSales).HasForeignKey(x => x.IdProduct).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
