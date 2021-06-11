@@ -68,6 +68,12 @@ namespace Shared.Layer
         [Description("Tarjeta de Crédito")] CreditCard
     }
 
+    public enum SaleState
+    {
+        [Description("Pagado")] Pagado,
+        [Description("Pendiente")] Pendiente,
+    }
+
     public class Enums
     {
         public static Dictionary<ErrorCodes, string> ErrorsCodeMessage => new Dictionary<ErrorCodes, string>

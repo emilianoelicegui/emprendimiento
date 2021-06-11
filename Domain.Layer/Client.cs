@@ -16,5 +16,6 @@ namespace Domain.Layer
         public int IdCompany { get; set; }
         public Company Company { get; set; }
         public List<Sale> Sales { get; set; }
+        public List<Payment> Payments { get; set; }
     }
 }

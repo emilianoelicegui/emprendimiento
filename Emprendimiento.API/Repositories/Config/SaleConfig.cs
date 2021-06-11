@@ -17,6 +17,7 @@ namespace Emprendimiento.API.Repositories.Config
             entityBuilder.Property(x => x.IdCompany).IsRequired();
             entityBuilder.Property(x => x.Amount).IsRequired();
             entityBuilder.Property(x => x.MethodPayment).IsRequired();
+            entityBuilder.Property(x => x.SaleState).IsRequired();
             entityBuilder.Property(x => x.Date)
                 .HasColumnType("datetime")
                 .HasDefaultValueSql("getdate()")

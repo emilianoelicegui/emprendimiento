@@ -12,9 +12,9 @@ namespace Domain.Layer
         public decimal Amount { get; set; }
         public MethodPayment MethodPayment { get; set; }
         public DateTime Date { get; set; }
+        public SaleState SaleState { get; set; }
         public Client Client { get; set; }
         public Company Company { get; set; }
         public List<ItemSale> ItemSales { get; set; }
-
     }
 }

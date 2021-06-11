@@ -4,14 +4,16 @@ using Emprendimiento.API.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Emprendimiento.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210611024928_addPayment")]
+    partial class addPayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,10 +229,11 @@ namespace Emprendimiento.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Datetime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IdClient")
                         .HasColumnType("int");
@@ -240,9 +243,9 @@ namespace Emprendimiento.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdClient");
+                    b.HasIndex("ClientId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("Domain.Layer.Product", b =>
@@ -373,9 +376,6 @@ namespace Emprendimiento.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("MethodPayment")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaleState")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -533,9 +533,7 @@ namespace Emprendimiento.API.Migrations
                 {
                     b.HasOne("Domain.Layer.Client", "Client")
                         .WithMany("Payments")
-                        .HasForeignKey("IdClient")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
                 });
 
             modelBuilder.Entity("Domain.Layer.Product", b =>
