@@ -54,11 +54,12 @@ namespace Emprendimiento.API.Services
 
             try
             {
-                var results = _mapper.Map<IEnumerable<PaymentListDto>>(await _repositoryPayment.GetAllByCompany(name, idUser, idCompany, start, length));
+                var totalCount = await _repositoryPayment.GetTotalByCompany(name, idUser, idCompany);
+                var results = _mapper.Map<IEnumerable<PaymentListDto>>(await _repositoryPayment.GetAllByCompany(name, idUser, idCompany, start * length, length));
 
                 sr.Data = new
                 {
-                    recordsTotal = results.Count(),
+                    recordsTotal = totalCount,
                     recordsFiltered = results.Count(),
                     data = results
                 };

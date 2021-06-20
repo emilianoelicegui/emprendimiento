@@ -11,6 +11,7 @@ namespace Emprendimiento.API.Repositories
     public interface IRepositoryPayment
     {
         Task<int> Save(Payment rq);
+        Task<int> GetTotalByCompany(string nombre, int idUser, int? idCompany);
         Task<IEnumerable<Payment>> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length);
     }
 
@@ -62,6 +63,13 @@ namespace Emprendimiento.API.Repositories
                     .OrderBy(x => x.Client.Name)
                     .Skip(start)
                     .Take(length).ToListAsync();
+        }
+
+        public async Task<int> GetTotalByCompany(string nombre, int idUser, int? idCompany)
+        {
+            return await _context.Payments
+                                .Where(x => x.Client.Company.IdUser == idUser)
+                                .CountAsync();
         }
     }
 }
