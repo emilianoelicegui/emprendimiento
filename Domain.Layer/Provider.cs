@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,6 +17,10 @@ namespace Domain.Layer
         public int Number { get; set; }
         public string Street { get; set; }
         public int IdUser { get; set; }
-        public User User { get; set; }
+        
+        public virtual User User { get; set; }
+
+        [JsonIgnore]
+        public virtual List<Stock> Stocks { get; set; }
     }
 }

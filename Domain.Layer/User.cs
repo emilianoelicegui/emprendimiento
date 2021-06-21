@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Layer
@@ -13,8 +14,13 @@ namespace Domain.Layer
         public bool IsLocked { get; set; }
         public int IdRol { get; set; }
         public DateTime LastStart { get; set; }
-        public Rol Rol { get; set; }
-        public List<Company> Companys { get; set; }
-        public List<Provider> Providers { get; set; }
+
+
+        public virtual Rol Rol { get; set; }
+        public virtual List<Company> Companys { get; set; }
+        public virtual List<Provider> Providers { get; set; }
+
+        [JsonIgnore]
+        public virtual List<Stock> Stocks { get; set; }
     }
 }

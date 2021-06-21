@@ -4,14 +4,16 @@ using Emprendimiento.API.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Emprendimiento.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210621055819_Stock")]
+    partial class Stock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -455,19 +457,23 @@ namespace Emprendimiento.API.Migrations
                     b.Property<int>("ProviderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Units")
-                        .HasColumnType("int");
+                    b.Property<string>("Units")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
-                    b.HasIndex("ProviderId");
+                    b.HasIndex("ProviderId")
+                        .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Stocks");
                 });
@@ -627,20 +633,20 @@ namespace Emprendimiento.API.Migrations
             modelBuilder.Entity("Domain.Layer.Stock", b =>
                 {
                     b.HasOne("Domain.Layer.Product", "Product")
-                        .WithMany("Stocks")
-                        .HasForeignKey("ProductId")
+                        .WithOne("Stock")
+                        .HasForeignKey("Domain.Layer.Stock", "ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Layer.Provider", "Provider")
-                        .WithMany("Stocks")
-                        .HasForeignKey("ProviderId")
+                        .WithOne("Stock")
+                        .HasForeignKey("Domain.Layer.Stock", "ProviderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Layer.User", "User")
-                        .WithMany("Stocks")
-                        .HasForeignKey("UserId")
+                        .WithOne("Stock")
+                        .HasForeignKey("Domain.Layer.Stock", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

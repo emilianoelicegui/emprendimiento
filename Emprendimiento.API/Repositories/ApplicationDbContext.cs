@@ -27,6 +27,7 @@ namespace Emprendimiento.API.Repositories
         public DbSet<DolarBlueValue> DolarBlueValues { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<ItemSale> ItemSales { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -50,6 +51,7 @@ namespace Emprendimiento.API.Repositories
             new SaleConfig(modelBuilder.Entity<Sale>());
             new ItemSaleConfig(modelBuilder.Entity<ItemSale>());
             new PaymentConfig(modelBuilder.Entity<Payment>());
+            new StockConfig(modelBuilder.Entity<Stock>());
         }
     }
 }

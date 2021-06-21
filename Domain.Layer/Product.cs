@@ -13,9 +13,15 @@ namespace Domain.Layer
         public decimal Price { get; set; }
         public bool IsDolar { get; set; }
         public int IdCompany { get; set; }
-        public Company Company { get; set; }
+        public int StockUnits { get; set; }
+
+
+        public virtual Company Company { get; set; }
 
         [JsonIgnore]
-        public List<ItemSale> ItemSales { get; set; }
+        public virtual List<ItemSale> ItemSales { get; set; }
+
+        [JsonIgnore]
+        public virtual List<Stock> Stocks { get; set; }
     }
 }

@@ -69,6 +69,8 @@ namespace Emprendimiento.API
                 .ForMember(src => src.NameClient, opt => opt.MapFrom(src => $"{src.Client.Name}, {src.Client.Surname}"))
                 .ForMember(src => src.IdCompany, opt => opt.MapFrom(src => src.Client.Company.Id))
                 .ForMember(src => src.NameCompany, opt => opt.MapFrom(src => src.Client.Company.NameFantasy));
+
+            CreateMap<SaveStockRequest, Stock>();
         }
     }
 }
