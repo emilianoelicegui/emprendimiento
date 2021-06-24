@@ -48,6 +48,14 @@ namespace Emprendimiento.API.Controllers
             return ResponseResult(await _clientService.GetAllByCompany(filter, idCompany, idUser, start, length));
         }
 
+        [HttpGet("GetAccountByClient/{id}")]
+        public async Task<IActionResult> GetAccountByClient([FromRoute] int id)
+        {
+            var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
+
+            return ResponseResult(await _clientService.GetAccountByClient(id));
+        }
+
         #endregion
 
         #region POST 

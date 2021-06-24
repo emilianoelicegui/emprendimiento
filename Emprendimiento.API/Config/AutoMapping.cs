@@ -3,6 +3,7 @@ using Domain.Dto.Layer;
 using Domain.Layer;
 using Shared.Layer;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Emprendimiento.API
 {
@@ -71,6 +72,12 @@ namespace Emprendimiento.API
                 .ForMember(src => src.NameCompany, opt => opt.MapFrom(src => src.Client.Company.NameFantasy));
 
             CreateMap<SaveStockRequest, Stock>();
+
+            CreateMap<Client, DebtorListDto>()
+                .ForMember(src => src.Amount, opt => opt.MapFrom(src => src.Sales.Where(x => x.MethodPayment == MethodPayment.CurrentAccount)
+                                                        .Sum(x => x.Amount) - src.Payments.Sum(x => x.Amount)))
+                .ForMember(src => src.Sales, opt => opt.MapFrom(src => src.Sales))
+                .ForMember(src => src.Payments, opt => opt.MapFrom(src => src.Payments));
         }
     }
 }

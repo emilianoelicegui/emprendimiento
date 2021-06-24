@@ -15,6 +15,7 @@ namespace Emprendimiento.API.Services
         Task<ServiceResponse> Get(int idClient);
         Task<ServiceResponse> GetAllByUser(int idUser);
         Task<ServiceResponse> GetAllByCompany(string filter, int? idCompany, int idUser, int start, int length);
+        Task<ServiceResponse> GetAccountByClient(int idClient);
 
         Task<ServiceResponse> Save(SaveClientRequest rq);
 
@@ -82,6 +83,33 @@ namespace Emprendimiento.API.Services
                     recordsTotal = results.Count(),
                     recordsFiltered = results.Count(),
                     data = results
+                };
+            }
+            catch (Exception ex)
+            {
+                var errCode = ErrorCodes.GetAllClientsByCompany;
+
+                sr.AddErrorException(errCode, ex);
+            }
+
+            return sr;
+        }
+
+        public async Task<ServiceResponse> GetAccountByClient(int idClient)
+        {
+            var sr = new ServiceResponse();
+
+            try
+            {
+                var results = _mapper.Map<DebtorListDto>(await _repositoryClient.GetClientDebtor(idClient));
+
+                //solo los ultimos 5 resultados 
+                sr.Data = new DebtorListDto()
+                {
+                    Amount = results.Amount,
+                    Debtor = results.Debtor,
+                    Sales = results.Sales.OrderByDescending(x => x.Id).Skip(5).ToList(),
+                    Payments = results.Payments.OrderByDescending(x => x.Id).Skip(5).ToList()
                 };
             }
             catch (Exception ex)

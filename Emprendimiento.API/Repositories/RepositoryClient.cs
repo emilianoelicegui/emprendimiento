@@ -10,6 +10,7 @@ namespace Emprendimiento.API.Repositories
     public interface IRepositoryClient
     {
         Task<Client> Get(int idClient);
+        Task<Client> GetClientDebtor(int idClient);
         Task<IEnumerable<Client>> GetAllByUser(int idUser);
         Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany);
         
@@ -32,6 +33,14 @@ namespace Emprendimiento.API.Repositories
         public async Task<Client> Get(int idClient)
         {
             return await _context.Clients.Where(x => x.Id == idClient)
+                .FirstAsync();
+        }
+
+        public async Task<Client> GetClientDebtor(int idClient)
+        {
+            return await _context.Clients.Where(x => x.Id == idClient)
+                                 .Include(x => x.Sales)
+                                 .Include(x => x.Payments)
                 .FirstAsync();
         }
 
