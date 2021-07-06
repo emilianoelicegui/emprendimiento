@@ -77,7 +77,7 @@ namespace Emprendimiento.API.Services
             try
             {
                 var totalCount = await _repositoryClient.GetTotalByCompany(filter, idCompany.Value);
-                var results = _mapper.Map<IEnumerable<ClientListDto>>(await _repositoryClient.GetAllByCompany(filter, idCompany.Value));
+                var results = _mapper.Map<IEnumerable<ClientListDto>>(await _repositoryClient.GetAllByCompany(filter, idCompany.Value, start * length, length));
 
                 sr.Data = new
                 {

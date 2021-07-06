@@ -13,7 +13,7 @@ namespace Emprendimiento.API.Repositories
         Task<Client> GetClientDebtor(int idClient);
         Task<IEnumerable<Client>> GetAllByUser(int idUser);
         Task<int> GetTotalByCompany(string filter, int idCompany);
-        Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany);
+        Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany, int start, int length);
         
         Task<int> Save(Client spending);
 
@@ -68,7 +68,7 @@ namespace Emprendimiento.API.Repositories
             return await query.CountAsync();
         }
 
-        public async Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany)
+        public async Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany, int start, int length)
         {
             var query = _context.Clients.Include(c => c.Company).AsQueryable();
 
@@ -81,7 +81,10 @@ namespace Emprendimiento.API.Repositories
                        x.Cuit.ToString().Contains(filter));
             }
 
-            return await query.OrderBy(x => x.Name).ToListAsync();
+            return await query
+                    .OrderBy(x => x.Name)
+                    .Skip(start)
+                    .Take(length).ToListAsync();
         }
 
         #endregion GET

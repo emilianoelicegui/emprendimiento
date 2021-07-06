@@ -105,11 +105,12 @@ namespace Emprendimiento.API.Services
 
             try
             {
-                var results = _mapper.Map<IEnumerable<SaleListDto>>(await _repositorySale.GetAllByCompany(idUser, idCompany, start, length));
+                var totalCount = await _repositorySale.GetTotalByCompany(idUser, idCompany);
+                var results = _mapper.Map<IEnumerable<SaleListDto>>(await _repositorySale.GetAllByCompany(idUser, idCompany, start * length, length));
 
                 sr.Data = new
                 {
-                    recordsTotal = results.Count(),
+                    recordsTotal = totalCount,
                     recordsFiltered = results.Count(),
                     data = results
                 };

@@ -13,6 +13,7 @@ namespace Emprendimiento.API.Repositories
         Task<Sale> Get(int idSale);
         Task<IEnumerable<ItemSale>> GetItems(int idSale);
         Task<IEnumerable<Sale>> GetAllByUser(int idUser);
+        Task<int> GetTotalByCompany(int idUser, int? idCompany);
         Task<IEnumerable<Sale>> GetAllByCompany(int idUser, int? idCompany, int start, int length);
 
         Task<int> Save(Sale rq);
@@ -55,6 +56,22 @@ namespace Emprendimiento.API.Repositories
         #endregion GET
 
         #region POST 
+
+        public async Task<int> GetTotalByCompany(int idUser, int? idCompany)
+        {
+            var query = _context.Sales
+                                .Where(x => x.Company.User.Id == idUser)
+                                .Include(x => x.Company)
+                                .Include(x => x.Client)
+                                .AsQueryable();
+
+            if (idCompany.HasValue)
+            {
+                query = query.Where(x => x.Company.Id == idCompany);
+            }
+
+            return await query.CountAsync();
+        }
 
         public async Task<IEnumerable<Sale>> GetAllByCompany(int idUser, int? idCompany, int start, int length)
         {
