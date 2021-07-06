@@ -81,11 +81,12 @@ namespace Emprendimiento.API.Services
 
             try
             {
-                var results = _mapper.Map<IEnumerable<ProductDto>>(await _repositoryProduct.GetAllByCompany(name, idUser, idCompany, start, length));
+                var totalCount = await _repositoryProduct.GetTotalByCompany(name, idUser, idCompany.Value);
+                var results = _mapper.Map<IEnumerable<ProductDto>>(await _repositoryProduct.GetAllByCompany(name, idUser, idCompany, start * length, length));
 
                 sr.Data = new
                 {
-                    recordsTotal = results.Count(),
+                    recordsTotal = totalCount,
                     recordsFiltered = results.Count(),
                     data = results
                 };

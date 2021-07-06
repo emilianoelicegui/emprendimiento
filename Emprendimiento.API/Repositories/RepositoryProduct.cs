@@ -12,6 +12,7 @@ namespace Emprendimiento.API.Repositories
         Task<Product> Get(int idProduct);
         Task<IEnumerable<Product>> GetAllByUser(int idUser);
         Task<int> Save(Product rq);
+        Task<int> GetTotalByCompany(string name, int idUser, int idCompany);
         Task<IEnumerable<Product>> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length);
         Task<bool> Delete(int idProduct);
     }
@@ -46,16 +47,31 @@ namespace Emprendimiento.API.Repositories
 
         #region POST 
 
-        public async Task<IEnumerable<Product>> GetAllByCompany(string nombre, int idUser, int? idCompany, int start, int length)
+        public async Task<int> GetTotalByCompany(string name, int idUser, int idCompany)
+        {
+            var query = _context.Products
+                                .Where(x => x.Company.User.Id == idUser && x.IsDelete == false && x.IdCompany == idCompany)
+                                .Include(x => x.Company)
+                                .AsQueryable();
+
+            if (!name.IsNullOrEmpty())
+            {
+                query = query.Where(x => x.Name.Contains(name));
+            }
+
+            return await query.CountAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetAllByCompany(string name, int idUser, int? idCompany, int start, int length)
         {
             var query = _context.Products
                                 .Where(x => x.Company.User.Id == idUser && x.IsDelete == false)
                                 .Include(x => x.Company)
                                 .AsQueryable();
 
-            if (!nombre.IsNullOrEmpty())
+            if (!name.IsNullOrEmpty())
             {
-                query = query.Where(x => x.Name.Contains(nombre));
+                query = query.Where(x => x.Name.Contains(name));
             }
 
             if (idCompany.HasValue)
