@@ -12,6 +12,7 @@ namespace Emprendimiento.API.Repositories
         Task<Client> Get(int idClient);
         Task<Client> GetClientDebtor(int idClient);
         Task<IEnumerable<Client>> GetAllByUser(int idUser);
+        Task<int> GetTotalByCompany(string filter, int idCompany);
         Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany);
         
         Task<int> Save(Client spending);
@@ -49,6 +50,22 @@ namespace Emprendimiento.API.Repositories
             return await _context.Clients.Include(c => c.Company)
                     .Where(x => x.Company.IdUser == idUser)
                     .OrderBy(x => x.Name).ToListAsync();
+        }
+
+        public async Task<int> GetTotalByCompany(string filter, int idCompany)
+        {
+            var query = _context.Clients.Include(c => c.Company).AsQueryable();
+
+            if (filter != null)
+            {
+                query = query.Where(x => x.IdCompany == idCompany &&
+                       x.Name.Contains(filter) ||
+                       x.Surname.Contains(filter) ||
+                       x.Dni.ToString().Contains(filter) ||
+                       x.Cuit.ToString().Contains(filter));
+            }
+
+            return await query.CountAsync();
         }
 
         public async Task<IEnumerable<Client>> GetAllByCompany(string filter, int idCompany)
