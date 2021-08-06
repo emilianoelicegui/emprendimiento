@@ -13,11 +13,10 @@ namespace Emprendimiento.API.Repositories
         Task<Sale> Get(int idSale);
         Task<IEnumerable<ItemSale>> GetItems(int idSale);
         Task<IEnumerable<Sale>> GetAllByUser(int idUser);
+        Task<IEnumerable<Sale>> GetAllByClient(int idClient);
         Task<int> GetTotalByCompany(int idUser, int? idCompany);
         Task<IEnumerable<Sale>> GetAllByCompany(int idUser, int? idCompany, int start, int length);
-
         Task<int> Save(Sale rq);
-
         Task<bool> Delete(int idSale);
     }
     public class RepositorySale : IRepositorySale
@@ -50,6 +49,15 @@ namespace Emprendimiento.API.Repositories
         {
             return await _context.Sales
                        .Where(x => x.Company.User.Id == idUser)
+                       .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Sale>> GetAllByClient(int idClient)
+        {
+            return await _context.Sales
+                       .Where(x => x.IdClient == idClient)
+                       .Include(x => x.Company)
+                       .Include(x => x.Client)
                        .ToListAsync();
         }
 
@@ -96,7 +104,6 @@ namespace Emprendimiento.API.Repositories
         {
             if (rq.Id > 0)
             {
-                //_context.Update(rq);
                 _context.Sales.Update(rq);
                 await _context.SaveChangesAsync();
             }

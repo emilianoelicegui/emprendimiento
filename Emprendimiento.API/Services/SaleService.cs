@@ -15,10 +15,9 @@ namespace Emprendimiento.API.Services
         Task<ServiceResponse> Get(int idSale);
         Task<ServiceResponse> GetItems(int idSale);
         Task<ServiceResponse> GetAllByUser(int idUser);
+        Task<ServiceResponse> GetAllByClient(int idClient);
         Task<ServiceResponse> GetAllByCompany(int? idCompany, int idUser, int start, int length);
-
         Task<ServiceResponse> Save(SaveSaleRequest rq);
-
         Task<ServiceResponse> Delete(int idSale);
     }
     public class SaleService : ISaleService
@@ -95,6 +94,32 @@ namespace Emprendimiento.API.Services
             return sr;
         }
 
+        public async Task<ServiceResponse> GetAllByClient(int idClient)
+        {
+            var sr = new ServiceResponse();
+
+            try
+            {
+                var results = _mapper.Map<IEnumerable<SaleListDto>>(await _repositorySale.GetAllByClient(idClient));
+
+                sr.Data = new
+                {
+                    recordsTotal = results.Count(),
+                    recordsFiltered = results.Count(),
+                    data = results
+                };
+
+            }
+            catch (Exception ex)
+            {
+                var errCode = ErrorCodes.GetAllSalesByUser;
+
+                sr.AddErrorException(errCode, ex);
+            }
+
+            return sr;
+        }
+
         #endregion GET
 
         #region POST
@@ -125,7 +150,6 @@ namespace Emprendimiento.API.Services
             return sr;
         }
 
-        //sirve para crear o actualizar productos
         public async Task<ServiceResponse> Save(SaveSaleRequest rq)
         {
             var sr = new ServiceResponse();

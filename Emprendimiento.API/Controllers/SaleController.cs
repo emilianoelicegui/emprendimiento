@@ -49,6 +49,14 @@ namespace Emprendimiento.API.Controllers
             return ResponseResult(await _saleService.GetAllByUser(idUser));
         }
 
+        [HttpGet("GetAllByClient/{idClient}")]
+        public async Task<IActionResult> GetAllByClient(int idClient)
+        {
+            var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
+
+            return ResponseResult(await _saleService.GetAllByClient(idClient));
+        }
+
         //busqueda de ventas con filtros 
         [HttpGet("GetAllByCompany")]
         public async Task<IActionResult> GetAllByCompany(int? idCompany, int start, int length)

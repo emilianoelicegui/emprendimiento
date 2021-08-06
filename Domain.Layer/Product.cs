@@ -23,5 +23,29 @@ namespace Domain.Layer
 
         [JsonIgnore]
         public virtual List<Stock> Stocks { get; set; }
+
+        public string MoneyToShortString()
+        {
+            if (IsDolar)
+            {
+                return "US$";
+            }
+            else
+            {
+                return "$";
+            }
+        }
+
+        public string MoneyToLongString()
+        {
+            if (IsDolar)
+            {
+                return "Dólar (US$)";
+            }
+            else
+            {
+                return "Peso ($)";
+            }
+        }
     }
 }

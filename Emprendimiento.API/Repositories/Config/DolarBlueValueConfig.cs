@@ -10,8 +10,8 @@ namespace Emprendimiento.API.Repositories.Config
         {
             entityBuilder.HasKey(x => x.Id);
             entityBuilder.Property(x => x.LastUpdate)
-                .HasColumnType("datetime")
-                .HasDefaultValueSql("getdate()")
+                .HasColumnType("date")
+                //.HasDefaultValueSql("getdate()")
                 .IsRequired();
             entityBuilder.Property(x => x.Date)
                 .HasColumnType("date")

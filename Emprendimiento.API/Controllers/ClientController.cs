@@ -49,7 +49,7 @@ namespace Emprendimiento.API.Controllers
         }
 
         [HttpGet("GetAccountByClient/{id}")]
-        public async Task<IActionResult> GetAccountByClient([FromRoute] int id)
+        public async Task<IActionResult> GetAccountByClient(int id)
         {
             var idUser = HttpContext.User.FindFirst("id").Value.ToInt();
 

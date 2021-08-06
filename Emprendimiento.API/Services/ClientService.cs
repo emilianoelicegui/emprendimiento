@@ -16,9 +16,7 @@ namespace Emprendimiento.API.Services
         Task<ServiceResponse> GetAllByUser(int idUser);
         Task<ServiceResponse> GetAllByCompany(string filter, int? idCompany, int idUser, int start, int length);
         Task<ServiceResponse> GetAccountByClient(int idClient);
-
         Task<ServiceResponse> Save(SaveClientRequest rq);
-
         Task<ServiceResponse> Delete(int idClient);
     }
     public class ClientService : IClientService
@@ -96,6 +94,7 @@ namespace Emprendimiento.API.Services
             return sr;
         }
 
+        //NO LO ESTOY USANDO, PUEDO BORRAR
         public async Task<ServiceResponse> GetAccountByClient(int idClient)
         {
             var sr = new ServiceResponse();
@@ -109,8 +108,8 @@ namespace Emprendimiento.API.Services
                 {
                     Amount = results.Amount,
                     Debtor = results.Debtor,
-                    Sales = results.Sales.OrderByDescending(x => x.Id).Skip(5).ToList(),
-                    Payments = results.Payments.OrderByDescending(x => x.Id).Skip(5).ToList()
+                    Sales = results.Sales.OrderByDescending(x => x.Id).ToList(),
+                    Payments = results.Payments.OrderByDescending(x => x.Id).ToList()
                 };
             }
             catch (Exception ex)

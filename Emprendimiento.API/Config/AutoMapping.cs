@@ -19,7 +19,9 @@ namespace Emprendimiento.API
             CreateMap<Company, CompanyDto>();
             CreateMap<Company, CompanyLoginDto>();
 
-            CreateMap<Product, ProductDto>();
+            CreateMap<Product, ProductDto>()
+                .ForPath(dest => dest.Money, opt => opt.MapFrom(src => src.MoneyToLongString()))
+                .ForPath(dest => dest.Price, opt => opt.MapFrom(src => $"{src.MoneyToShortString()} {src.Price}"));
             CreateMap<SaveProductRequest, Product>();
 
             CreateMap<Provider, ProviderDto>();
